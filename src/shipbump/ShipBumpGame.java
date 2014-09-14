@@ -12,8 +12,8 @@ import org.lwjgl.input.Mouse;
 public class ShipBumpGame extends BasicGame{
 
 	private String mouse_position = "";
-	private static final int GAME_WIDTH = 640;
-	private static final int GAME_HEIGHT = 480;
+	public static final int GAME_WIDTH = 640;
+	public static final int GAME_HEIGHT = 480;
 	private Ship ship;
 
 	public ShipBumpGame(String title) {
@@ -34,7 +34,7 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		ship.movement();
+		ship.movement(Mouse.getX(), Mouse.getY());
 		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
 
 	}
