@@ -34,8 +34,21 @@ public class Ship {
 
 	public void movement(float mouseX, float mouseY) {
 		newX = mouseX - image.getWidth() / 2;
-		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;
-				
+		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;			
+		shipRotation();
+		shipPosition();
+//		this.x += Math.cos(Math.floor(image.getRotation())) * velocity;
+//		this.y += Math.sin(Math.floor(image.getRotation())) * velocity;
+
+//		System.out.println("Old X : " + this.x + " New X : " + newX +" Old Y : " + this.y + " New Y : " + newY + " Angle : " + angle);
+	}
+
+	private void shipPosition() {
+		this.x = newX;
+		this.y = newY;
+	}
+
+	private void shipRotation() {
 		if (newX != this.x && newY != this.y) {
 			calculateAngleRotate();
 			if (newY > this.y) {
@@ -49,16 +62,10 @@ public class Ship {
 		else {
 			angle = 0;
 		}
-//		
-		this.x = newX;
-		this.y = newY;
-//		this.x += Math.cos(Math.floor(image.getRotation())) * velocity;
-//		this.y += Math.sin(Math.floor(image.getRotation())) * velocity;
-
-//		System.out.println("Old X : " + this.x + " New X : " + newX +" Old Y : " + this.y + " New Y : " + newY + " Angle : " + angle);
 	}
 
 	private void calculateAngleRotate() {
+		// dotProduct Vector arccos
 		angle = (float) Math.acos(getDeltaX() / getDistance());
 	}
 
