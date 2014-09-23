@@ -1,10 +1,17 @@
 package shipbump;
 
+import java.awt.Container;
+
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class Ship {
+
+public class Ship implements Entity {
 	private Image image;
 	private float x;
 	private float y;
@@ -31,7 +38,8 @@ public class Ship {
 	public float getCenterX() {
 		return this.x;
 	}
-
+	
+	
 	public void movement(float mouseX, float mouseY) {
 		newX = mouseX - image.getWidth() / 2;
 		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;			
@@ -84,6 +92,20 @@ public class Ship {
 	public void clickMoveForward() {
 //		this.x += Math.cos(image.getRotation()) * velocity;
 //		this.y += Math.sin(image.getRotation()) * velocity;
+	}
+
+	@Override
+	public void render(Graphics g) {
+		draw();
+	}
+
+	@Override
+	public void update(GameContainer container, int delta) {
+		movement(Mouse.getX(), Mouse.getY());
+		Input input = container.getInput();
+		if (input.isMouseButtonDown(0)) {
+			clickMoveForward();
+		}
 	}
 
 
