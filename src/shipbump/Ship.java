@@ -52,14 +52,28 @@ public class Ship {
 //		
 		this.x = newX;
 		this.y = newY;
+//		this.x += Math.cos(Math.floor(image.getRotation())) * velocity;
+//		this.y += Math.sin(Math.floor(image.getRotation())) * velocity;
 
 //		System.out.println("Old X : " + this.x + " New X : " + newX +" Old Y : " + this.y + " New Y : " + newY + " Angle : " + angle);
 	}
 
 	private void calculateAngleRotate() {
-		angle = (float) Math.acos((newX - this.x) / (Math.sqrt((newX - this.x) * (newX - this.x) + (newY - this.y) * (newY - this.y))));
-	}	
+		angle = (float) Math.acos(getDeltaX() / getDistance());
+	}
+
+	private float getDeltaX() {
+		return newX - this.x;
+	}
 	
+	private float getDeltaY() {
+		return newY - this.y;
+	}	
+
+	private float getDistance() {
+		return (float)(Math.sqrt(getDeltaX() * getDeltaX() + getDeltaY() * getDeltaY()));
+	}
+
 	public void clickMoveForward() {
 //		this.x += Math.cos(image.getRotation()) * velocity;
 //		this.y += Math.sin(image.getRotation()) * velocity;
