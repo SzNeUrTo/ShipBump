@@ -22,6 +22,9 @@ public class ExtraterrestrialMaterial implements Entity {
 	private float dirX;
 	private float dirY;
 	private Random random = new Random();
+	private boolean isCollisionTargetDummyXY = false;
+	private boolean isCollisionBorderX = false;
+	private boolean isCollisionBorderY = false;
 	
 	public ExtraterrestrialMaterial() throws SlickException {
 		image = new Image("res/obtacle.png");
@@ -89,19 +92,46 @@ public class ExtraterrestrialMaterial implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		em_setAngleRotation();	
-//		checkCollisionTargetDummy();
+		checkCollisionTargetDummy();
 		checkCollisionBorder();
-//		updateDirectionVelocity();
+		updateDirectionVelocity();
 		updatePosition();	
+		System.out.println("this.x = " + this.x + " this.y = " + this.y);
+		System.out.println("TarX = " + targetDummyX + "TarY = " + targetDummyY);
+	}
+
+	private void updateDirectionVelocity() {
+		if(isCollisionBorderX) {
+			dirX -= 180;
+			isCollisionBorderX = false;
+		}
+		if(isCollisionBorderY) {
+			dirY -= 180;
+			isCollisionBorderY = false;
+		}
+		
+	}
+
+	private void checkCollisionTargetDummy() {
+		if (Math.abs(this.x - targetDummyX) <= velocity * 7 || Math.abs(this.y - targetDummyY) <= velocity * 7) {
+			isCollisionTargetDummyXY = true;
+//			velocity = 0;
+			System.out.println("True");
+		}
+		
 	}
 
 	private void checkCollisionBorder() {
-		if (this.x < 0 || this.x + this.image.getWidth() > ShipBumpGame.GAME_WIDTH) {
-			System.out.println("BorderX");
+		if(isCollisionTargetDummyXY) {
+			if (this.x < 0 || this.x + this.image.getWidth() > ShipBumpGame.GAME_WIDTH) {
+				isCollisionBorderX = true;
+				System.out.println("BorderX");
+			}
+			if (this.y < 0 || this.y + this.image.getHeight() > ShipBumpGame.GAME_HEIGHT) {
+				isCollisionBorderY = true;
+				System.out.println("BorderY");
+			}	
 		}
-		if (this.y < 0 || this.y + this.image.getHeight() > ShipBumpGame.GAME_HEIGHT) {
-			System.out.println("BorderY");
-		}	
 	}
 
 	private void updatePosition() {
