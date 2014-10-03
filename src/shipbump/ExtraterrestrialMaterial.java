@@ -21,7 +21,6 @@ public class ExtraterrestrialMaterial implements Entity {
 	private float distance;
 	private float dirX;
 	private float dirY;
-	
 	private Random random = new Random();
 	
 	public ExtraterrestrialMaterial() throws SlickException {
@@ -91,16 +90,22 @@ public class ExtraterrestrialMaterial implements Entity {
 	public void update(GameContainer container, int delta) {
 		em_setAngleRotation();	
 //		checkCollisionTargetDummy();
-//		checkCollisionBorder();
+		checkCollisionBorder();
 //		updateDirectionVelocity();
 		updatePosition();	
+	}
+
+	private void checkCollisionBorder() {
+		if (this.x < 0 || this.x + this.image.getWidth() > ShipBumpGame.GAME_WIDTH) {
+			System.out.println("Border");
+		}		
 	}
 
 	private void updatePosition() {
 //		initDirXY(); // for BlackHole 5555
 		this.x -= velocity * Math.sin(-dirX);
 		this.y -= velocity * Math.sin(-dirY);
-		System.out.println("x = " + x + " y = " + y + " dirX = " + dirX + " dirY = " + dirY + " DummyX = " + targetDummyX + " DummyY = " + targetDummyY);
+//		System.out.println("x = " + x + " y = " + y + " dirX = " + dirX + " dirY = " + dirY + " DummyX = " + targetDummyX + " DummyY = " + targetDummyY);
 	}
 
 	private void em_setAngleRotation() {

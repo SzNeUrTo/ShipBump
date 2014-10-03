@@ -79,13 +79,13 @@ public class Ship implements Entity {
 	private float getDeltaY() {
 		return newY - this.y;
 	}	
-
+	
 	private float getDistance() {
 		return (float)(Math.sqrt(getDeltaX() * getDeltaX() + getDeltaY() * getDeltaY()));
 	}
 
 	public void clickShootingGun() {
-
+		
 	}
 
 	@Override
@@ -100,6 +100,7 @@ public class Ship implements Entity {
 		if (input.isMouseButtonDown(0)) {
 			clickShootingGun();
 		}
+//		System.out.println(this.image.getRotation());
 	}
 
 
