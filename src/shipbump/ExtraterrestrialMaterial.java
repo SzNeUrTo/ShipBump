@@ -8,26 +8,41 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class ExtraterrestrialMaterial implements Entity {
-	
+
 	private Image image;
 	private float angle=0;
 	private float x;
 	private float y;
 	private float targetDummyX;
 	private float targetDummyY;
-	private Random random = new Random();
+	private float velocity = 5;
+	private float deltaX;
+	private float deltaY;
+	private float distance;
+	private float dirX;
+	private float dirY;
 	
+	private Random random = new Random();
 	
 	public ExtraterrestrialMaterial() throws SlickException {
 		image = new Image("res/obtacle.png");
 		initPosition();
 		initTargetDummyXY();
+		initDirXY();
+
+	}
+
+	private void initDirXY() {
+		this.deltaX = targetDummyX - this.x;
+		this.deltaY = targetDummyY - this.y;
+		this.distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+		this.dirX = (float) Math.sin(deltaX / distance);
+		this.dirY = (float) Math.sin(deltaY / distance);
 	}
 	
-	//for check collision dummyXY
 	private void initTargetDummyXY() {
-		this.targetDummyX = random.nextInt(ShipBumpGame.GAME_WIDTH * 4 / 5) + ShipBumpGame.GAME_WIDTH / 5;
-		this.targetDummyY = random.nextInt(ShipBumpGame.GAME_HEIGHT * 4 / 5) + ShipBumpGame.GAME_HEIGHT / 5;
+		this.targetDummyX = random.nextInt(ShipBumpGame.GAME_WIDTH * 3 / 5) + ShipBumpGame.GAME_WIDTH / 5;
+		this.targetDummyY = random.nextInt(ShipBumpGame.GAME_HEIGHT * 3 / 5) + ShipBumpGame.GAME_HEIGHT / 5;
 	}
 
 	private void initPosition() {
@@ -74,7 +89,22 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	@Override
 	public void update(GameContainer container, int delta) {
+		em_setAngleRotation();	
+//		checkCollisionTargetDummy();
+//		checkCollisionBorder();
+//		updateDirectionVelocity();
+		updatePosition();	
+	}
+
+	private void updatePosition() {
+//		initDirXY(); // for BlackHole 5555
+		this.x -= velocity * Math.sin(-dirX);
+		this.y -= velocity * Math.sin(-dirY);
+		System.out.println("x = " + x + " y = " + y + " dirX = " + dirX + " dirY = " + dirY + " DummyX = " + targetDummyX + " DummyY = " + targetDummyY);
+	}
+
+	private void em_setAngleRotation() {
 		this.image.setRotation(angle);
-		angle += 10;	
+		angle += 10;
 	}
 }
