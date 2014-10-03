@@ -37,6 +37,7 @@ public class ShipBumpGame extends BasicGame{
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		entities.add(new Ship(GAME_WIDTH/2, GAME_HEIGHT/2));
+		entities.add(new ExtraterrestrialMaterial());
 		
 	}
 
