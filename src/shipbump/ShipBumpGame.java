@@ -1,5 +1,6 @@
 package shipbump;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.newdawn.slick.AppGameContainer;
@@ -15,6 +16,9 @@ import org.lwjgl.input.Mouse;
 public class ShipBumpGame extends BasicGame{
 	
 	private LinkedList<Entity> entities;
+	
+	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
+	
 	private String mouse_position = "";
 	private Ship ship;
 	public static final int GAME_WIDTH = 640;
@@ -32,13 +36,15 @@ public class ShipBumpGame extends BasicGame{
 		for (Entity entity : entities) {
 		      entity.render(graphics);
 		}	
+		for (ExtraterrestrialMaterial item : extra_items) {
+		      item.render(graphics);
+		}	 
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		entities.add(new Ship(GAME_WIDTH/2, GAME_HEIGHT/2));
-		entities.add(new ExtraterrestrialMaterial());
-		
+		extra_items.add(new ExtraterrestrialMaterial());
 	}
 
 	@Override
@@ -47,6 +53,9 @@ public class ShipBumpGame extends BasicGame{
 	    for (Entity entity : entities) {
 	    	entity.update(container, delta);
 	    }
+	    for (ExtraterrestrialMaterial item : extra_items) {
+		      item.update(container, delta);
+		}
 	}
 
 	public static void main(String[] args) {
