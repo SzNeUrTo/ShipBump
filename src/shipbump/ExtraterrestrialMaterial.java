@@ -97,8 +97,11 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	private void checkCollisionBorder() {
 		if (this.x < 0 || this.x + this.image.getWidth() > ShipBumpGame.GAME_WIDTH) {
-			System.out.println("Border");
-		}		
+			System.out.println("BorderX");
+		}
+		if (this.y < 0 || this.y + this.image.getHeight() > ShipBumpGame.GAME_HEIGHT) {
+			System.out.println("BorderY");
+		}	
 	}
 
 	private void updatePosition() {
