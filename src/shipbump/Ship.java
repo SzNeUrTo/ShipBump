@@ -18,13 +18,11 @@ public class Ship implements Entity {
 	private float newX;
 	private float newY;
 	private float angle;
-	private float velocity;
 	
 	public Ship(float x, float y) throws SlickException {
 		image = new Image("res/ship.png");
 		this.x = x;
 	    this.y = y;
-	    velocity = 5;
 	}
 	
 	public void draw() {
@@ -39,16 +37,11 @@ public class Ship implements Entity {
 		return this.x;
 	}
 	
-	
 	public void movement(float mouseX, float mouseY) {
 		newX = mouseX - image.getWidth() / 2;
 		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;			
 		shipRotation();
 		shipPosition();
-//		this.x += Math.cos(Math.floor(image.getRotation())) * velocity;
-//		this.y += Math.sin(Math.floor(image.getRotation())) * velocity;
-
-//		System.out.println("Old X : " + this.x + " New X : " + newX +" Old Y : " + this.y + " New Y : " + newY + " Angle : " + angle);
 	}
 
 	private void shipPosition() {
@@ -59,21 +52,23 @@ public class Ship implements Entity {
 	private void shipRotation() {
 		if (newX != this.x && newY != this.y) {
 			calculateAngleRotate();
-			if (newY > this.y) {
-				image.setRotation((float) (180 * angle / Math.PI));
-			}
-			else {
-				image.setRotation((float) (-180 * angle / Math.PI));
-			}
-			
+			shipSetRotation();
 		}
 		else {
 			angle = 0;
 		}
 	}
 
+	private void shipSetRotation() {
+		if (newY > this.y) {
+			image.setRotation((float) (180 * angle / Math.PI));
+		}
+		else {
+			image.setRotation((float) (-180 * angle / Math.PI));
+		}
+	}
+
 	private void calculateAngleRotate() {
-		// dotProduct Vector arccos
 		angle = (float) Math.acos(getDeltaX() / getDistance());
 	}
 
@@ -89,13 +84,12 @@ public class Ship implements Entity {
 		return (float)(Math.sqrt(getDeltaX() * getDeltaX() + getDeltaY() * getDeltaY()));
 	}
 
-	public void clickMoveForward() {
-//		this.x += Math.cos(image.getRotation()) * velocity;
-//		this.y += Math.sin(image.getRotation()) * velocity;
+	public void clickShootingGun() {
+
 	}
 
 	@Override
-	public void render(Graphics g) {
+	public void render(Graphics graphics) {
 		draw();
 	}
 
@@ -104,7 +98,7 @@ public class Ship implements Entity {
 		movement(Mouse.getX(), Mouse.getY());
 		Input input = container.getInput();
 		if (input.isMouseButtonDown(0)) {
-			clickMoveForward();
+			clickShootingGun();
 		}
 	}
 

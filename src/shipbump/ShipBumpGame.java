@@ -27,11 +27,10 @@ public class ShipBumpGame extends BasicGame{
 	}
 
 	@Override
-	public void render(GameContainer container, Graphics g) throws SlickException {
-		g.drawString(mouse_position, GAME_WIDTH*3/5, 10);
-//		ship.draw();
+	public void render(GameContainer container, Graphics graphics) throws SlickException {
+		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
 		for (Entity entity : entities) {
-		      entity.render(g);
+		      entity.render(graphics);
 		}	
 	}
 
@@ -43,8 +42,6 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-//		ship.movement(Mouse.getX(), Mouse.getY());
-//		ship.update(delta);
 		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
 	    for (Entity entity : entities) {
 	    	entity.update(container, delta);
