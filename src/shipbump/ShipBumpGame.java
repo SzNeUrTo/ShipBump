@@ -21,6 +21,9 @@ public class ShipBumpGame extends BasicGame{
 	
 	private String mouse_position = "";
 	private Ship ship;
+
+	private String score_str;
+	private int score;
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
 
@@ -33,6 +36,7 @@ public class ShipBumpGame extends BasicGame{
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
 		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
+		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
 		for (Entity entity : entities) {
 		      entity.render(graphics);
 		}	
@@ -43,6 +47,8 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
+		score_str = "";
+		score = 0;
 		entities.add(new Ship(GAME_WIDTH/2, GAME_HEIGHT/2));
 		extra_items.add(new ExtraterrestrialMaterial());
 		extra_items.add(new ExtraterrestrialMaterial());
@@ -61,6 +67,7 @@ public class ShipBumpGame extends BasicGame{
 	    for (ExtraterrestrialMaterial item : extra_items) {
 		      item.update(container, delta);
 		}
+	    score_str = "Score : " + score;
 	}
 
 	public static void main(String[] args) {
