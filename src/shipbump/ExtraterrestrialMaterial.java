@@ -15,7 +15,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	private float y;
 	private float targetDummyX;
 	private float targetDummyY;
-	private float velocity = 5;
+	private float velocity = 8;
 	private float deltaX;
 	private float deltaY;
 	private float distance;
@@ -92,7 +92,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		em_setAngleRotation();	
-		checkCollisionTargetDummy();
+		checkInBoxGame();
 		checkCollisionBorder();
 		updateDirectionVelocity();
 		updatePosition();	
@@ -102,23 +102,35 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	private void updateDirectionVelocity() {
 		if(isCollisionBorderX) {
-			dirX -= 180;
+			dirX -= 190;
 			isCollisionBorderX = false;
 		}
 		if(isCollisionBorderY) {
-			dirY -= 180;
+			dirY -= 190;
 			isCollisionBorderY = false;
 		}
 		
 	}
 
-	private void checkCollisionTargetDummy() {
-		if (Math.abs(this.x - targetDummyX) <= velocity * 7 || Math.abs(this.y - targetDummyY) <= velocity * 7) {
-			isCollisionTargetDummyXY = true;
-//			velocity = 0;
-			System.out.println("True");
-		}
+	private void checkInBoxGame() {
+		// InboxGame
+		isInBoxGame();
+//		if (Math.abs(this.x - targetDummyX) <= velocity * 3 || Math.abs(this.y - targetDummyY) <= velocity * 3) {
+//			isCollisionTargetDummyXY = true;
+////			velocity = 0;
+//			System.out.println("True");
+//		}
 		
+	}
+
+	private void isInBoxGame() {
+		if (this.x > this.image.getWidth() && this.y > this.image.getHeight()) {
+			if (this.x + this.image.getWidth() < ShipBumpGame.GAME_WIDTH) {
+				if (this.y + this.image.getHeight() < ShipBumpGame.GAME_HEIGHT) {
+					isCollisionTargetDummyXY = true;
+				}
+			}	
+		}
 	}
 
 	private void checkCollisionBorder() {
@@ -145,4 +157,11 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.image.setRotation(angle);
 		angle += 10;
 	}
+
+	@Override
+	public boolean isDeletable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

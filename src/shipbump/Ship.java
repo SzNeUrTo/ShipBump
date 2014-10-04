@@ -1,6 +1,7 @@
 package shipbump;
 
 import java.awt.Container;
+import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
@@ -18,6 +19,7 @@ public class Ship implements Entity {
 	private float newX;
 	private float newY;
 	private float angle;
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
 	public Ship(float x, float y) throws SlickException {
 		image = new Image("res/ship.png");
@@ -85,9 +87,17 @@ public class Ship implements Entity {
 	}
 
 	public void clickShootingGun() {
-		
+		bullets.add(new Bullet(CenterX(), CenterY(), this.image.getRotation()));
 	}
-
+	
+	public float CenterX() {
+		return this.x + this.image.getWidth() / 2.0f;
+	}
+	
+	public float CenterY() {
+		return this.y + this.image.getHeight() / 2.0f;
+	}
+	
 	@Override
 	public void render(Graphics graphics) {
 		draw();
@@ -101,6 +111,11 @@ public class Ship implements Entity {
 			clickShootingGun();
 		}
 //		System.out.println(this.image.getRotation());
+	}
+
+	@Override
+	public boolean isDeletable() {
+		return false;
 	}
 
 
