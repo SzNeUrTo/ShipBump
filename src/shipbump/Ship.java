@@ -101,6 +101,9 @@ public class Ship implements Entity {
 	@Override
 	public void render(Graphics graphics) {
 		draw();
+		for (Bullet bullet : bullets) {
+		      bullet.render(graphics);
+		}
 	}
 
 	@Override
@@ -111,6 +114,9 @@ public class Ship implements Entity {
 			clickShootingGun();
 		}
 //		System.out.println(this.image.getRotation());
+		for (Bullet bullet : bullets) {
+		      bullet.update(container, delta);
+		}
 	}
 
 	@Override
