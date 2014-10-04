@@ -7,7 +7,10 @@ public class CollisionDetector {
 //	public CollisionDetector() {
 //		
 //	}
-	public static boolean isEMCollideBullet(float emX, float emY, float bulletX, float bulletY) {
+	public static boolean isEMCollideBullet(Shape em, Shape bullet) {
+		if (em.intersects(bullet)) {
+			return true;
+		}
 		return false;
 	}
 	
