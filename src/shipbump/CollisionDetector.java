@@ -9,11 +9,20 @@ public class CollisionDetector {
 		return false;
 	}
 	
-	public boolean isEMCollideBorder(float emX, float emY) {
+	public static boolean isEMCollideBorderX(float emX, float emWidth) {
+		if (emX < 0 || emX + emWidth > ShipBumpGame.GAME_WIDTH) {
+			return true;
+		}
 		return false;
 	}
 	
-	public boolean isEMCollideShip(float emX, float emY, float shipX, float shipY) {
+	public static boolean isEMCollideBorderY(float emY, float emHeight) {
+		if (emY < 0 || emY + emHeight > ShipBumpGame.GAME_HEIGHT) {
+			return true;
+		}	
+		return false;
+	}
+	public static boolean isEMCollideShip(float emX, float emY, float shipX, float shipY) {
 		return false;
 	}
 }
