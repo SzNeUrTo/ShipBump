@@ -50,11 +50,8 @@ public class ShipBumpGame extends BasicGame{
 		extra_items.add(new ExtraterrestrialMaterial());
 		extra_items.add(new ExtraterrestrialMaterial());
 		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
 	}
 
-	
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();

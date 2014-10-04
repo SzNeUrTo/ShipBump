@@ -19,8 +19,8 @@ public class Bullet implements Entity {
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
-		this.shape = new Circle(x + BULLET_SIZE / 2, y + BULLET_SIZE / 2, BULLET_SIZE / 2);
-		System.out.println("Create Bullet");
+		shape = new Circle(x, y, BULLET_SIZE / 2.0f);
+//		System.out.println("Create Bullet");
 	}
 
 	@Override
@@ -37,13 +37,16 @@ public class Bullet implements Entity {
 	}
 
 	private void checkCollisionTarget() {
-		//Check Check 
-		isDeleteable = true;
+		if (this.x < 0 || this.x > ShipBumpGame.GAME_WIDTH || this.y < 0 || this.y > ShipBumpGame.GAME_HEIGHT) {
+			isDeleteable = true;
+		}
 	}
 
 	private void updatePosition() {
-		this.x += velocity * Math.cos(dir);
-		this.y += velocity * Math.sin(dir);
+		this.x = (float) (this.x + velocity * Math.cos(dir));
+		this.y = (float) (this.y + velocity * Math.sin(dir));
+		shape.setCenterX(this.x);
+		shape.setCenterY(this.y);
 	}
 
 	@Override

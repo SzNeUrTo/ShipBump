@@ -19,12 +19,15 @@ public class Ship implements Entity {
 	private float newX;
 	private float newY;
 	private float angle;
+	private float angleRotation;
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	public static float SIZE_IMAGE_SHIP = 64;
 	
 	public Ship(float x, float y) throws SlickException {
-		image = new Image("res/ship.png");
+		image = new Image("res/ship1.png");
 		this.x = x;
 	    this.y = y;
+	    this.angleRotation = 0;
 	}
 	
 	public void draw() {
@@ -63,11 +66,14 @@ public class Ship implements Entity {
 
 	private void shipSetRotation() {
 		if (newY > this.y) {
-			image.setRotation((float) (180 * angle / Math.PI));
+			this.angleRotation = ((float) (180 * angle / Math.PI)) % 360;
+			image.setRotation((float) (this.angleRotation));
 		}
 		else {
-			image.setRotation((float) (-180 * angle / Math.PI));
+			this.angleRotation = ((float) (-180 * angle / Math.PI)) % 360;
+			image.setRotation((float) (this.angleRotation));
 		}
+		System.out.println(this.angleRotation);
 	}
 
 	private void calculateAngleRotate() {
@@ -87,7 +93,8 @@ public class Ship implements Entity {
 	}
 
 	public void clickShootingGun() {
-		bullets.add(new Bullet(CenterX(), CenterY(), this.image.getRotation()));
+		bullets.add(new Bullet(CenterX(), CenterY(), -this.angleRotation)); // Bug
+		System.out.println(-angleRotation + 180);
 	}
 	
 	public float CenterX() {
@@ -114,8 +121,13 @@ public class Ship implements Entity {
 			clickShootingGun();
 		}
 //		System.out.println(this.image.getRotation());
+		int index2 = 0;
 		for (Bullet bullet : bullets) {
 		      bullet.update(container, delta);
+		      if (bullet.isDeletable()) {
+		    	  System.out.println("RemoveBullet");
+		      }
+		      index2++;
 		}
 	}
 
