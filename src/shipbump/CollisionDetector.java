@@ -22,6 +22,7 @@ public class CollisionDetector {
 		}	
 		return false;
 	}
+
 	public static boolean isEMCollideShip(float emX, float emY, float shipX, float shipY) {
 		return false;
 	}

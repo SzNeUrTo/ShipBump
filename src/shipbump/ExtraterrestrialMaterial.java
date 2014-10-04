@@ -17,7 +17,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	private float y;
 	private float targetDummyX;
 	private float targetDummyY;
-	private float velocity = 8;
+	private static float velocity = 8;
 	private float deltaX;
 	private float deltaY;
 	private float distance;

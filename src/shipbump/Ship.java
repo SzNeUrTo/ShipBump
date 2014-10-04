@@ -20,7 +20,7 @@ public class Ship implements Entity {
 	private float newY;
 	private float angle;
 	private float angleRotation;
-	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+//	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	public static float SIZE_IMAGE_SHIP = 64;
 	
 	public Ship(float x, float y) throws SlickException {
@@ -30,15 +30,22 @@ public class Ship implements Entity {
 	    this.angleRotation = 0;
 	}
 	
+	public Ship() throws SlickException {
+		image = new Image("res/ship1.png");
+		this.x = ShipBumpGame.GAME_WIDTH / 2;
+	    this.y = ShipBumpGame.GAME_HEIGHT / 2;
+	    this.angleRotation = 0;
+	}
+	
 	public void draw() {
 		this.image.draw(this.x, this.y);
 	}
 	
-	public float getCenterY() {
+	public float getY() {
 		return this.y;
 	}
 
-	public float getCenterX() {
+	public float getX() {
 		return this.x;
 	}
 	
@@ -93,45 +100,49 @@ public class Ship implements Entity {
 	}
 
 	public void clickShootingGun() {
-		bullets.add(new Bullet(CenterX(), CenterY(), -this.angleRotation)); // Bug
-		System.out.println(-angleRotation + 180);
+//		bullets.add(new Bullet(CenterX(), CenterY(), -this.angleRotation)); // Bug
+//		System.out.println(-angleRotation + 180);
 	}
 	
-	public float CenterX() {
+	public float shipCenterX() {
 		return this.x + this.image.getWidth() / 2.0f;
 	}
 	
-	public float CenterY() {
+	public float shipCenterY() {
 		return this.y + this.image.getHeight() / 2.0f;
+	}
+	
+	public float getAngleRotation() {
+		return this.angleRotation;
 	}
 	
 	@Override
 	public void render(Graphics graphics) {
 		draw();
-		for (Bullet bullet : bullets) {
-		      bullet.render(graphics);
-		}
+//		for (Bullet bullet : bullets) {
+//		      bullet.render(graphics);
+//		}
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) {
 		movement(Mouse.getX(), Mouse.getY());
-		Input input = container.getInput();
-//		if (input.isMouseButtonDown(button)(0)) {
-		if (input.isMousePressed(0)) {
-			clickShootingGun();
-		}
-		System.out.println(this.image.getRotation());
-//		for (Bullet bullet : bullets) {
-		for (int i = 0; i < bullets.size(); i++) {
-//			bullet.update(container, delta);
-			bullets.get(i).update(container, delta);
-//		    if (bullet.isDeletable()) {
-			if (bullets.get(i).isDeletable()) {
-		    	System.out.println("RemoveBullet");
-		    	bullets.remove(i);
-		    }
-		}
+//		Input input = container.getInput();
+//		if (input.isMouseButtonDown(button)(0)) { // NotUse
+//		if (input.isMousePressed(0)) {
+//			clickShootingGun();
+//		}
+//		System.out.println(this.image.getRotation());
+//		for (Bullet bullet : bullets) { // Not Use
+//		for (int i = 0; i < bullets.size(); i++) { 
+////			bullet.update(container, delta); // Not Use
+//			bullets.get(i).update(container, delta);
+////		    if (bullet.isDeletable()) {
+//			if (bullets.get(i).isDeletable()) {
+//		    	System.out.println("RemoveBullet");
+//		    	bullets.remove(i);
+//		    }
+//		}
 	}
 
 	@Override

@@ -18,17 +18,18 @@ public class ShipBumpGame extends BasicGame{
 	private LinkedList<Entity> entities;
 	
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
+	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
 	private String mouse_position = "";
-	private Ship ship;
 
 	private String score_str;
 	private int score;
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
+	private Ship ship;
 
 
-	public ShipBumpGame(String title) {
+	public ShipBumpGame(String title) throws SlickException {
 		super(title);
 		entities = new LinkedList<Entity>();
 	}
@@ -44,18 +45,21 @@ public class ShipBumpGame extends BasicGame{
 		for (int i = 0; i < extra_items.size(); i++) {
 //		      item.render(graphics);
 			extra_items.get(i).render(graphics);
-		}	 
+		}	
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).render(graphics);
+		}
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		score_str = "";
 		score = 0;
-		entities.add(new Ship(GAME_WIDTH/2, GAME_HEIGHT/2));
+		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
+		entities.add(ship); 		
 		for (int i = 0; i < 7; i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
-		
 	}
 
 	@Override
@@ -64,10 +68,25 @@ public class ShipBumpGame extends BasicGame{
 	    for (Entity entity : entities) {
 	    	entity.update(container, delta);
 	    }
+		Input input = container.getInput();
+		if (input.isMousePressed(0)) {
+			try {
+				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			System.out.println("================== TEST Mouse Click ====================");
+//			System.out.println("ShipCenterX = " + ship.shipCenterX());
+//			System.out.println("ShipCenterY = " + ship.shipCenterY());
+//			System.out.println("ShipAngleRotation = " + ship.getAngleRotation());
+		}
 //	    for (ExtraterrestrialMaterial item : extra_items) {
 	    for (int i = 0; i < extra_items.size(); i++) {
 //		      item.update(container, delta);
 	    	extra_items.get(i).update(container, delta);
+		}
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).update(container, delta);
 		}
 	    score_str = "Score : " + score;
 	}
