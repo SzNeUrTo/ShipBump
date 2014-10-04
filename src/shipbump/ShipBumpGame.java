@@ -31,8 +31,7 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
-		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
-		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
+		renderWordString(graphics);
 		ship.render(graphics);
 		for (int i = 0; i < extra_items.size(); i++) {
 			extra_items.get(i).render(graphics);
@@ -40,6 +39,11 @@ public class ShipBumpGame extends BasicGame{
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).render(graphics);
 		}
+	}
+
+	private void renderWordString(Graphics graphics) {
+		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
+		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
 	}
 
 	@Override
@@ -54,11 +58,15 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
 		ship.update(container, delta);
 		clickMouseShooting(container);
 	    updateEM(container, delta);
 		updateBullet(container, delta);
+		updateWordString();
+	}
+
+	private void updateWordString() {
+		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
 	    score_str = "Score : " + score;
 	}
 
