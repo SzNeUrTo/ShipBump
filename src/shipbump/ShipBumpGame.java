@@ -52,12 +52,10 @@ public class ShipBumpGame extends BasicGame{
 		score_str = "";
 		score = 0;
 		entities.add(new Ship(GAME_WIDTH/2, GAME_HEIGHT/2));
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
-		extra_items.add(new ExtraterrestrialMaterial());
+		for (int i = 0; i < 7; i++) {
+			extra_items.add(new ExtraterrestrialMaterial());
+		}
+		
 	}
 
 	@Override

@@ -117,7 +117,8 @@ public class Ship implements Entity {
 	public void update(GameContainer container, int delta) {
 		movement(Mouse.getX(), Mouse.getY());
 		Input input = container.getInput();
-		if (input.isMouseButtonDown(0)) {
+//		if (input.isMouseButtonDown(button)(0)) {
+		if (input.isMousePressed(0)) {
 			clickShootingGun();
 		}
 		System.out.println(this.image.getRotation());

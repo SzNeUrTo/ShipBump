@@ -6,6 +6,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 
 public class ExtraterrestrialMaterial implements Entity {
 
@@ -25,12 +27,16 @@ public class ExtraterrestrialMaterial implements Entity {
 	private boolean isCollisionTargetDummyXY = false;
 	private boolean isCollisionBorderX = false;
 	private boolean isCollisionBorderY = false;
+	private Shape shape;
+	public static float SIZE_IMAGE_EM = 70; 
+	private float HP = 100;
 	
 	public ExtraterrestrialMaterial() throws SlickException {
 		image = new Image("res/obtacle.png");
 		initPosition();
 		initTargetDummyXY();
 		initDirXY();
+		shape = new Circle(this.x + this.image.getWidth(), this.y + this.image.getHeight(), SIZE_IMAGE_EM / 2);
 
 	}
 
@@ -160,8 +166,18 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	@Override
 	public boolean isDeletable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
+	public Shape getShape() {
+		return shape;
+	}
+	
+	public float getHP() {
+		return HP;
+	}
+
+	public void setHP(float hP) {
+		HP = hP;
+	}
 }
