@@ -171,4 +171,12 @@ public class ExtraterrestrialMaterial implements Entity {
 	public void setHP(float hP) {
 		HP = hP;
 	}
+
+	public void decreaseHP() {
+		HP -= 20;
+		if (HP < 0) {
+			HP = 0;
+		}
+		
+	}
 }

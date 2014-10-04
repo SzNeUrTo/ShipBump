@@ -31,13 +31,21 @@ public class ShipBumpGame extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
-		renderWordString(graphics);
 		ship.render(graphics);
-		for (int i = 0; i < extra_items.size(); i++) {
-			extra_items.get(i).render(graphics);
-		}	
+		renderWordString(graphics);
+		renderEM(graphics);
+		renderBullet(graphics);
+	}
+
+	private void renderBullet(Graphics graphics) {
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).render(graphics);
+		}
+	}
+
+	private void renderEM(Graphics graphics) {
+		for (int i = 0; i < extra_items.size(); i++) {
+			extra_items.get(i).render(graphics);
 		}
 	}
 
@@ -63,6 +71,22 @@ public class ShipBumpGame extends BasicGame{
 	    updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
+		increaseScore();
+	}
+
+	private void increaseScore() {
+		for (int i = 0; i < bullets.size(); i++) {
+			for (int j = 0; j < extra_items.size(); j++) {
+				if (CollisionDetector.isEMCollideBullet(extra_items.get(j).getShape(), bullets.get(i).getShape())) {
+					extra_items.get(j).decreaseHP();
+					if (extra_items.get(j).getHP() == 0) {
+						extra_items.remove(j);
+						score++;
+					}
+				}
+			}
+		}
+		
 	}
 
 	private void updateWordString() {
