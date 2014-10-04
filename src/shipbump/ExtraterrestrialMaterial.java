@@ -103,8 +103,6 @@ public class ExtraterrestrialMaterial implements Entity {
 		updateDirectionVelocity();
 		updatePosition();	
 		updateShape();
-//		System.out.println("this.x = " + this.x + " this.y = " + this.y);
-//		System.out.println("TarX = " + targetDummyX + "TarY = " + targetDummyY);
 	}
 
 	private void updateShape() {
@@ -125,14 +123,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	private void checkInBoxGame() {
-		// InboxGame
 		isInBoxGame();
-//		if (Math.abs(this.x - targetDummyX) <= velocity * 3 || Math.abs(this.y - targetDummyY) <= velocity * 3) {
-//			isCollisionTargetDummyXY = true;
-////			velocity = 0;
-//			System.out.println("True");
-//		}
-		
 	}
 
 	private void isInBoxGame() {
@@ -146,15 +137,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	private void checkCollisionBorder() {
-		if(isCollisionTargetDummyXY) {
-//			if (this.x < 0 || this.x + this.image.getWidth() > ShipBumpGame.GAME_WIDTH) {
-//				isCollisionBorderX = true;
-////				System.out.println("BorderX");
-//			}
-//			if (this.y < 0 || this.y + this.image.getHeight() > ShipBumpGame.GAME_HEIGHT) {
-//				isCollisionBorderY = true;
-////				System.out.println("BorderY");
-//			}	
+		if(isCollisionTargetDummyXY) {	
 			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, this.image.getWidth());
 			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, this.image.getHeight());
 		}

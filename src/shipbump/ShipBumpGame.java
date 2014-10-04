@@ -15,13 +15,9 @@ import org.lwjgl.input.Mouse;
 
 public class ShipBumpGame extends BasicGame{
 	
-	private LinkedList<Entity> entities;
-	
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-	
 	private String mouse_position = "";
-
 	private String score_str;
 	private int score;
 	public static final int GAME_WIDTH = 640;
@@ -31,20 +27,14 @@ public class ShipBumpGame extends BasicGame{
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
-		entities = new LinkedList<Entity>();
 	}
 
 	@Override
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
 		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
 		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
-//		for (Entity entity : entities) { //change to ship
-//		      entity.render(graphics); //change to ship
-//		}	// change to ship
 		ship.render(graphics);
-//		for (ExtraterrestrialMaterial item : extra_items) {
 		for (int i = 0; i < extra_items.size(); i++) {
-//		      item.render(graphics);
 			extra_items.get(i).render(graphics);
 		}	
 		for (int i = 0; i < bullets.size(); i++) {
@@ -56,8 +46,7 @@ public class ShipBumpGame extends BasicGame{
 	public void init(GameContainer container) throws SlickException {
 		score_str = "";
 		score = 0;
-		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
-//		entities.add(ship); 		
+		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
 		for (int i = 0; i < 7; i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
@@ -66,10 +55,29 @@ public class ShipBumpGame extends BasicGame{
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
-//	    for (Entity entity : entities) { // change to ship
-//	    	entity.update(container, delta); // change to ship
-//	    } // change to ship
 		ship.update(container, delta);
+		clickMouseShooting(container);
+	    updateEM(container, delta);
+		updateBullet(container, delta);
+	    score_str = "Score : " + score;
+	}
+
+	private void updateBullet(GameContainer container, int delta) {
+		for (int i = 0; i < bullets.size(); i++) {
+			bullets.get(i).update(container, delta);
+		}
+	}
+
+	private void updateEM(GameContainer container, int delta) {
+		for (int i = 0; i < extra_items.size(); i++) {
+	    	extra_items.get(i).update(container, delta);
+	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
+	    		System.out.println("EM collide Ship");
+	    	}
+		}
+	}
+
+	private void clickMouseShooting(GameContainer container) {
 		Input input = container.getInput();
 		if (input.isMousePressed(0)) {
 			try {
@@ -78,22 +86,7 @@ public class ShipBumpGame extends BasicGame{
 				System.out.println(e);
 			}
 			System.out.println("================== TEST Mouse Click ====================");
-//			System.out.println("ShipCenterX = " + ship.shipCenterX());
-//			System.out.println("ShipCenterY = " + ship.shipCenterY());
-//			System.out.println("ShipAngleRotation = " + ship.getAngleRotation());
 		}
-//	    for (ExtraterrestrialMaterial item : extra_items) {
-	    for (int i = 0; i < extra_items.size(); i++) {
-//		      item.update(container, delta);
-	    	extra_items.get(i).update(container, delta);
-	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
-	    		System.out.println("EM collide Ship");
-	    	}
-		}
-		for (int i = 0; i < bullets.size(); i++) {
-			bullets.get(i).update(container, delta);
-		}
-	    score_str = "Score : " + score;
 	}
 
 	public static void main(String[] args) {

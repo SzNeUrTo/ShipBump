@@ -32,8 +32,12 @@ public class Bullet implements Entity {
 	public void update(GameContainer container, int delta) {
 		updatePosition();
 		checkCollisionTarget();
-		
-		
+		updateShape();	
+	}
+	
+	private void updateShape() {
+		shape.setCenterX(this.x);
+		shape.setCenterY(this.y);
 	}
 
 	private void checkCollisionTarget() {
@@ -45,8 +49,6 @@ public class Bullet implements Entity {
 	private void updatePosition() {
 		this.x = (float) (this.x + velocity * Math.cos(dir));
 		this.y = (float) (this.y + velocity * Math.sin(dir));
-		shape.setCenterX(this.x);
-		shape.setCenterY(this.y);
 	}
 
 	@Override
@@ -54,8 +56,8 @@ public class Bullet implements Entity {
 		return isDeleteable;
 	}
 	
-//	public Shape getShape() {
-//		return shape;
-//	}
+	public Shape getShape() {
+		return shape;
+	}
 
 }

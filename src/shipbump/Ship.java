@@ -132,22 +132,6 @@ public class Ship implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		movement(Mouse.getX(), Mouse.getY());
-//		Input input = container.getInput();
-//		if (input.isMouseButtonDown(button)(0)) { // NotUse
-//		if (input.isMousePressed(0)) {
-//			clickShootingGun();
-//		}
-//		System.out.println(this.image.getRotation());
-//		for (Bullet bullet : bullets) { // Not Use
-//		for (int i = 0; i < bullets.size(); i++) { 
-////			bullet.update(container, delta); // Not Use
-//			bullets.get(i).update(container, delta);
-////		    if (bullet.isDeletable()) {
-//			if (bullets.get(i).isDeletable()) {
-//		    	System.out.println("RemoveBullet");
-//		    	bullets.remove(i);
-//		    }
-//		}
 		updateShape();
 	}
 
