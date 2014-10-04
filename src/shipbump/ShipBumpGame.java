@@ -38,9 +38,10 @@ public class ShipBumpGame extends BasicGame{
 	public void render(GameContainer container, Graphics graphics) throws SlickException {
 		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
 		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
-		for (Entity entity : entities) {
-		      entity.render(graphics);
-		}	
+//		for (Entity entity : entities) { //change to ship
+//		      entity.render(graphics); //change to ship
+//		}	// change to ship
+		ship.render(graphics);
 //		for (ExtraterrestrialMaterial item : extra_items) {
 		for (int i = 0; i < extra_items.size(); i++) {
 //		      item.render(graphics);
@@ -56,7 +57,7 @@ public class ShipBumpGame extends BasicGame{
 		score_str = "";
 		score = 0;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
-		entities.add(ship); 		
+//		entities.add(ship); 		
 		for (int i = 0; i < 7; i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
@@ -65,9 +66,10 @@ public class ShipBumpGame extends BasicGame{
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
 		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
-	    for (Entity entity : entities) {
-	    	entity.update(container, delta);
-	    }
+//	    for (Entity entity : entities) { // change to ship
+//	    	entity.update(container, delta); // change to ship
+//	    } // change to ship
+		ship.update(container, delta);
 		Input input = container.getInput();
 		if (input.isMousePressed(0)) {
 			try {
@@ -84,6 +86,9 @@ public class ShipBumpGame extends BasicGame{
 	    for (int i = 0; i < extra_items.size(); i++) {
 //		      item.update(container, delta);
 	    	extra_items.get(i).update(container, delta);
+	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
+	    		System.out.println("EM collide Ship");
+	    	}
 		}
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).update(container, delta);

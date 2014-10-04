@@ -1,6 +1,7 @@
 package shipbump;
 
 import java.awt.Container;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
@@ -10,6 +11,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 
 
 public class Ship implements Entity {
@@ -20,14 +23,16 @@ public class Ship implements Entity {
 	private float newY;
 	private float angle;
 	private float angleRotation;
+	private Shape shape;
 //	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
-	public static float SIZE_IMAGE_SHIP = 64;
+	public static int SIZE_IMAGE_SHIP = 64;
 	
 	public Ship(float x, float y) throws SlickException {
 		image = new Image("res/ship1.png");
 		this.x = x;
 	    this.y = y;
 	    this.angleRotation = 0;
+	    shape = new Circle(this.x + SIZE_IMAGE_SHIP / 2, this.y + SIZE_IMAGE_SHIP / 2, SIZE_IMAGE_SHIP / 2);
 	}
 	
 	public Ship() throws SlickException {
@@ -80,7 +85,7 @@ public class Ship implements Entity {
 			this.angleRotation = ((float) (-180 * angle / Math.PI)) % 360;
 			image.setRotation((float) (this.angleRotation));
 		}
-		System.out.println(this.angleRotation);
+//		System.out.println(this.angleRotation);
 	}
 
 	private void calculateAngleRotate() {
@@ -143,11 +148,21 @@ public class Ship implements Entity {
 //		    	bullets.remove(i);
 //		    }
 //		}
+		updateShape();
+	}
+
+	private void updateShape() {
+		shape.setCenterX(this.x + SIZE_IMAGE_SHIP / 2);
+		shape.setCenterY(this.y + SIZE_IMAGE_SHIP / 2);
 	}
 
 	@Override
 	public boolean isDeletable() {
 		return false;
+	}
+
+	public Shape getShape() {
+		return shape;
 	}
 
 

@@ -1,5 +1,7 @@
 package shipbump;
 
+import org.newdawn.slick.geom.Shape;
+
 public class CollisionDetector {
 //
 //	public CollisionDetector() {
@@ -23,7 +25,10 @@ public class CollisionDetector {
 		return false;
 	}
 
-	public static boolean isEMCollideShip(float emX, float emY, float shipX, float shipY) {
+	public static boolean isEMCollideShip(Shape em, Shape ship) {
+		if (em.intersects(ship)) {
+			return true;
+		}
 		return false;
 	}
 }

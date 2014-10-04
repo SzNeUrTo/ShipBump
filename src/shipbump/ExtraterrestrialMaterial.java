@@ -36,7 +36,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		initPosition();
 		initTargetDummyXY();
 		initDirXY();
-		shape = new Circle(this.x + this.image.getWidth(), this.y + this.image.getHeight(), SIZE_IMAGE_EM / 2);
+		shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM / 2);
 
 	}
 
@@ -102,8 +102,14 @@ public class ExtraterrestrialMaterial implements Entity {
 		checkCollisionBorder();
 		updateDirectionVelocity();
 		updatePosition();	
+		updateShape();
 //		System.out.println("this.x = " + this.x + " this.y = " + this.y);
 //		System.out.println("TarX = " + targetDummyX + "TarY = " + targetDummyY);
+	}
+
+	private void updateShape() {
+		shape.setCenterX(this.x + this.image.getWidth() / 2);
+		shape.setCenterY(this.y + this.image.getHeight() / 2);
 	}
 
 	private void updateDirectionVelocity() {
