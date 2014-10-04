@@ -121,11 +121,15 @@ public class Ship implements Entity {
 			clickShootingGun();
 		}
 		System.out.println(this.image.getRotation());
-		for (Bullet bullet : bullets) {
-		      bullet.update(container, delta);
-		      if (bullet.isDeletable()) {
-		    	  System.out.println("RemoveBullet");
-		      }
+//		for (Bullet bullet : bullets) {
+		for (int i = 0; i < bullets.size(); i++) {
+//			bullet.update(container, delta);
+			bullets.get(i).update(container, delta);
+//		    if (bullet.isDeletable()) {
+			if (bullets.get(i).isDeletable()) {
+		    	System.out.println("RemoveBullet");
+		    	bullets.remove(i);
+		    }
 		}
 	}
 

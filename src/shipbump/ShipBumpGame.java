@@ -40,8 +40,10 @@ public class ShipBumpGame extends BasicGame{
 		for (Entity entity : entities) {
 		      entity.render(graphics);
 		}	
-		for (ExtraterrestrialMaterial item : extra_items) {
-		      item.render(graphics);
+//		for (ExtraterrestrialMaterial item : extra_items) {
+		for (int i = 0; i < extra_items.size(); i++) {
+//		      item.render(graphics);
+			extra_items.get(i).render(graphics);
 		}	 
 	}
 
@@ -64,8 +66,10 @@ public class ShipBumpGame extends BasicGame{
 	    for (Entity entity : entities) {
 	    	entity.update(container, delta);
 	    }
-	    for (ExtraterrestrialMaterial item : extra_items) {
-		      item.update(container, delta);
+//	    for (ExtraterrestrialMaterial item : extra_items) {
+	    for (int i = 0; i < extra_items.size(); i++) {
+//		      item.update(container, delta);
+	    	extra_items.get(i).update(container, delta);
 		}
 	    score_str = "Score : " + score;
 	}
