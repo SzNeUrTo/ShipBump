@@ -29,7 +29,8 @@ public class ExtraterrestrialMaterial implements Entity {
 	private boolean isCollisionBorderY = false;
 	private Shape shape;
 	public static float SIZE_IMAGE_EM = 70; 
-	private float HP = 100;
+	private float HP;
+	private int point;
 	
 	public ExtraterrestrialMaterial() throws SlickException {
 		image = new Image("res/obtacle.png");
@@ -37,6 +38,8 @@ public class ExtraterrestrialMaterial implements Entity {
 		initTargetDummyXY();
 		initDirXY();
 		shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
+		HP = 100;
+		point = 10;
 
 	}
 
@@ -98,7 +101,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		em_setAngleRotation();	
-		checkInBoxGame();
+		isInBoxGame();
 		checkCollisionBorder();
 		updateDirectionVelocity();
 		updatePosition();	
@@ -120,10 +123,6 @@ public class ExtraterrestrialMaterial implements Entity {
 			isCollisionBorderY = false;
 		}
 		
-	}
-
-	private void checkInBoxGame() {
-		isInBoxGame();
 	}
 
 	private void isInBoxGame() {
@@ -195,4 +194,17 @@ public class ExtraterrestrialMaterial implements Entity {
 	public void setDirX(float dirX) {
 		this.dirX = dirX;
 	}
+
+	public int getPoint() {
+		return point ;
+	}
+	
+	public float getX() {
+		return this.x;
+	}
+	
+	public float getY() {
+		return this.y;
+	}
+
 }

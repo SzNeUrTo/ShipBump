@@ -59,7 +59,7 @@ public class ShipBumpGame extends BasicGame{
 		score_str = "";
 		score = 0;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 8 - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}
@@ -72,10 +72,18 @@ public class ShipBumpGame extends BasicGame{
 	    updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
+		addEM();
 		try {
 			increaseScore();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
+		}
+		
+	}
+
+	private void addEM() throws SlickException {
+		for (int i = 0; i < 8 - extra_items.size(); i++) {
+			extra_items.add(new ExtraterrestrialMaterial());
 		}
 		
 	}
@@ -93,7 +101,6 @@ public class ShipBumpGame extends BasicGame{
 				}
 			}
 		}
-		
 	}
 
 	private void increaseScore() {
@@ -103,8 +110,8 @@ public class ShipBumpGame extends BasicGame{
 					bullets.remove(i);
 					extra_items.get(j).decreaseHP();
 					if (extra_items.get(j).getHP() == 0) {
+						score += extra_items.get(j).getPoint();
 						extra_items.remove(j);
-						score++;
 					}
 				}
 			}
