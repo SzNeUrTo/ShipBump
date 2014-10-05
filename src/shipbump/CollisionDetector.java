@@ -15,7 +15,7 @@ public class CollisionDetector {
 	}
 	
 	public static boolean isEMCollideBorderX(float emX, float emWidth) {
-		if (emX < 0 || emX + emWidth > ShipBumpGame.GAME_WIDTH) {
+		if (emX < 0 || emX + emWidth > ShipBumpGame.GAME_WIDTH ) {
 			return true;
 		}
 		return false;

@@ -9,6 +9,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.lwjgl.input.Mouse;
 
 
@@ -24,6 +26,7 @@ public class ShipBumpGame extends BasicGame{
 	public static final int GAME_HEIGHT = 480;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
+	private static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -105,7 +108,8 @@ public class ShipBumpGame extends BasicGame{
 	private void updateDirectionEMvsEM() {
 		for (int i = 0; i < extra_items.size(); i++) {
 			for (int j = 0; j < extra_items.size(); j++) {
-				if (CollisionDetector.isEMCollideEM(extra_items.get(i).getShape(), extra_items.get(j).getShape())) {
+				if (CollisionDetector.isEMCollideEM(extra_items.get(i).getShape(), extra_items.get(j).getShape()) 
+						&& extra_items.get(i).getIsInBox()) {
 					float temp = extra_items.get(i).getDirX();
 					extra_items.get(i).setDirX(extra_items.get(j).getDirX());
 					extra_items.get(j).setDirX(temp);
@@ -147,7 +151,8 @@ public class ShipBumpGame extends BasicGame{
 	private void updateEM(GameContainer container, int delta) throws SlickException { // EM CollideShip
 		for (int i = 0; i < extra_items.size(); i++) {
 	    	extra_items.get(i).update(container, delta);
-	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
+	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())
+	    			&& extra_items.get(i).getIsInBox()) {
 	    		this.IS_GAME_OVER  = true;
 	    		
 	    	}
