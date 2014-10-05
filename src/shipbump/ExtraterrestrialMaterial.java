@@ -106,6 +106,13 @@ public class ExtraterrestrialMaterial implements Entity {
 		updateDirectionVelocity();
 		updatePosition();	
 		updateShape();
+		gameOverStopMotion();
+	}
+
+	private void gameOverStopMotion() {
+		if (ShipBumpGame.IS_GAME_OVER) {
+			velocity = 0;
+		}
 	}
 
 	private void updateShape() {

@@ -24,8 +24,8 @@ public class Ship implements Entity {
 	private float angle;
 	private float angleRotation;
 	private Shape shape;
-//	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	public static int SIZE_IMAGE_SHIP = 64;
+	public boolean isGameOver = false;
 	
 	public Ship(float x, float y) throws SlickException {
 		image = new Image("res/ship1.png");
@@ -56,9 +56,12 @@ public class Ship implements Entity {
 	
 	public void movement(float mouseX, float mouseY) {
 		newX = mouseX - image.getWidth() / 2;
-		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;			
+		newY = ShipBumpGame.GAME_HEIGHT - mouseY - image.getHeight() / 2;
 		shipRotation();
-		shipPosition();
+		if (!ShipBumpGame.IS_GAME_OVER) {
+			shipPosition();
+		}
+
 	}
 
 	private void shipPosition() {
@@ -103,11 +106,6 @@ public class Ship implements Entity {
 	private float getDistance() {
 		return (float)(Math.sqrt(getDeltaX() * getDeltaX() + getDeltaY() * getDeltaY()));
 	}
-
-	public void clickShootingGun() {
-//		bullets.add(new Bullet(CenterX(), CenterY(), -this.angleRotation)); // Bug
-//		System.out.println(-angleRotation + 180);
-	}
 	
 	public float shipCenterX() {
 		return this.x + this.image.getWidth() / 2.0f;
@@ -124,15 +122,17 @@ public class Ship implements Entity {
 	@Override
 	public void render(Graphics graphics) {
 		draw();
-//		for (Bullet bullet : bullets) {
-//		      bullet.render(graphics);
-//		}
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) {
 		movement(Mouse.getX(), Mouse.getY());
 		updateShape();
+		statusGame();
+	}
+
+	private void statusGame() {
+		this.isGameOver = ShipBumpGame.IS_GAME_OVER;
 	}
 
 	private void updateShape() {
@@ -148,6 +148,5 @@ public class Ship implements Entity {
 	public Shape getShape() {
 		return shape;
 	}
-
 
 }

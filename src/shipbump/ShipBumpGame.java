@@ -14,7 +14,7 @@ import org.lwjgl.input.Mouse;
 
 
 public class ShipBumpGame extends BasicGame{
-	
+
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private String mouse_position = "";
@@ -23,6 +23,7 @@ public class ShipBumpGame extends BasicGame{
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
 	private Ship ship;
+	public static boolean IS_GAME_OVER = false;
 
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -73,6 +74,7 @@ public class ShipBumpGame extends BasicGame{
 		updateBullet(container, delta);
 		updateWordString();
 		addEM();
+		
 		try {
 			increaseScore();
 		} catch (Exception e) {
@@ -130,18 +132,19 @@ public class ShipBumpGame extends BasicGame{
 		}
 	}
 
-	private void updateEM(GameContainer container, int delta) { // EM CollideShip
+	private void updateEM(GameContainer container, int delta) throws SlickException { // EM CollideShip
 		for (int i = 0; i < extra_items.size(); i++) {
 	    	extra_items.get(i).update(container, delta);
 	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
-//	    		System.out.println("EM collide Ship");
+	    		this.IS_GAME_OVER  = true;
+	    		
 	    	}
 		}
 	}
 
 	private void clickMouseShooting(GameContainer container) {
 		Input input = container.getInput();
-		if (input.isMousePressed(0)) {
+		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add Bullet
 			try {
 				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
 			} catch (Exception e) {

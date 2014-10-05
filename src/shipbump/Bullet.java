@@ -20,7 +20,6 @@ public class Bullet implements Entity {
 		this.y = y;
 		this.dir = dir;
 		shape = new Circle(x, y, BULLET_SIZE / 2.0f);
-//		System.out.println("Create Bullet");
 	}
 
 	@Override
@@ -32,7 +31,7 @@ public class Bullet implements Entity {
 	public void update(GameContainer container, int delta) {
 		updatePosition();
 		checkCollisionTarget();
-		updateShape();	
+		updateShape();
 	}
 	
 	private void updateShape() {
