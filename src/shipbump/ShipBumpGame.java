@@ -59,7 +59,7 @@ public class ShipBumpGame extends BasicGame{
 		score_str = "";
 		score = 0;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 5; i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}
@@ -68,16 +68,39 @@ public class ShipBumpGame extends BasicGame{
 	public void update(GameContainer container, int delta) throws SlickException {
 		ship.update(container, delta);
 		clickMouseShooting(container);
+		updateDirectionEMvsEM(); // EM Collide EM
 	    updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-		increaseScore();
+		try {
+			increaseScore();
+		} catch (Exception e) {
+			System.out.println("exception increaseScore()" + e);
+		}
+		
+	}
+
+	private void updateDirectionEMvsEM() {
+		for (int i = 0; i < extra_items.size(); i++) {
+			for (int j = 0; j < extra_items.size(); j++) {
+				if (CollisionDetector.isEMCollideEM(extra_items.get(i).getShape(), extra_items.get(j).getShape())) {
+					float temp = extra_items.get(i).getDirX();
+					extra_items.get(i).setDirX(extra_items.get(j).getDirX());
+					extra_items.get(j).setDirX(temp);
+					temp = extra_items.get(i).getDirY();
+					extra_items.get(i).setDirY(extra_items.get(j).getDirY());
+					extra_items.get(j).setDirY(temp);
+				}
+			}
+		}
+		
 	}
 
 	private void increaseScore() {
 		for (int i = 0; i < bullets.size(); i++) {
 			for (int j = 0; j < extra_items.size(); j++) {
 				if (CollisionDetector.isEMCollideBullet(extra_items.get(j).getShape(), bullets.get(i).getShape())) {
+					bullets.remove(i);
 					extra_items.get(j).decreaseHP();
 					if (extra_items.get(j).getHP() == 0) {
 						extra_items.remove(j);
@@ -100,11 +123,11 @@ public class ShipBumpGame extends BasicGame{
 		}
 	}
 
-	private void updateEM(GameContainer container, int delta) {
+	private void updateEM(GameContainer container, int delta) { // EM CollideShip
 		for (int i = 0; i < extra_items.size(); i++) {
 	    	extra_items.get(i).update(container, delta);
 	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())) {
-	    		System.out.println("EM collide Ship");
+//	    		System.out.println("EM collide Ship");
 	    	}
 		}
 	}

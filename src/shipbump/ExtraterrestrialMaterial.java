@@ -36,7 +36,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		initPosition();
 		initTargetDummyXY();
 		initDirXY();
-		shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM / 2);
+		shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
 
 	}
 
@@ -178,5 +178,21 @@ public class ExtraterrestrialMaterial implements Entity {
 			HP = 0;
 		}
 		
+	}
+
+	public float getDirX() {
+		return dirX;
+	}
+
+	public float getDirY() {
+		return dirY;
+	}
+
+	public void setDirY(float dirY) {
+		this.dirY = dirY;	
+	}
+
+	public void setDirX(float dirX) {
+		this.dirX = dirX;
 	}
 }
