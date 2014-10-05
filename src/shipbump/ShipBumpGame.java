@@ -61,7 +61,7 @@ public class ShipBumpGame extends BasicGame{
 		score = 0;
 		IS_GAME_OVER = false;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
-		addEM();
+		addExtraterrestrialMaterial();
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ShipBumpGame extends BasicGame{
 	    updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-		addEM();
+		addExtraterrestrialMaterial();
 		reStartGame(container);
 		try {
 			increaseScore();
@@ -95,7 +95,7 @@ public class ShipBumpGame extends BasicGame{
 		bullets.clear();
 	}
 
-	private void addEM() throws SlickException {
+	private void addExtraterrestrialMaterial() throws SlickException {
 		for (int i = 0; i < 8 - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}

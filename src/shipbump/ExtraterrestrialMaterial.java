@@ -28,7 +28,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	private boolean isCollisionBorderX = false;
 	private boolean isCollisionBorderY = false;
 	private Shape shape;
-	public static final float SIZE_IMAGE_EM = 70; 
+	public static final float SIZE_IMAGE_EM = 50; 
 	private float HP;
 	private int point;
 	
