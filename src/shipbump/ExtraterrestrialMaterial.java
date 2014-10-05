@@ -17,7 +17,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	private float y;
 	private float targetDummyX;
 	private float targetDummyY;
-	private static float velocity = 8;
+	private float velocity;
 	private float deltaX;
 	private float deltaY;
 	private float distance;
@@ -28,18 +28,19 @@ public class ExtraterrestrialMaterial implements Entity {
 	private boolean isCollisionBorderX = false;
 	private boolean isCollisionBorderY = false;
 	private Shape shape;
-	public static float SIZE_IMAGE_EM = 70; 
+	public static final float SIZE_IMAGE_EM = 70; 
 	private float HP;
 	private int point;
 	
-	public ExtraterrestrialMaterial() throws SlickException {
-		image = new Image("res/obtacle.png");
+	public ExtraterrestrialMaterial() throws SlickException {		
+		this.image = new Image("res/obtacle.png");
 		initPosition();
 		initTargetDummyXY();
 		initDirXY();
-		shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
-		HP = 100;
-		point = 10;
+		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
+		this.HP = 100;
+		this.point = 10;
+		this.velocity = 8;
 
 	}
 

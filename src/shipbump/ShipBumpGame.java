@@ -23,7 +23,7 @@ public class ShipBumpGame extends BasicGame{
 	public static final int GAME_WIDTH = 640;
 	public static final int GAME_HEIGHT = 480;
 	private Ship ship;
-	public static boolean IS_GAME_OVER = false;
+	public static boolean IS_GAME_OVER;
 
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -59,10 +59,9 @@ public class ShipBumpGame extends BasicGame{
 	public void init(GameContainer container) throws SlickException {
 		score_str = "";
 		score = 0;
+		IS_GAME_OVER = false;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
-		for (int i = 0; i < 8 - extra_items.size(); i++) {
-			extra_items.add(new ExtraterrestrialMaterial());
-		}
+		addEM();
 	}
 
 	@Override
@@ -74,13 +73,26 @@ public class ShipBumpGame extends BasicGame{
 		updateBullet(container, delta);
 		updateWordString();
 		addEM();
-		
+		reStartGame(container);
 		try {
 			increaseScore();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
 		
+	}
+
+	private void reStartGame(GameContainer container) throws SlickException {
+		Input input = container.getInput();
+		if (input.isKeyDown(Input.KEY_ENTER)) {
+			clearObject();
+			container.reinit();
+		}
+	}
+
+	private void clearObject() {
+		extra_items.clear();
+		bullets.clear();
 	}
 
 	private void addEM() throws SlickException {
