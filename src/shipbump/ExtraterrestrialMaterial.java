@@ -230,5 +230,9 @@ public class ExtraterrestrialMaterial implements Entity {
 	public boolean getIsInBox() {
 		return isCollisionTargetDummyXY;
 	}
+	
+	public float getAlpha() {
+		return this.alpha;
+	}
 
 }

@@ -151,12 +151,23 @@ public class ShipBumpGame extends BasicGame{
 	private void updateEM(GameContainer container, int delta) throws SlickException { // EM CollideShip
 		for (int i = 0; i < extra_items.size(); i++) {
 	    	extra_items.get(i).update(container, delta);
-	    	if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())
-	    			&& extra_items.get(i).getIsInBox()) {
-	    		this.IS_GAME_OVER  = true;
-	    		
-	    	}
+	    	checkEMCollideShip(i);
+			removeOutSideBox(i);
 		}
+	}
+
+	private void checkEMCollideShip(int i) {
+		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())
+				&& extra_items.get(i).getIsInBox() && extra_items.get(i).getAlpha() == 1) {
+			this.IS_GAME_OVER  = true;
+		}
+	}
+
+	private void removeOutSideBox(int i) throws SlickException {
+		if (!BOX_GAME.intersects(extra_items.get(i).getShape()) && extra_items.get(i).getAlpha() == 1) {
+			extra_items.remove(i);
+		}
+		
 	}
 
 	private void clickMouseShooting(GameContainer container) {

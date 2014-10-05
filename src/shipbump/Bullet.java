@@ -58,5 +58,4 @@ public class Bullet implements Entity {
 	public Shape getShape() {
 		return shape;
 	}
-
 }
