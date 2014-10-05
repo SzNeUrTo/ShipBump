@@ -115,7 +115,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	private void updateImageAlpha() {
-		alpha = alpha + 0.001f;
+		alpha = alpha + 0.01f;
 		if (alpha > 1) {
 			alpha = 1.0f;
 		}
