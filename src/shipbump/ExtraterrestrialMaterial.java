@@ -11,43 +11,49 @@ import org.newdawn.slick.geom.Shape;
 
 public class ExtraterrestrialMaterial implements Entity {
 
-	private Image image;
-	private float angle=0;
-	private float x;
-	private float y;
-	private float targetDummyX;
-	private float targetDummyY;
-	private float velocity;
-	private float deltaX;
-	private float deltaY;
-	private float distance;
-	private float dirX;
-	private float dirY;
-	private Random random = new Random();
-	private boolean isCollisionTargetDummyXY = false;
-	private boolean isCollisionBorderX = false;
-	private boolean isCollisionBorderY = false;
-	private Shape shape;
+	protected Image image;
+	protected float angle=0;
+	protected float x;
+	protected float y;
+	protected float targetDummyX;
+	protected float targetDummyY;
+	protected float velocity;
+	protected float deltaX;
+	protected float deltaY;
+	protected float distance;
+	protected float dirX;
+	protected float dirY;
+	protected Random random = new Random();
+	protected boolean isCollisionTargetDummyXY = false;
+	protected boolean isCollisionBorderX = false;
+	protected boolean isCollisionBorderY = false;
+	protected Shape shape;
 	public static final float SIZE_IMAGE_EM = 50; 
-	private float HP;
-	private int point;
-	private float alpha;
+	protected float HP;
+	protected int point;
+	protected float alpha;
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
-		this.image = new Image("res/obtacle.png");
+		initImage();
 		initPosition();
 		initTargetDummyXY();
 		initDirXY();
+		initValue();
+	}
+
+	protected void initImage() throws SlickException {
+		this.image = new Image("res/obtacle.png");
+	}
+
+	protected void initValue() {
 		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
 		this.HP = 100;
 		this.point = 10;
 		this.velocity = 4;
-//		this.image.setAlpha(0f);
 		this.alpha = 0.0f;
-
 	}
 
-	private void initDirXY() {
+	protected void initDirXY() {
 		this.deltaX = targetDummyX - this.x;
 		this.deltaY = targetDummyY - this.y;
 		this.distance = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
@@ -55,16 +61,16 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.dirY = (float) Math.sin(deltaY / distance);
 	}
 	
-	private void initTargetDummyXY() {
+	protected void initTargetDummyXY() {
 		this.targetDummyX = random.nextInt(ShipBumpGame.GAME_WIDTH * 3 / 5) + ShipBumpGame.GAME_WIDTH / 5;
 		this.targetDummyY = random.nextInt(ShipBumpGame.GAME_HEIGHT * 3 / 5) + ShipBumpGame.GAME_HEIGHT / 5;
 	}
 
-	private void initPosition() {
+	protected void initPosition() {
 		selectQuadrant();
 	}
 	
-	private void selectQuadrant() {
+	protected void selectQuadrant() {
 		int quadrant = random.nextInt(4) + 1;
 		if (quadrant == 1) {
 			quadrant_1(); 
@@ -77,22 +83,22 @@ public class ExtraterrestrialMaterial implements Entity {
 		}
 	}
 	
-	private void quadrant_1() {
+	protected void quadrant_1() {
 		this.x = ShipBumpGame.GAME_WIDTH + this.image.getWidth() * 2;
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
 
-	private void quadrant_2() {
+	protected void quadrant_2() {
 		this.x = random.nextInt(ShipBumpGame.GAME_WIDTH * 5 / 4) - ShipBumpGame.GAME_WIDTH / 4; 
 		this.y = ShipBumpGame.GAME_HEIGHT + this.image.getHeight() * 2;
 	}
 	
-	private void quadrant_3() {
+	protected void quadrant_3() {
 		this.x = -this.image.getWidth() * 2; 
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
 	
-	private void quadrant_4() {
+	protected void quadrant_4() {
 		this.x = random.nextInt(ShipBumpGame.GAME_WIDTH * 5 / 4) - ShipBumpGame.GAME_WIDTH / 4; 
 		this.y = -this.image.getHeight() * 2;
 	}
@@ -114,7 +120,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		updateImageAlpha();
 	}
 
-	private void updateImageAlpha() {
+	protected void updateImageAlpha() {
 		alpha = alpha + 0.01f;
 		if (alpha > 1) {
 			alpha = 1.0f;
@@ -122,18 +128,18 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.image.setAlpha(this.alpha);
 	}
 
-	private void gameOverStopMotion() {
+	protected void gameOverStopMotion() {
 		if (ShipBumpGame.IS_GAME_OVER) {
 			velocity = 0;
 		}
 	}
 
-	private void updateShape() {
+	protected void updateShape() {
 		shape.setCenterX(this.x + this.image.getWidth() / 2);
 		shape.setCenterY(this.y + this.image.getHeight() / 2);
 	}
 
-	private void updateDirectionVelocity() {
+	protected void updateDirectionVelocity() {
 		if(isCollisionBorderX) {
 			dirX -= 190;
 			isCollisionBorderX = false;
@@ -145,7 +151,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		
 	}
 
-	private void isInBoxGame() {
+	protected void isInBoxGame() {
 		if (this.x > this.image.getWidth() && this.y > this.image.getHeight()) {
 			if (this.x + this.image.getWidth() < ShipBumpGame.GAME_WIDTH) {
 				if (this.y + this.image.getHeight() < ShipBumpGame.GAME_HEIGHT) {
@@ -155,21 +161,21 @@ public class ExtraterrestrialMaterial implements Entity {
 		}
 	}
 
-	private void checkCollisionBorder() {
+	protected void checkCollisionBorder() {
 		if(isCollisionTargetDummyXY) {	
 			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, this.image.getWidth());
 			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, this.image.getHeight());
 		}
 	}
 
-	private void updatePosition() {
+	protected void updatePosition() {
 //		initDirXY(); // for BlackHole 5555
 		this.x -= velocity * Math.sin(-dirX);
 		this.y -= velocity * Math.sin(-dirY);
 //		System.out.println("x = " + x + " y = " + y + " dirX = " + dirX + " dirY = " + dirY + " DummyX = " + targetDummyX + " DummyY = " + targetDummyY);
 	}
 
-	private void em_setAngleRotation() {
+	protected void em_setAngleRotation() {
 		this.image.setRotation(angle);
 		angle += 10;
 	}
@@ -234,5 +240,4 @@ public class ExtraterrestrialMaterial implements Entity {
 	public float getAlpha() {
 		return this.alpha;
 	}
-
 }

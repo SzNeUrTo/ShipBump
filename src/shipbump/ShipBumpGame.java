@@ -101,6 +101,7 @@ public class ShipBumpGame extends BasicGame{
 	private void addExtraterrestrialMaterial() throws SlickException {
 		for (int i = 0; i < 8 - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
+//			extra_items.add(new ItemHeart());
 		}
 		
 	}
@@ -178,7 +179,7 @@ public class ShipBumpGame extends BasicGame{
 		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add Bullet
 			try {
 				for (int i = 0; i < 10; i++) {
-					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), i * 36));
+					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), i * 360 / 10));
 				}
 //				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
 			} catch (Exception e) {
