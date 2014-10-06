@@ -7,12 +7,12 @@ import org.newdawn.slick.geom.Shape;
 
 public class Bullet implements Entity {
 	
-	private static final float BULLET_SIZE = 5;
+	public static final float BULLET_SIZE = 5;
 	protected float x;
 	protected float y;
 	protected float dir;
-	private float velocity = 5;
-	private boolean isDeleteable = false;
+	protected float velocity = 5;
+	protected boolean isDeleteable = false;
 	protected Shape shape;
 	
 	public Bullet(float x, float y, float dir) {

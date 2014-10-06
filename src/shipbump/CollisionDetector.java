@@ -41,4 +41,11 @@ public class CollisionDetector {
 		}
 		return false;
 	}
+	
+	public static boolean isBulletColideBorder(Shape bullet) {
+		if (!bullet.intersects(ShipBumpGame.BOX_GAME)) {
+			return true;
+		}
+		return false;
+	}
 }

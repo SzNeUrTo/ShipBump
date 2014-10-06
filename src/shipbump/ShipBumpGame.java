@@ -26,7 +26,7 @@ public class ShipBumpGame extends BasicGame{
 	public static final int GAME_HEIGHT = 480;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
-	private static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
+	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -133,6 +133,9 @@ public class ShipBumpGame extends BasicGame{
 					}
 				}
 			}
+			if (CollisionDetector.isBulletColideBorder(bullets.get(i).getShape())) { // Remove OutSideBox
+				bullets.remove(i);
+			}
 		}
 		
 	}
@@ -152,7 +155,7 @@ public class ShipBumpGame extends BasicGame{
 		for (int i = 0; i < extra_items.size(); i++) {
 	    	extra_items.get(i).update(container, delta);
 	    	checkEMCollideShip(i);
-			removeOutSideBox(i);
+			removeEMOutSideBox(i);
 		}
 	}
 
@@ -163,7 +166,7 @@ public class ShipBumpGame extends BasicGame{
 		}
 	}
 
-	private void removeOutSideBox(int i) throws SlickException {
+	private void removeEMOutSideBox(int i) throws SlickException {
 		if (!BOX_GAME.intersects(extra_items.get(i).getShape()) && extra_items.get(i).getAlpha() == 1) {
 			extra_items.remove(i);
 		}
@@ -174,7 +177,10 @@ public class ShipBumpGame extends BasicGame{
 		Input input = container.getInput();
 		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add Bullet
 			try {
-				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
+				for (int i = 0; i < 10; i++) {
+					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), i * 36));
+				}
+//				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
 			} catch (Exception e) {
 				System.out.println(e);
 			}
