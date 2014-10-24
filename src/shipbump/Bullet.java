@@ -10,15 +10,17 @@ public class Bullet implements Entity {
 	public static final float BULLET_SIZE = 5;
 	protected float x;
 	protected float y;
-	protected float dir;
-	protected float velocity = 5;
+	protected float dirX;
+	protected float dirY;
+	protected float velocity = 10;
 	protected boolean isDeleteable = false;
 	protected Shape shape;
 	
-	public Bullet(float x, float y, float dir) {
+	public Bullet(float x, float y, float dirX, float dirY) {
 		this.x = x;
 		this.y = y;
-		this.dir = dir;
+		this.dirX = dirX;
+		this.dirY = dirY;
 		shape = new Circle(x, y, BULLET_SIZE / 2.0f);
 	}
 
@@ -44,10 +46,9 @@ public class Bullet implements Entity {
 			isDeleteable = true;
 		}
 	}
-
 	private void updatePosition() {
-		this.x = (float) (this.x + velocity * Math.cos(dir));
-		this.y = (float) (this.y + velocity * Math.sin(dir));
+		this.x = (float) (this.x + velocity * Math.cos(dirX));
+		this.y = (float) (this.y + velocity * Math.sin(dirY));
 	}
 
 	@Override

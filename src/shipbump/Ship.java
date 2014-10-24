@@ -81,14 +81,15 @@ public class Ship implements Entity {
 
 	private void shipSetRotation() {
 		if (newY > this.y) {
-			this.angleRotation = ((float) (180 * angle / Math.PI)) % 360;
-			image.setRotation((float) (this.angleRotation));
+			this.angleRotation = this.angle;
+			image.setRotation((float) (180 * angle / Math.PI));
 		}
 		else {
-			this.angleRotation = ((float) (-180 * angle / Math.PI)) % 360;
-			image.setRotation((float) (this.angleRotation));
+			this.angleRotation = -this.angle;
+			image.setRotation((float) (-180 * angle / Math.PI));
+			
 		}
-//		System.out.println(this.angleRotation);
+		System.out.println(this.angleRotation);
 	}
 
 	private void calculateAngleRotate() {
@@ -149,4 +150,11 @@ public class Ship implements Entity {
 		return shape;
 	}
 
+	public float getDirX() {
+		return this.angleRotation;
+	}
+	
+	public float getDirY() {
+		return this.angleRotation;
+	}
 }

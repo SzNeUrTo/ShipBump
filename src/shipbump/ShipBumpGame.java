@@ -13,32 +13,34 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.lwjgl.input.Mouse;
 
-
-
-public class ShipBumpGame extends BasicGame{
+public class ShipBumpGame extends BasicGame {
 
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
+	private ArrayList<ItemHeart> heart_items = new ArrayList<ItemHeart>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private String mouse_position = "";
 	private String score_str;
 	private int score;
-	public static final int GAME_WIDTH = 640;
-	public static final int GAME_HEIGHT = 480;
+	public static final int GAME_WIDTH = 1000;
+	public static final int GAME_HEIGHT = 800;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
-	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
-
+	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH,
+			GAME_HEIGHT);
+	private static int FPS = 60;
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
 	}
 
 	@Override
-	public void render(GameContainer container, Graphics graphics) throws SlickException {
+	public void render(GameContainer container, Graphics graphics)
+			throws SlickException {
 		ship.render(graphics);
 		renderWordString(graphics);
 		renderEM(graphics);
 		renderBullet(graphics);
+//		graphics.drawLine(arg0, arg1, arg2, arg3);
 	}
 
 	private void renderBullet(Graphics graphics) {
@@ -54,8 +56,8 @@ public class ShipBumpGame extends BasicGame{
 	}
 
 	private void renderWordString(Graphics graphics) {
-		graphics.drawString(mouse_position, GAME_WIDTH*3/5, 10);
-		graphics.drawString(score_str, GAME_WIDTH*4/5, GAME_HEIGHT - 30);
+		graphics.drawString(mouse_position, GAME_WIDTH * 3 / 5, 10);
+		graphics.drawString(score_str, GAME_WIDTH * 4 / 5, GAME_HEIGHT - 30);
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class ShipBumpGame extends BasicGame{
 		score_str = "";
 		score = 0;
 		IS_GAME_OVER = false;
-		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);		
+		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 		addExtraterrestrialMaterial();
 	}
 
@@ -72,7 +74,7 @@ public class ShipBumpGame extends BasicGame{
 		ship.update(container, delta);
 		clickMouseShooting(container);
 		updateDirectionEMvsEM(); // EM Collide EM
-	    updateEM(container, delta);
+		updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
 		addExtraterrestrialMaterial();
@@ -82,7 +84,6 @@ public class ShipBumpGame extends BasicGame{
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
-		
 	}
 
 	private void reStartGame(GameContainer container) throws SlickException {
@@ -92,32 +93,40 @@ public class ShipBumpGame extends BasicGame{
 			container.reinit();
 		}
 	}
-
+	
+	public void increaseScore(int point) {
+		this.score += point;
+	}
+	
+	public void decreaseScore(int point) {
+		this.score += point;
+	}
 	private void clearObject() {
 		extra_items.clear();
 		bullets.clear();
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {
-		for (int i = 0; i < 8 - extra_items.size(); i++) {
-			extra_items.add(new ExtraterrestrialMaterial());
-//			extra_items.add(new ItemHeart());
-		}
-		
+//		for (int i = 0; i < 10 - extra_items.size(); i++) {
+//			extra_items.add(new ExtraterrestrialMaterial());
+//		}
 	}
 
 	private void updateDirectionEMvsEM() {
 		for (int i = 0; i < extra_items.size(); i++) {
 			for (int j = 0; j < extra_items.size(); j++) {
-				if (CollisionDetector.isEMCollideEM(extra_items.get(i).getShape(), extra_items.get(j).getShape()) 
-						&& extra_items.get(i).getIsInBox()) {
-					float temp = extra_items.get(i).getDirX();
-					extra_items.get(i).setDirX(extra_items.get(j).getDirX());
-					extra_items.get(j).setDirX(temp);
-					temp = extra_items.get(i).getDirY();
-					extra_items.get(i).setDirY(extra_items.get(j).getDirY());
-					extra_items.get(j).setDirY(temp);
-				}
+				if (i != j) {
+					if (CollisionDetector.isEMCollideEM(extra_items.get(i)
+							.getShape(), extra_items.get(j).getShape())
+							&& extra_items.get(i).getIsInBox()) {
+						float temp = extra_items.get(i).getDirX();
+						extra_items.get(i).setDirX(extra_items.get(j).getDirX());
+						extra_items.get(j).setDirX(temp);
+						temp = extra_items.get(i).getDirY();
+						extra_items.get(i).setDirY(extra_items.get(j).getDirY());
+						extra_items.get(j).setDirY(temp);
+					}
+				}	
 			}
 		}
 	}
@@ -125,7 +134,8 @@ public class ShipBumpGame extends BasicGame{
 	private void increaseScore() {
 		for (int i = 0; i < bullets.size(); i++) {
 			for (int j = 0; j < extra_items.size(); j++) {
-				if (CollisionDetector.isEMCollideBullet(extra_items.get(j).getShape(), bullets.get(i).getShape())) {
+				if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
+						.getShape(), bullets.get(i).getShape())) {
 					bullets.remove(i);
 					extra_items.get(j).decreaseHP();
 					if (extra_items.get(j).getHP() == 0) {
@@ -134,16 +144,17 @@ public class ShipBumpGame extends BasicGame{
 					}
 				}
 			}
-			if (CollisionDetector.isBulletColideBorder(bullets.get(i).getShape())) { // Remove OutSideBox
+			if (CollisionDetector.isBulletColideBorder(bullets.get(i)
+					.getShape())) { // Remove OutSideBox
 				bullets.remove(i);
 			}
 		}
-		
 	}
 
 	private void updateWordString() {
-		mouse_position = "Mouse Position X : " + Mouse.getX() + "\nMouse Position Y : " + Mouse.getY();
-	    score_str = "Score : " + score;
+		mouse_position = "Mouse Position X : " + Mouse.getX()
+				+ "\nMouse Position Y : " + Mouse.getY();
+		score_str = "Score : " + score;
 	}
 
 	private void updateBullet(GameContainer container, int delta) {
@@ -152,36 +163,43 @@ public class ShipBumpGame extends BasicGame{
 		}
 	}
 
-	private void updateEM(GameContainer container, int delta) throws SlickException { // EM CollideShip
+	private void updateEM(GameContainer container, int delta)
+			throws SlickException { // EM CollideShip
 		for (int i = 0; i < extra_items.size(); i++) {
-	    	extra_items.get(i).update(container, delta);
-	    	checkEMCollideShip(i);
+			extra_items.get(i).update(container, delta);
+			checkEMCollideShip(i);
 			removeEMOutSideBox(i);
 		}
 	}
 
 	private void checkEMCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), ship.getShape())
-				&& extra_items.get(i).getIsInBox() && extra_items.get(i).getAlpha() == 1) {
-			this.IS_GAME_OVER  = true;
+		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
+				ship.getShape())
+				&& extra_items.get(i).getIsInBox()
+				&& extra_items.get(i).getAlpha() == 1) {
+			this.IS_GAME_OVER = true;
 		}
 	}
 
 	private void removeEMOutSideBox(int i) throws SlickException {
-		if (!BOX_GAME.intersects(extra_items.get(i).getShape()) && extra_items.get(i).getAlpha() == 1) {
+		if (!BOX_GAME.intersects(extra_items.get(i).getShape())
+				&& extra_items.get(i).getAlpha() == 1) {
 			extra_items.remove(i);
 		}
-		
+
 	}
 
 	private void clickMouseShooting(GameContainer container) {
 		Input input = container.getInput();
-		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add Bullet
+		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add
+														// Bullet
 			try {
-				for (int i = 0; i < 10; i++) {
-					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), i * 360 / 10));
-				}
-//				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(), ship.getAngleRotation()));
+				// for (int i = 0; i < 10; i++) { // StarBullet
+				// bullets.add(new Bullet(ship.shipCenterX(),
+				// ship.shipCenterY(), i * 360 / 10));
+				// }
+				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
+						ship.getDirX(), ship.getDirY()));
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -195,10 +213,11 @@ public class ShipBumpGame extends BasicGame{
 			AppGameContainer container = new AppGameContainer(game);
 			container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
 			container.setMinimumLogicUpdateInterval(1600 / 60);
+			container.setTargetFrameRate(FPS);
 			container.start();
-	    } catch (SlickException e) {
-	    	e.printStackTrace();
-	    }
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

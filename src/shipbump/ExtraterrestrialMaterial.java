@@ -29,7 +29,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected boolean isCollisionBorderY = false;
 	protected Shape shape;
 	public static final float SIZE_IMAGE_EM = 50; 
-	protected float HP;
+	protected float hp;
 	protected int point;
 	protected float alpha;
 	
@@ -47,12 +47,12 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	protected void initValue() {
 		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
-		this.HP = 100;
+		this.hp = 100f;
 		this.point = 10;
 		this.velocity = 4;
 		this.alpha = 0.0f;
 	}
-
+//sawasdee space
 	protected void initDirXY() {
 		this.deltaX = targetDummyX - this.x;
 		this.deltaY = targetDummyY - this.y;
@@ -60,12 +60,12 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.dirX = (float) Math.sin(deltaX / distance);
 		this.dirY = (float) Math.sin(deltaY / distance);
 	}
-	
+	//sawasdee space
 	protected void initTargetDummyXY() {
 		this.targetDummyX = random.nextInt(ShipBumpGame.GAME_WIDTH * 3 / 5) + ShipBumpGame.GAME_WIDTH / 5;
 		this.targetDummyY = random.nextInt(ShipBumpGame.GAME_HEIGHT * 3 / 5) + ShipBumpGame.GAME_HEIGHT / 5;
 	}
-
+	
 	protected void initPosition() {
 		selectQuadrant();
 	}
@@ -82,12 +82,12 @@ public class ExtraterrestrialMaterial implements Entity {
 			quadrant_4();
 		}
 	}
-	
+	//sawasdee space
 	protected void quadrant_1() {
 		this.x = ShipBumpGame.GAME_WIDTH + this.image.getWidth() * 2;
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
-
+	//sawasdee space
 	protected void quadrant_2() {
 		this.x = random.nextInt(ShipBumpGame.GAME_WIDTH * 5 / 4) - ShipBumpGame.GAME_WIDTH / 4; 
 		this.y = ShipBumpGame.GAME_HEIGHT + this.image.getHeight() * 2;
@@ -190,17 +190,17 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 	
 	public float getHP() {
-		return HP;
+		return hp;
 	}
 
 	public void setHP(float hP) {
-		HP = hP;
+		hp = hP;
 	}
 
 	public void decreaseHP() {
-		HP -= 20;
-		if (HP < 0) {
-			HP = 0;
+		hp -= 20;
+		if (hp < 0) {
+			hp = 0;
 		}
 		
 	}
