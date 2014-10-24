@@ -80,7 +80,7 @@ public class ShipBumpGame extends BasicGame {
 		addExtraterrestrialMaterial();
 		reStartGame(container);
 		try {
-			increaseScore();
+			checkBulletcollideEM();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
@@ -101,6 +101,7 @@ public class ShipBumpGame extends BasicGame {
 	public void decreaseScore(int point) {
 		this.score += point;
 	}
+	
 	private void clearObject() {
 		extra_items.clear();
 		bullets.clear();
@@ -131,23 +132,35 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
-	private void increaseScore() {
+	private void checkBulletcollideEM() {
 		for (int i = 0; i < bullets.size(); i++) {
 			for (int j = 0; j < extra_items.size(); j++) {
-				if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
-						.getShape(), bullets.get(i).getShape())) {
-					bullets.remove(i);
-					extra_items.get(j).decreaseHP();
-					if (extra_items.get(j).getHP() == 0) {
-						score += extra_items.get(j).getPoint();
-						extra_items.remove(j);
-					}
-				}
+				isEMCollideBullet(i, j);
 			}
-			if (CollisionDetector.isBulletColideBorder(bullets.get(i)
-					.getShape())) { // Remove OutSideBox
-				bullets.remove(i);
-			}
+			removeEM_OutsideBox(i);
+		}
+	}
+
+	protected void isEMCollideBullet(int i, int j) {
+		if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
+				.getShape(), bullets.get(i).getShape())) {
+			bullets.remove(i);
+			extra_items.get(j).decreaseHP();
+			removeEM_HP_zero(j);
+		}
+	}
+
+	protected void removeEM_HP_zero(int j) {
+		if (extra_items.get(j).getHP() == 0) {
+//						score += extra_items.get(j).getPoint();
+			extra_items.remove(j);
+		}
+	}
+
+	protected void removeEM_OutsideBox(int i) {
+		if (CollisionDetector.isBulletColideBorder(bullets.get(i)
+				.getShape())) { // Remove OutSideBox
+			bullets.remove(i);
 		}
 	}
 
@@ -194,10 +207,10 @@ public class ShipBumpGame extends BasicGame {
 		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add
 														// Bullet
 			try {
-				// for (int i = 0; i < 10; i++) { // StarBullet
-				// bullets.add(new Bullet(ship.shipCenterX(),
-				// ship.shipCenterY(), i * 360 / 10));
-				// }
+//				 for (int i = 0; i < 10; i++) { // StarBullet
+//				 bullets.add(new Bullet(ship.shipCenterX(),
+//				 ship.shipCenterY(), i * 360 / 10, i * 360 / 10));
+//				 }
 				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
 						ship.getDirX(), ship.getDirY()));
 			} catch (Exception e) {
