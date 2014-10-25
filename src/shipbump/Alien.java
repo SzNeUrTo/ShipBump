@@ -27,6 +27,7 @@ public class Alien extends ExtraterrestrialMaterial {
 		this.pointPlus = 1500;
 		this.velocity = 4;
 		this.hp = 500;
+		this.sizeImage = 120;
 	}
 
 	@Override

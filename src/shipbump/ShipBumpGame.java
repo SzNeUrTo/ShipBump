@@ -64,6 +64,9 @@ public class ShipBumpGame extends BasicGame {
 		for (int i = 0; i < heart_items.size(); i++) {
 			heart_items.get(i).render(graphics);
 		}
+		for (int i = 0; i < aliens.size(); i++) {
+			aliens.get(i).render(graphics);
+		}
 	}
 
 	private void renderWordString(Graphics graphics) {
@@ -102,11 +105,25 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void updateAlien(GameContainer container, int delta) {
+		for (int i = 0; i < aliens.size(); i++) {
+			aliens.get(i).update(container, delta);
+			checkAlienCollideShip(i);
+			checkAlienCollideBullet(i);
+		}
+	}
+
+	private void checkAlienCollideShip(int i) {
 		
 	}
 
-	private void addAlien(GameContainer container, int delta) {
+	private void checkAlienCollideBullet(int i) {
 		
+	}
+
+	private void addAlien(GameContainer container, int delta) throws SlickException {
+		if (aliens.size() == 0) {
+			aliens.add(new Alien());	
+		}
 	}
 
 	private void updateHeartItem(GameContainer container, int delta) {
@@ -114,7 +131,6 @@ public class ShipBumpGame extends BasicGame {
 			heart_items.get(i).update(container, delta);
 			checkItemCollideShip(i);
 			checkItemCollideBullet(i);
-			
 		}
 	}
 
@@ -132,7 +148,6 @@ public class ShipBumpGame extends BasicGame {
 				&& heart_items.size() > 0) {				
 				decreaseScore(heart_items.get(i).getPointMinus());
 				heart_items.remove(i);
-//					System.out.println("OK");
 			}
 		}
 	}

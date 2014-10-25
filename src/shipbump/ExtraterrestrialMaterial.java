@@ -29,7 +29,8 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected boolean isCollisionBorderX = false;
 	protected boolean isCollisionBorderY = false;
 	protected Shape shape;
-	public static final float SIZE_IMAGE_EM = 70; 
+//	public static final float SIZE_IMAGE_EM = 70; 
+	protected float sizeImage;
 	protected float hp;
 	protected int pointPlus;
 	protected int pointMinus;
@@ -57,12 +58,13 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	protected void initValue() {
-		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
+		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.7f);
 		this.hp = 100f;
 		this.pointPlus = 10;
 		this.pointMinus = 0;
 		this.velocity = 10;
 		this.alpha = 0.0f;
+		this.sizeImage = 70;
 	}
 	
 	protected void initDirXY() {
@@ -175,8 +177,8 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	protected void checkCollisionBorder() {
 		if(isCollisionTargetDummyXY) {	
-			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, this.image.getWidth());
-			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, this.image.getHeight());
+			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, getSizeImage());
+			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, getSizeImage());
 		}
 	}
 
@@ -254,10 +256,14 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 	
 	public float emCenterX() {
-		return this.x + SIZE_IMAGE_EM / 2;
+		return this.x + getSizeImage() / 2;
 	}
 	
 	public float emCenterY() {
-		return this.y + SIZE_IMAGE_EM / 2;
+		return this.y + getSizeImage() / 2;
+	}
+	
+	public float getSizeImage() {
+		return this.sizeImage;
 	}
 }
