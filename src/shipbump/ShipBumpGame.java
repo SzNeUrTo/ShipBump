@@ -88,17 +88,16 @@ public class ShipBumpGame extends BasicGame {
 		time += delta;
 		ship.update(container, delta);
 		clickMouseShooting(container);
-		updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-//		addExtraterrestrialMaterial();
+		addExtraterrestrialMaterial();
 //		addHeartItem(container, delta);
-		addAlien(container, delta);
+//		addAlien(container, delta);
 		reStartGame(container);
 		try {
+			updateEM(container, delta);
 			updateAlien(container, delta);
 			updateHeartItem(container, delta);
-			checkBulletcollideEM();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
@@ -200,40 +199,36 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
-	private void checkBulletcollideEM() {
-		for (int i = 0; i < bullets.size(); i++) {
-			for (int j = 0; j < extra_items.size(); j++) {
-				isEMCollideBullet(i, j);
+	protected void checkEMCollideBullet(int i) {
+		for (int j = 0; j < bullets.size(); j++) {
+			if (CollisionDetector.isEMCollideBullet(extra_items.get(i)
+				.getShape(), bullets.get(j).getShape())) {
+				extra_items.get(i).decreaseHP(bullets.get(j).getDamage());
+				bullets.remove(j);
 			}
-			removeEM_OutsideBox(i);
+			if (extra_items.get(i).getHP() == 0) {
+				extra_items.remove(i);
+			}
 		}
 	}
 
-	protected void isEMCollideBullet(int i, int j) {
-		if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
-				.getShape(), bullets.get(i).getShape())) {
-			System.out.println("Checker");
-			extra_items.get(j).decreaseHP(bullets.get(i).getDamage());
-			bullets.remove(i);
-			removeEM_HP_zero(j);
+	private void updateEM(GameContainer container, int delta) throws SlickException {
+		for (int i = 0; i < extra_items.size(); i++) {
+			extra_items.get(i).update(container, delta);
+			checkEMCollideShip(i);
+			checkEMCollideBullet(i);
+			removeEMOutSideBox(i);
 		}
 	}
 
-	protected void removeEM_HP_zero(int j) {
-		if (extra_items.get(j).getHP() == 0) {
-//						score += extra_items.get(j).getPoint();
-			// increaseScore ต่ออ
-			extra_items.remove(j);
+	private void checkEMCollideShip(int i) {
+		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
+				ship.getShape())
+				&& extra_items.get(i).getIsInBox()
+				&& extra_items.get(i).getAlpha() == 1) {
+			this.IS_GAME_OVER = true;
 		}
 	}
-
-	protected void removeEM_OutsideBox(int i) {
-		if (CollisionDetector.isBulletColideBorder(bullets.get(i)
-				.getShape())) { // Remove OutSideBox
-			bullets.remove(i);
-		}
-	}
-
 	private void updateWordString() {
 		mouse_position = "Mouse Position X : " + Mouse.getX()
 				+ "\nMouse Position Y : " + Mouse.getY();
@@ -250,24 +245,6 @@ public class ShipBumpGame extends BasicGame {
 	private void updateBullet(GameContainer container, int delta) {
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).update(container, delta);
-		}
-	}
-
-	private void updateEM(GameContainer container, int delta)
-			throws SlickException { // EM CollideShip
-		for (int i = 0; i < extra_items.size(); i++) {
-			extra_items.get(i).update(container, delta);
-			checkEMCollideShip(i);
-			removeEMOutSideBox(i);
-		}
-	}
-
-	private void checkEMCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
-				ship.getShape())
-				&& extra_items.get(i).getIsInBox()
-				&& extra_items.get(i).getAlpha() == 1) {
-			this.IS_GAME_OVER = true;
 		}
 	}
 
