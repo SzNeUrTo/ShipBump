@@ -121,7 +121,17 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void checkAlienCollideBullet(int i) {
-		
+		for (int j = 0; j < bullets.size(); j++) {
+			if (CollisionDetector.isEMCollideBullet(aliens.get(i).getShape(), bullets.get(j).getShape())
+				&& aliens.size() > 0) {				
+				aliens.get(i).decreaseHP(bullets.get(j).getDamage());
+				bullets.remove(j);
+			}
+			
+			if (aliens.get(i).getHP() == 0) {
+				aliens.remove(i);
+			}
+		}
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {
@@ -203,7 +213,7 @@ public class ShipBumpGame extends BasicGame {
 		if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
 				.getShape(), bullets.get(i).getShape())) {
 			System.out.println("Checker");
-			extra_items.get(j).decreaseHP();
+			extra_items.get(j).decreaseHP(bullets.get(i).getDamage());
 			bullets.remove(i);
 			removeEM_HP_zero(j);
 		}

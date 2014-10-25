@@ -60,7 +60,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected void initValue() {
 		this.sizeImage = 70;
 		this.shape = new Circle(this.x + getSizeImage() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.55f);
-		this.hp = 100f;
+		this.hp = 1;
 		this.pointPlus = 10;
 		this.pointMinus = 0;
 		this.velocity = 10;
@@ -207,8 +207,8 @@ public class ExtraterrestrialMaterial implements Entity {
 		hp = hP;
 	}
 
-	public void decreaseHP() {
-		this.hp -= 1000;
+	protected void decreaseHP(float damage) {
+		this.hp -= damage;
 		if (this.hp <= 0) {
 			this.hp = 0;
 			ShipBumpGame.increaseScore(getPointPlus());
@@ -261,12 +261,9 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	public float getSizeImage() {
 		return this.sizeImage;
-//		return 120;
-		
 	}
 	
 	public void setSizeImage(int value) {
 		this.sizeImage = value;
-//		return 120;
 	}
 }

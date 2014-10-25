@@ -27,6 +27,7 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 		this.pointPlus = 100;
 		this.pointMinus = 1000;
 		this.velocity = 4;
+		this.hp = 1;
 	}
 	
 	@Override
@@ -54,5 +55,14 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 		graphics.setColor(new Color(255, 255, 255, 0.15f));
 		graphics.fill(this.boxCircle);
 		graphics.setColor(new Color(255, 255, 255));
+	}
+	
+	@Override
+	protected void decreaseHP(float damage) {
+		this.hp -= damage;
+		if (this.hp <= 0) {
+			this.hp = 0;
+			ShipBumpGame.increaseScore(getPointMinus());
+		}
 	}
 }

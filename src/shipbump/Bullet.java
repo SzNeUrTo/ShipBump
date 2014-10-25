@@ -15,12 +15,14 @@ public class Bullet implements Entity {
 	protected float velocity = 20;
 	protected boolean isDeleteable = false;
 	protected Shape shape;
+	protected float damage;
 	
 	public Bullet(float x, float y, float dirX, float dirY) {
 		this.x = x;
 		this.y = y;
 		this.dirX = dirX;
 		this.dirY = dirY;
+		this.damage = 10;
 		shape = new Circle(x, y, BULLET_SIZE / 2.0f);
 	}
 
@@ -53,5 +55,9 @@ public class Bullet implements Entity {
 	
 	public Shape getShape() {
 		return shape;
+	}
+	
+	public float getDamage() {
+		return damage;
 	}
 }
