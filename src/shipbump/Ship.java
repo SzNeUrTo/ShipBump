@@ -92,7 +92,7 @@ public class Ship implements Entity {
 			image.setRotation((float) (-180 * angle / Math.PI));
 			
 		}
-		System.out.println(this.angleRotation);
+//		System.out.println(this.angleRotation);
 	}
 
 	private void calculateAngleRotate() {

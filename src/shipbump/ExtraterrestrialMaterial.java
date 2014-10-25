@@ -32,6 +32,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	public static final float SIZE_IMAGE_EM = 50; 
 	protected float hp;
 	protected int pointPlus;
+	protected int pointMinus;
 	protected float alpha;
 	private int colorRed;
 	private int colorGreen;
@@ -58,6 +59,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
 		this.hp = 100f;
 		this.pointPlus = 10;
+		this.pointMinus = 0;
 		this.velocity = 10;
 		this.alpha = 0.0f;
 	}

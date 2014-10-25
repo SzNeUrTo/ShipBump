@@ -88,10 +88,10 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 //		addExtraterrestrialMaterial();
-		updateHeartItem(container, delta);
 		addHeartItem();
 		reStartGame(container);
 		try {
+			updateHeartItem(container, delta);
 			checkBulletcollideEM();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
@@ -99,9 +99,24 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void updateHeartItem(GameContainer container, int delta) {
-		//Check Collide
 		for (int i = 0; i < heart_items.size(); i++) {
 			heart_items.get(i).update(container, delta);
+//			checkItemCollideShip();
+			if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape()) 
+				|| heart_items.get(i).IsDeleteAble()) {
+				increaseScore(heart_items.get(i).getPointPlus());
+				heart_items.remove(i);
+			}
+//			checkBulletCollideBullet();
+			for (int j = 0; j < bullets.size(); j++) {
+				if (CollisionDetector.isEMCollideBullet(heart_items.get(i).getShape(), bullets.get(j).getShape())
+					&& heart_items.size() > 0) {				
+					decreaseScore(heart_items.get(i).getPointMinus());
+					heart_items.remove(i);
+//					System.out.println("OK");
+				}
+			}
+			
 		}
 	}
 
@@ -124,7 +139,7 @@ public class ShipBumpGame extends BasicGame {
 	}
 	
 	public static void decreaseScore(int point) {
-		score += point;
+		score -= point;
 	}
 	
 	private void clearObject() {
@@ -159,6 +174,7 @@ public class ShipBumpGame extends BasicGame {
 	protected void removeEM_HP_zero(int j) {
 		if (extra_items.get(j).getHP() == 0) {
 //						score += extra_items.get(j).getPoint();
+			// increaseScore ต่อออ
 			extra_items.remove(j);
 		}
 	}
