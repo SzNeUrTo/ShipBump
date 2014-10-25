@@ -145,6 +145,7 @@ public class ShipBumpGame extends BasicGame {
 	private void clearObject() {
 		extra_items.clear();
 		bullets.clear();
+		heart_items.clear();
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {

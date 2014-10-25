@@ -29,15 +29,16 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected boolean isCollisionBorderX = false;
 	protected boolean isCollisionBorderY = false;
 	protected Shape shape;
-	public static final float SIZE_IMAGE_EM = 50; 
+	public static final float SIZE_IMAGE_EM = 70; 
 	protected float hp;
 	protected int pointPlus;
 	protected int pointMinus;
 	protected float alpha;
-	private int colorRed;
-	private int colorGreen;
-	private int colorBlue;
-	private int baseValueColorRandom;
+	protected int colorRed;
+	protected int colorGreen;
+	protected int colorBlue;
+	protected int baseValueColorRandom;
+	
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
 		initImage();
@@ -52,7 +53,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Gear.png");
+		this.image = new Image("res/obtacle2.png");
 	}
 
 	protected void initValue() {
@@ -63,7 +64,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.velocity = 10;
 		this.alpha = 0.0f;
 	}
-//sawasdee space
+	
 	protected void initDirXY() {
 		this.deltaX = targetDummyX - this.x;
 		this.deltaY = targetDummyY - this.y;
@@ -71,7 +72,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.dirX = (float) Math.sin(deltaX / distance);
 		this.dirY = (float) Math.sin(deltaY / distance);
 	}
-	//sawasdee space
+	
 	protected void initTargetDummyXY() {
 		this.targetDummyX = random.nextInt(ShipBumpGame.GAME_WIDTH * 3 / 5) + ShipBumpGame.GAME_WIDTH / 5;
 		this.targetDummyY = random.nextInt(ShipBumpGame.GAME_HEIGHT * 3 / 5) + ShipBumpGame.GAME_HEIGHT / 5;
@@ -250,5 +251,13 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	public float getAlpha() {
 		return this.alpha;
+	}
+	
+	public float emCenterX() {
+		return this.x + SIZE_IMAGE_EM / 2;
+	}
+	
+	public float emCenterY() {
+		return this.y + SIZE_IMAGE_EM / 2;
 	}
 }

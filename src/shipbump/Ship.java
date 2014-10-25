@@ -136,7 +136,6 @@ public class Ship implements Entity {
 			graphics.fill(this.baria);
 			graphics.setColor(new Color(255, 255, 255));
 		}
-		
 	}
 
 	@Override
