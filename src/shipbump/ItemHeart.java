@@ -8,6 +8,7 @@ import org.newdawn.slick.geom.Circle;
 
 public class ItemHeart extends ExtraterrestrialMaterial {
 
+	protected int pointMinus;
 	public ItemHeart() throws SlickException {
 		super();
 		System.out.println("Create Heart");
@@ -20,6 +21,7 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 	}
 	
 	protected void initHeartValue() {
-		this.point = -1000;
+		this.pointPlus = 100;
+		this.pointMinus = 1000;
 	}
 }

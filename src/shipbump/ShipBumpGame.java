@@ -20,7 +20,7 @@ public class ShipBumpGame extends BasicGame {
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private String mouse_position = "";
 	private String score_str;
-	private int score;
+	private static int score;
 	public static final int GAME_WIDTH = 1000;
 	public static final int GAME_HEIGHT = 800;
 	private Ship ship;
@@ -28,6 +28,7 @@ public class ShipBumpGame extends BasicGame {
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH,
 			GAME_HEIGHT);
 	private static int FPS = 60;
+	private int time;
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
@@ -40,7 +41,6 @@ public class ShipBumpGame extends BasicGame {
 		renderWordString(graphics);
 		renderEM(graphics);
 		renderBullet(graphics);
-//		graphics.drawLine(arg0, arg1, arg2, arg3);
 	}
 
 	private void renderBullet(Graphics graphics) {
@@ -52,6 +52,9 @@ public class ShipBumpGame extends BasicGame {
 	private void renderEM(Graphics graphics) {
 		for (int i = 0; i < extra_items.size(); i++) {
 			extra_items.get(i).render(graphics);
+		}
+		for (int i = 0; i < heart_items.size(); i++) {
+			heart_items.get(i).render(graphics);
 		}
 	}
 
@@ -66,14 +69,16 @@ public class ShipBumpGame extends BasicGame {
 		score = 0;
 		IS_GAME_OVER = false;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
-		addExtraterrestrialMaterial();
+		time = 0;
+//		add
+//		addExtraterrestrialMaterial();
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
+		time += delta;
 		ship.update(container, delta);
 		clickMouseShooting(container);
-		updateDirectionEMvsEM(); // EM Collide EM
 		updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
@@ -94,12 +99,12 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 	
-	public void increaseScore(int point) {
-		this.score += point;
+	public static void increaseScore(int point) {
+		score += point;
 	}
 	
-	public void decreaseScore(int point) {
-		this.score += point;
+	public static void decreaseScore(int point) {
+		score += point;
 	}
 	
 	private void clearObject() {
@@ -108,27 +113,8 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {
-//		for (int i = 0; i < 10 - extra_items.size(); i++) {
-//			extra_items.add(new ExtraterrestrialMaterial());
-//		}
-	}
-
-	private void updateDirectionEMvsEM() {
-		for (int i = 0; i < extra_items.size(); i++) {
-			for (int j = 0; j < extra_items.size(); j++) {
-				if (i != j) {
-					if (CollisionDetector.isEMCollideEM(extra_items.get(i)
-							.getShape(), extra_items.get(j).getShape())
-							&& extra_items.get(i).getIsInBox()) {
-						float temp = extra_items.get(i).getDirX();
-						extra_items.get(i).setDirX(extra_items.get(j).getDirX());
-						extra_items.get(j).setDirX(temp);
-						temp = extra_items.get(i).getDirY();
-						extra_items.get(i).setDirY(extra_items.get(j).getDirY());
-						extra_items.get(j).setDirY(temp);
-					}
-				}	
-			}
+		for (int i = 0; i < 15 - extra_items.size(); i++) {
+			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}
 
@@ -167,7 +153,14 @@ public class ShipBumpGame extends BasicGame {
 	private void updateWordString() {
 		mouse_position = "Mouse Position X : " + Mouse.getX()
 				+ "\nMouse Position Y : " + Mouse.getY();
-		score_str = "Score : " + score;
+		
+		if (IS_GAME_OVER) {
+			score_str = "Score : " + score;
+		}
+		else {
+			score_str = "Score : " + (score + time / 1000);
+		}
+		
 	}
 
 	private void updateBullet(GameContainer container, int delta) {

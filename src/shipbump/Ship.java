@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -26,6 +27,8 @@ public class Ship implements Entity {
 	private Shape shape;
 	public static int SIZE_IMAGE_SHIP = 64;
 	public boolean isGameOver = false;
+	private Circle baria;
+	private boolean isBariaOn;
 	
 	public Ship(float x, float y) throws SlickException {
 		image = new Image("res/ship1.png");
@@ -33,6 +36,7 @@ public class Ship implements Entity {
 	    this.y = y;
 	    this.angleRotation = 0;
 	    shape = new Circle(this.x + SIZE_IMAGE_SHIP / 2, this.y + SIZE_IMAGE_SHIP / 2, SIZE_IMAGE_SHIP / 2);
+	    this.isBariaOn = false;
 	}
 	
 	public Ship() throws SlickException {
@@ -42,7 +46,7 @@ public class Ship implements Entity {
 	    this.angleRotation = 0;
 	}
 	
-	public void draw() {
+	public void shipDraw() {
 		this.image.draw(this.x, this.y);
 	}
 	
@@ -61,7 +65,6 @@ public class Ship implements Entity {
 		if (!ShipBumpGame.IS_GAME_OVER) {
 			shipPosition();
 		}
-
 	}
 
 	private void shipPosition() {
@@ -122,7 +125,18 @@ public class Ship implements Entity {
 	
 	@Override
 	public void render(Graphics graphics) {
-		draw();
+		bariaDraw(graphics);
+		shipDraw();
+	}
+
+	private void bariaDraw(Graphics graphics) {
+		if (!isBariaOn) {
+			this.baria = new Circle(shipCenterX(), shipCenterY(), 50);
+			graphics.setColor(new Color(255, 255, 255, 0.2f));
+			graphics.fill(this.baria);
+			graphics.setColor(new Color(255, 255, 255));
+		}
+		
 	}
 
 	@Override
@@ -156,5 +170,13 @@ public class Ship implements Entity {
 	
 	public float getDirY() {
 		return this.angleRotation;
+	}
+	
+	public void setBariaOn() {
+		this.isBariaOn = true;
+	}
+
+	public void setBariaOff() {
+		this.isBariaOn = false;
 	}
 }

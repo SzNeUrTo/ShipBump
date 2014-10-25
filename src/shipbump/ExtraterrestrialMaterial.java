@@ -2,6 +2,7 @@ package shipbump;
 
 import java.util.Random;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -30,8 +31,12 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected Shape shape;
 	public static final float SIZE_IMAGE_EM = 50; 
 	protected float hp;
-	protected int point;
+	protected int pointPlus;
 	protected float alpha;
+	private int colorRed;
+	private int colorGreen;
+	private int colorBlue;
+	private int baseValueColorRandom;
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
 		initImage();
@@ -39,17 +44,24 @@ public class ExtraterrestrialMaterial implements Entity {
 		initTargetDummyXY();
 		initDirXY();
 		initValue();
+		baseValueColorRandom = 30;
+		colorRed = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
+		colorGreen = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
+		colorBlue = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
+//		colorRed = 20;
+//		colorGreen = 0;
+//		colorBlue = 200;
 	}
 
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/obtacle.png");
+		this.image = new Image("res/obtacle2.png");
 	}
 
 	protected void initValue() {
 		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, SIZE_IMAGE_EM * 0.7f);
 		this.hp = 100f;
-		this.point = 10;
-		this.velocity = 4;
+		this.pointPlus = 10;
+		this.velocity = 10;
 		this.alpha = 0.0f;
 	}
 //sawasdee space
@@ -105,7 +117,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	@Override
 	public void render(Graphics graphics) {
-		this.image.draw(this.x, this.y);	
+		this.image.draw(this.x, this.y, new Color(this.colorRed, this.colorGreen, this.colorBlue));	
 	}
 	
 	@Override
@@ -198,9 +210,10 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	public void decreaseHP() {
-		hp -= 20;
-		if (hp < 0) {
-			hp = 0;
+		this.hp -= 1000;
+		if (this.hp <= 0) {
+			this.hp = 0;
+			ShipBumpGame.increaseScore(getPointPlus());
 		}
 		
 	}
@@ -221,8 +234,8 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.dirX = dirX;
 	}
 
-	public int getPoint() {
-		return point ;
+	public int getPointPlus() {
+		return pointPlus ;
 	}
 	
 	public float getX() {

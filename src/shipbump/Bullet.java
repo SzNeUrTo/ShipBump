@@ -12,7 +12,7 @@ public class Bullet implements Entity {
 	protected float y;
 	protected float dirX;
 	protected float dirY;
-	protected float velocity = 10;
+	protected float velocity = 20;
 	protected boolean isDeleteable = false;
 	protected Shape shape;
 	
