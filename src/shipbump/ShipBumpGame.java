@@ -21,8 +21,8 @@ public class ShipBumpGame extends BasicGame {
 	private String mouse_position = "";
 	private String score_str;
 	private static int score;
-	public static final int GAME_WIDTH = 1000;
-	public static final int GAME_HEIGHT = 800;
+	public static final int GAME_WIDTH = 1000;//1440;
+	public static final int GAME_HEIGHT = 800;//900;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH,
@@ -41,6 +41,13 @@ public class ShipBumpGame extends BasicGame {
 		renderWordString(graphics);
 		renderEM(graphics);
 		renderBullet(graphics);
+		renderHeartItem(graphics);
+	}
+
+	private void renderHeartItem(Graphics graphics) {
+		for (int i = 0; i < heart_items.size(); i++) {
+			heart_items.get(i).render(graphics);
+		}
 	}
 
 	private void renderBullet(Graphics graphics) {
@@ -70,8 +77,6 @@ public class ShipBumpGame extends BasicGame {
 		IS_GAME_OVER = false;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 		time = 0;
-//		add
-//		addExtraterrestrialMaterial();
 	}
 
 	@Override
@@ -82,12 +87,27 @@ public class ShipBumpGame extends BasicGame {
 		updateEM(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-		addExtraterrestrialMaterial();
+//		addExtraterrestrialMaterial();
+		updateHeartItem(container, delta);
+		addHeartItem();
 		reStartGame(container);
 		try {
 			checkBulletcollideEM();
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
+		}
+	}
+
+	private void updateHeartItem(GameContainer container, int delta) {
+		//Check Collide
+		for (int i = 0; i < heart_items.size(); i++) {
+			heart_items.get(i).update(container, delta);
+		}
+	}
+
+	private void addHeartItem() throws SlickException {
+		if (heart_items.size() == 0) {
+			heart_items.add(new ItemHeart());	
 		}
 	}
 

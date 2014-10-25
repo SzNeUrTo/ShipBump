@@ -44,17 +44,14 @@ public class ExtraterrestrialMaterial implements Entity {
 		initTargetDummyXY();
 		initDirXY();
 		initValue();
-		baseValueColorRandom = 30;
-		colorRed = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
-		colorGreen = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
-		colorBlue = random.nextInt(255 - baseValueColorRandom) + baseValueColorRandom;
-//		colorRed = 20;
-//		colorGreen = 0;
-//		colorBlue = 200;
+		this.baseValueColorRandom = 30;
+		this.colorRed = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
+		this.colorGreen = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
+		this.colorBlue = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
 	}
 
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/obtacle2.png");
+		this.image = new Image("res/Gear.png");
 	}
 
 	protected void initValue() {
@@ -94,12 +91,12 @@ public class ExtraterrestrialMaterial implements Entity {
 			quadrant_4();
 		}
 	}
-	//sawasdee space
+	
 	protected void quadrant_1() {
 		this.x = ShipBumpGame.GAME_WIDTH + this.image.getWidth() * 2;
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
-	//sawasdee space
+	
 	protected void quadrant_2() {
 		this.x = random.nextInt(ShipBumpGame.GAME_WIDTH * 5 / 4) - ShipBumpGame.GAME_WIDTH / 4; 
 		this.y = ShipBumpGame.GAME_HEIGHT + this.image.getHeight() * 2;
@@ -215,7 +212,6 @@ public class ExtraterrestrialMaterial implements Entity {
 			this.hp = 0;
 			ShipBumpGame.increaseScore(getPointPlus());
 		}
-		
 	}
 
 	public float getDirX() {

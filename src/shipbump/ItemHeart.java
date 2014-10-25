@@ -17,11 +17,17 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 	
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/heart.png");
+		this.image = new Image("res/Gear.png");
 	}
 	
 	protected void initHeartValue() {
 		this.pointPlus = 100;
 		this.pointMinus = 1000;
+	}
+	
+	@Override
+	protected void em_setAngleRotation() {
+		this.image.setRotation(angle);
+//		angle += 10; // Rotation
 	}
 }

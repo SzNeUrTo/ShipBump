@@ -35,13 +35,6 @@ public class CollisionDetector {
 		return false;
 	}
 
-	public static boolean isEMCollideEM(Shape em1, Shape em2) {
-		if (em1.intersects(em2)) {
-			return true;
-		}
-		return false;
-	}
-
 	public static boolean isBulletColideBorder(Shape bullet) {
 		if (!bullet.intersects(ShipBumpGame.BOX_GAME)) {
 			return true;
