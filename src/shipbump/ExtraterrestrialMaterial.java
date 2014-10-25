@@ -30,7 +30,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected boolean isCollisionBorderY = false;
 	protected Shape shape;
 //	public static final float SIZE_IMAGE_EM = 70; 
-	protected float sizeImage;
+	protected float sizeImage = 70;
 	protected float hp;
 	protected int pointPlus;
 	protected int pointMinus;
@@ -58,13 +58,13 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	protected void initValue() {
-		this.shape = new Circle(this.x + this.image.getWidth() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.7f);
+		this.sizeImage = 70;
+		this.shape = new Circle(this.x + getSizeImage() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.55f);
 		this.hp = 100f;
 		this.pointPlus = 10;
 		this.pointMinus = 0;
 		this.velocity = 10;
 		this.alpha = 0.0f;
-		this.sizeImage = 70;
 	}
 	
 	protected void initDirXY() {
@@ -98,7 +98,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 	
 	protected void quadrant_1() {
-		this.x = ShipBumpGame.GAME_WIDTH + this.image.getWidth() * 2;
+		this.x = ShipBumpGame.GAME_WIDTH + getSizeImage() * 2;
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
 	
@@ -108,7 +108,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 	
 	protected void quadrant_3() {
-		this.x = -this.image.getWidth() * 2; 
+		this.x = -getSizeImage() * 2; 
 		this.y = random.nextInt(ShipBumpGame.GAME_HEIGHT * 5 / 4) - ShipBumpGame.GAME_HEIGHT / 4;
 	}
 	
@@ -149,7 +149,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	protected void updateShape() {
-		shape.setCenterX(this.x + this.image.getWidth() / 2);
+		shape.setCenterX(this.x + getSizeImage() / 2);
 		shape.setCenterY(this.y + this.image.getHeight() / 2);
 	}
 
@@ -166,10 +166,12 @@ public class ExtraterrestrialMaterial implements Entity {
 	}
 
 	protected void isInBoxGame() {
-		if (this.x > this.image.getWidth() && this.y > this.image.getHeight()) {
-			if (this.x + this.image.getWidth() < ShipBumpGame.GAME_WIDTH) {
+		if (this.x > getSizeImage() && this.y > this.image.getHeight()) {
+//			System.out.println("TEST");
+			if (this.x + getSizeImage() < ShipBumpGame.GAME_WIDTH) {
 				if (this.y + this.image.getHeight() < ShipBumpGame.GAME_HEIGHT) {
 					isCollisionTargetDummyXY = true;
+//					System.out.println("in box");
 				}
 			}	
 		}
@@ -178,7 +180,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected void checkCollisionBorder() {
 		if(isCollisionTargetDummyXY) {	
 			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, getSizeImage());
-			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, getSizeImage());
+			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, this.image.getHeight());
 		}
 	}
 
@@ -186,7 +188,6 @@ public class ExtraterrestrialMaterial implements Entity {
 //		initDirXY(); // for BlackHole 5555
 		this.x -= velocity * Math.sin(-dirX);
 		this.y -= velocity * Math.sin(-dirY);
-//		System.out.println("x = " + x + " y = " + y + " dirX = " + dirX + " dirY = " + dirY + " DummyX = " + targetDummyX + " DummyY = " + targetDummyY);
 	}
 
 	protected void em_setAngleRotation() {
@@ -265,5 +266,12 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	public float getSizeImage() {
 		return this.sizeImage;
+//		return 120;
+		
+	}
+	
+	public void setSizeImage(int value) {
+		this.sizeImage = value;
+//		return 120;
 	}
 }

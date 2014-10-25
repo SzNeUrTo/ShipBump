@@ -10,6 +10,7 @@ import org.newdawn.slick.geom.Circle;
 public class ItemHeart extends ExtraterrestrialMaterial {
 
 	private Circle boxCircle;
+	protected float sizeImage = 70;
 	
 	public ItemHeart() throws SlickException {
 		super();
@@ -19,7 +20,7 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 	
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Untitled3.png");
+		this.image = new Image("res/Gear.png");
 	}
 	
 	protected void initHeartValue() {

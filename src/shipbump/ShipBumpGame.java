@@ -93,7 +93,7 @@ public class ShipBumpGame extends BasicGame {
 		updateWordString();
 //		addExtraterrestrialMaterial();
 		addHeartItem(container, delta);
-		addAlien(container, delta);
+//		addAlien(container, delta);
 		reStartGame(container);
 		try {
 			updateAlien(container, delta);
@@ -198,8 +198,9 @@ public class ShipBumpGame extends BasicGame {
 	protected void isEMCollideBullet(int i, int j) {
 		if (CollisionDetector.isEMCollideBullet(extra_items.get(j)
 				.getShape(), bullets.get(i).getShape())) {
-			bullets.remove(i);
+			System.out.println("Checker");
 			extra_items.get(j).decreaseHP();
+			bullets.remove(i);
 			removeEM_HP_zero(j);
 		}
 	}
@@ -207,7 +208,7 @@ public class ShipBumpGame extends BasicGame {
 	protected void removeEM_HP_zero(int j) {
 		if (extra_items.get(j).getHP() == 0) {
 //						score += extra_items.get(j).getPoint();
-			// increaseScore ต่อออ
+			// increaseScore ต่ออ
 			extra_items.remove(j);
 		}
 	}
