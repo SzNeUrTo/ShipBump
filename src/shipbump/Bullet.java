@@ -50,11 +50,6 @@ public class Bullet implements Entity {
 		this.x = (float) (this.x + velocity * Math.cos(dirX));
 		this.y = (float) (this.y + velocity * Math.sin(dirY));
 	}
-
-	@Override
-	public boolean isDeletable() {
-		return isDeleteable;
-	}
 	
 	public Shape getShape() {
 		return shape;

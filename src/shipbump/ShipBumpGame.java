@@ -92,8 +92,8 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 //		addExtraterrestrialMaterial();
-		addHeartItem(container, delta);
-//		addAlien(container, delta);
+//		addHeartItem(container, delta);
+		addAlien(container, delta);
 		reStartGame(container);
 		try {
 			updateAlien(container, delta);
@@ -113,7 +113,11 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void checkAlienCollideShip(int i) {
-		
+		if (CollisionDetector.isEMCollideShip(aliens.get(i).getShape(),
+				ship.getShape())
+				&& aliens.get(i).getAlpha() == 1) {
+			this.IS_GAME_OVER = true;
+		}
 	}
 
 	private void checkAlienCollideBullet(int i) {
@@ -135,8 +139,7 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	protected void checkItemCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape()) 
-			|| heart_items.get(i).IsDeleteAble()) {
+		if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape())) {
 			increaseScore(heart_items.get(i).getPointPlus());
 			heart_items.remove(i);
 		}
@@ -178,6 +181,7 @@ public class ShipBumpGame extends BasicGame {
 		extra_items.clear();
 		bullets.clear();
 		heart_items.clear();
+		aliens.clear();
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {

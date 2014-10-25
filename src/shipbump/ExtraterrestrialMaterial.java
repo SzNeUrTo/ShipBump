@@ -194,11 +194,6 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.image.setRotation(angle);
 		angle += 10;
 	}
-
-	@Override
-	public boolean isDeletable() {
-		return false;
-	}
 	
 	public Shape getShape() {
 		return shape;

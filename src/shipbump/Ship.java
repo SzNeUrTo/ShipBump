@@ -154,11 +154,6 @@ public class Ship implements Entity {
 		shape.setCenterY(this.y + SIZE_IMAGE_SHIP / 2);
 	}
 
-	@Override
-	public boolean isDeletable() {
-		return false;
-	}
-
 	public Shape getShape() {
 		return shape;
 	}
