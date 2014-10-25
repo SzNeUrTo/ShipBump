@@ -26,8 +26,7 @@ public class ShipBumpGame extends BasicGame {
 	public static final int GAME_HEIGHT = 800;//900;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
-	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH,
-			GAME_HEIGHT);
+	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	private static int FPS = 60;
 	private int time;
 
@@ -90,9 +89,9 @@ public class ShipBumpGame extends BasicGame {
 		clickMouseShooting(container);
 		updateBullet(container, delta);
 		updateWordString();
-		addExtraterrestrialMaterial();
+//		addExtraterrestrialMaterial();
 //		addHeartItem(container, delta);
-//		addAlien(container, delta);
+		addAlien(container, delta);
 		reStartGame(container);
 		try {
 			updateEM(container, delta);
@@ -229,6 +228,7 @@ public class ShipBumpGame extends BasicGame {
 			this.IS_GAME_OVER = true;
 		}
 	}
+	
 	private void updateWordString() {
 		mouse_position = "Mouse Position X : " + Mouse.getX()
 				+ "\nMouse Position Y : " + Mouse.getY();
@@ -286,5 +286,4 @@ public class ShipBumpGame extends BasicGame {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -1,5 +1,6 @@
 package shipbump;
 
+import org.lwjgl.opengl.Drawable;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
@@ -7,6 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 public class Alien extends ExtraterrestrialMaterial {
 
@@ -36,7 +40,8 @@ public class Alien extends ExtraterrestrialMaterial {
 
 	@Override
 	public void render(Graphics graphics) {
-		this.animationAlien.draw(this.x, this.y);
+//		this.animationAlien.draw(this.x, this.y);
+		this.animationAlien.draw(this.x, this.y, new Color(255f, 255f, 255f, this.alpha));
 	}
 
 	@Override
