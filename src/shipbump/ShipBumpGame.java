@@ -17,6 +17,7 @@ public class ShipBumpGame extends BasicGame {
 
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
 	private ArrayList<ItemHeart> heart_items = new ArrayList<ItemHeart>();
+	private ArrayList<Alien> aliens = new ArrayList<Alien>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private String mouse_position = "";
 	private String score_str;
@@ -88,9 +89,11 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 //		addExtraterrestrialMaterial();
-		addHeartItem();
+		addHeartItem(container, delta);
+		addAlien(container, delta);
 		reStartGame(container);
 		try {
+			updateAlien(container, delta);
 			updateHeartItem(container, delta);
 			checkBulletcollideEM();
 		} catch (Exception e) {
@@ -98,29 +101,43 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
+	private void updateAlien(GameContainer container, int delta) {
+		
+	}
+
+	private void addAlien(GameContainer container, int delta) {
+		
+	}
+
 	private void updateHeartItem(GameContainer container, int delta) {
 		for (int i = 0; i < heart_items.size(); i++) {
 			heart_items.get(i).update(container, delta);
-//			checkItemCollideShip();
-			if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape()) 
-				|| heart_items.get(i).IsDeleteAble()) {
-				increaseScore(heart_items.get(i).getPointPlus());
-				heart_items.remove(i);
-			}
-//			checkBulletCollideBullet();
-			for (int j = 0; j < bullets.size(); j++) {
-				if (CollisionDetector.isEMCollideBullet(heart_items.get(i).getShape(), bullets.get(j).getShape())
-					&& heart_items.size() > 0) {				
-					decreaseScore(heart_items.get(i).getPointMinus());
-					heart_items.remove(i);
-//					System.out.println("OK");
-				}
-			}
+			checkItemCollideShip(i);
+			checkItemCollideBullet(i);
 			
 		}
 	}
 
-	private void addHeartItem() throws SlickException {
+	protected void checkItemCollideShip(int i) {
+		if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape()) 
+			|| heart_items.get(i).IsDeleteAble()) {
+			increaseScore(heart_items.get(i).getPointPlus());
+			heart_items.remove(i);
+		}
+	}
+
+	protected void checkItemCollideBullet(int i) {
+		for (int j = 0; j < bullets.size(); j++) {
+			if (CollisionDetector.isEMCollideBullet(heart_items.get(i).getShape(), bullets.get(j).getShape())
+				&& heart_items.size() > 0) {				
+				decreaseScore(heart_items.get(i).getPointMinus());
+				heart_items.remove(i);
+//					System.out.println("OK");
+			}
+		}
+	}
+
+	private void addHeartItem(GameContainer container, int delta) throws SlickException {
 		if (heart_items.size() == 0) {
 			heart_items.add(new ItemHeart());	
 		}

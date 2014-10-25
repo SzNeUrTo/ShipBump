@@ -19,7 +19,7 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 	
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Gear.png");
+		this.image = new Image("res/Untitled3.png");
 	}
 	
 	protected void initHeartValue() {
