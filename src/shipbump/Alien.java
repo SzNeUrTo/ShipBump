@@ -16,6 +16,8 @@ public class Alien extends ExtraterrestrialMaterial {
 
 	protected SpriteSheet spriteAlien;
 	protected Animation animationAlien;
+	protected Rectangle hpGate;
+	protected float maxHP;
 	
 	public Alien() throws SlickException {
 		super();
@@ -33,15 +35,26 @@ public class Alien extends ExtraterrestrialMaterial {
 	protected void initAlienValue() {
 		this.pointPlus = 1500;
 		this.velocity = 5;
-		this.hp = 50;
+		this.maxHP = 50;
+		this.hp = this.maxHP;
 		setSizeImage(120);
 		this.shape = new Circle(this.x + getSizeImage() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.55f);
 	}
 
 	@Override
 	public void render(Graphics graphics) {
-//		this.animationAlien.draw(this.x, this.y);
 		this.animationAlien.draw(this.x, this.y, new Color(255f, 255f, 255f, this.alpha));
+		drawHPGate(graphics);
+	}
+
+	protected void drawHPGate(Graphics graphics) {
+		this.hpGate = new Rectangle(this.x + 4, this.y - 15, getSizeImage() * hp / maxHP - 8, 5);
+		graphics.setColor(new Color(255, 255, 255));
+//		graphics.draw(this.hpGate);
+		graphics.fill(new Rectangle(this.x + 4, this.y - 15, getSizeImage() - 8, 5));
+		graphics.setColor(new Color(255, 0, 0));
+		graphics.fill(this.hpGate);
+		graphics.setColor(new Color(255, 255, 255));
 	}
 
 	@Override

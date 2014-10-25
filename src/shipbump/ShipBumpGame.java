@@ -29,6 +29,7 @@ public class ShipBumpGame extends BasicGame {
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	private static int FPS = 60;
 	private int time;
+	
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
