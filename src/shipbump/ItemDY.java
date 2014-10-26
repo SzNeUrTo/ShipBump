@@ -36,7 +36,6 @@ public class ItemDY extends ExtraterrestrialMaterial {
 	@Override
 	protected void em_setAngleRotation() {
 		this.image.setRotation(angle);
-//		angle += 10; // Rotation
 	}
 
 	public int getPointMinus() {
@@ -47,7 +46,6 @@ public class ItemDY extends ExtraterrestrialMaterial {
 	public void render(Graphics graphics) {
 		boxCircleDraw(graphics);
 		this.image.draw(this.x, this.y);
-//		this.image.draw(this.x, this.y, new Color(this.colorRed, this.colorGreen, this.colorBlue));
 	}
 	
 	protected void boxCircleDraw(Graphics graphics) {

@@ -16,6 +16,7 @@ public class Bullet implements Entity {
 	protected boolean isDeleteable = false;
 	protected Shape shape;
 	protected float damage;
+	protected String typeBullet;
 	
 	public Bullet(float x, float y, float dirX, float dirY) {
 		this.x = x;
@@ -23,7 +24,9 @@ public class Bullet implements Entity {
 		this.dirX = dirX;
 		this.dirY = dirY;
 		this.damage = 10;
+		this.typeBullet = "Bullet";
 		shape = new Circle(x, y, BULLET_SIZE / 2.0f);
+
 	}
 
 	@Override
@@ -59,5 +62,9 @@ public class Bullet implements Entity {
 	
 	public float getDamage() {
 		return damage;
+	}
+	
+	protected String getTypeBullet() {
+		return this.typeBullet;
 	}
 }

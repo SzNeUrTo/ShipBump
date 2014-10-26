@@ -67,7 +67,7 @@ public class ShipBumpGame extends BasicGame {
 			this.showPickItem.render(graphics);
 		}
 		else {
-			System.out.println("Nuclear On");
+//			System.out.println("Nuclear On");
 			renderNuclear(graphics);
 		}
 	}
@@ -137,9 +137,9 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 		if (!this.isNuclear && !this.isTimePause) {
-			addExtraterrestrialMaterial();
+//			addExtraterrestrialMaterial();
 			addItem(container, delta);
-			addAlien(container, delta);
+//			addAlien(container, delta);
 		}
 		reStartGame(container);
 		afterEffectItem(delta);
@@ -183,7 +183,7 @@ public class ShipBumpGame extends BasicGame {
 		}
 		else if (this.isTimePause) {
 			this.countTime_TimePause += delta;
-			if (this.countTime_TimePause > MAX_TIME_TIMEPAUSE) {
+			if (this.countTime_TimePause > MAX_TIME_TIMEPAUSE || IS_GAME_OVER) {
 				this.isTimePause = false;
 				this.countTime_TimePause = 0;
 			}
@@ -212,7 +212,7 @@ public class ShipBumpGame extends BasicGame {
 		Input input = container.getInput();
 		if (input.isMousePressed(1) && !IS_GAME_OVER) {
 			try {
-				System.out.println("Use Item : " + this.showPickItem.getPickTypeItem());
+//				System.out.println("Use Item : " + this.showPickItem.getPickTypeItem());
 				
 				effectItem(this.showPickItem.getPickTypeItem());
 				
@@ -223,10 +223,10 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void effectItem(String pickTypeItem) {
-		System.out.println("Effect by : " + pickTypeItem);
+//		System.out.println("Effect by : " + pickTypeItem);
 		if (!IS_GAME_OVER) {
 			if (pickTypeItem == "DY") {
-				System.out.println("DY Pick + 10000");
+//				System.out.println("DY Pick + 10000");
 				increaseScore(ItemDY.dyPoint);
 			} 
 			else if (pickTypeItem == "TimePause") {
@@ -240,7 +240,7 @@ public class ShipBumpGame extends BasicGame {
 			}
 			else if (pickTypeItem == "ManyTarget") {
 				this.isManyTarget = true;
-				System.out.println("ManyTarget TRUEEEE");
+//				System.out.println("ManyTarget TRUEEEE");
 			}
 			this.showPickItem.setImagePath("NULL");
 			this.showPickItem.setPickTypeItem("NULL");
@@ -309,7 +309,7 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {
-		System.out.println("Alein.size " + aliens.size());
+//		System.out.println("Alein.size " + aliens.size());
 		if (aliens.size() == 0) {
 			aliens.add(new Alien());	
 		}
@@ -375,6 +375,7 @@ public class ShipBumpGame extends BasicGame {
 		for (int j = 0; j < bullets.size(); j++) {
 			if (CollisionDetector.isEMCollideBullet(items.get(i).getShape(), bullets.get(j).getShape())
 				&& items.size() > 0) {				
+				System.out.println("BulletCollide Item Law Na");
 				decreaseScore(items.get(i).getPointMinus());
 				items.remove(i);
 			}
@@ -397,30 +398,30 @@ public class ShipBumpGame extends BasicGame {
 		switch (random.nextInt(20)) {
 		case 1:
 			items.add(new ItemDY());
-			System.out.println("ItemDY");
+//			System.out.println("ItemDY");
 			break;
 		case 2: case 3:
 			items.add(new ItemTimePause());
-			System.out.println("ItemTimePause");
+//			System.out.println("ItemTimePause");
 			break;
 		case 4: case 0 :
 			items.add(new ItemNuclear());
-			System.out.println("ItemNuclear");
+//			System.out.println("ItemNuclear");
 			break;
 		case 5: case 15 : case 16 : case 17 : case 18 : case 19 : case 20 :
 			items.add(new ItemManyTarget());
-			System.out.println("ManyTarget");
+//			System.out.println("ManyTarget");
 			break;
 		 case 6 : case 7 : case 8 : case 9 : case 10 :
 			items.add(new ItemRandom());
-			System.out.println("ItemRandom");
+//			System.out.println("ItemRandom");
 			break;
 		 case 11 : case 12 : case 13 : case 14 : 
 			items.add(new ItemBaria());
-			System.out.println("ItemBaria");
+//			System.out.println("ItemBaria");
 			break;
 		default:
-			System.out.println("No Item");
+//			System.out.println("No Item");
 			break;
 		}
 	}
@@ -531,20 +532,20 @@ public class ShipBumpGame extends BasicGame {
 //				 ship.shipCenterY(), i * 360 / 10, i * 360 / 10));
 //				 }
 //				if (this.isManyTarget) {
-				if (false) {
+				if (true) {
 					bullets.add(new ManyTargetBullet(ship.shipCenterX(), ship.shipCenterY(),
-							ship.getDirX(), ship.getDirY(), 10));
-					System.out.println("ManyTarget Create Bullet (in if)");
+							ship.getDirX(), ship.getDirY(), 3));
+//					System.out.println("ManyTarget Create Bullet (in if)");
 				}
 				else {
 					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
 							ship.getDirX(), ship.getDirY()));
-					System.out.println("ManyTarget Create Bullet (in else)");
+//					System.out.println("ManyTarget Create Bullet (in else)");
 				}
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-			System.out.println("================== TEST Mouse Click ====================");
+//			System.out.println("================== TEST Mouse Click ====================");
 		}
 	}
 
