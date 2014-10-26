@@ -5,13 +5,16 @@ import org.newdawn.slick.SlickException;
 
 public class ItemTimePause extends ItemDY {
 
+	private String imagePath;
+	
 	public ItemTimePause() throws SlickException {
 		super();
 	}
 
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Item/Item_TimePause.png");
+		this.imagePath = "res/Item/Item_TimePause.png";
+		this.image = new Image(this.imagePath);
 	}
 
 	@Override
@@ -22,4 +25,10 @@ public class ItemTimePause extends ItemDY {
 		this.hp = 1;
 		this.typeItem = "TimePause";
 	}
+	
+//	@Override
+//	public String getTypeItem() {
+////		System.out.println(this.typeItem);
+////		return "TimePause";
+//	}
 }

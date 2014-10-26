@@ -11,7 +11,8 @@ public class ItemDY extends ExtraterrestrialMaterial {
 
 	private Circle boxCircle;
 	protected float sizeImage = 70;
-	String typeItem;
+	private String imagePath;
+	String typeItem = "";
 	
 	public ItemDY() throws SlickException {
 		super();
@@ -21,7 +22,8 @@ public class ItemDY extends ExtraterrestrialMaterial {
 	
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Item/Item_Dy.png");
+		this.imagePath = "res/Item/Item_Dy.png";
+		this.image = new Image(this.imagePath);
 	}
 	
 	protected void initItemValue() {
@@ -67,5 +69,13 @@ public class ItemDY extends ExtraterrestrialMaterial {
 	
 	public String getTypeItem() {
 		return this.typeItem;
+	}
+	
+	public String getImagePath() {
+		return this.imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 }

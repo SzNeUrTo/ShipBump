@@ -5,13 +5,16 @@ import org.newdawn.slick.SlickException;
 
 public class ItemNuclear extends ItemDY {
 
+	private String imagePath;
+	
 	public ItemNuclear() throws SlickException {
 		super();
 	}
 
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Item/Item_Nuclear.png");
+		this.imagePath = "res/Item/Item_Nuclear.png";
+		this.image = new Image(this.imagePath);
 	}
 
 	@Override
@@ -22,4 +25,9 @@ public class ItemNuclear extends ItemDY {
 		this.hp = 1;
 		this.typeItem = "Nuclear";
 	}
+	
+//	@Override
+//	public String getTypeItem() {
+//		return "Nuclear";
+//	}
 }

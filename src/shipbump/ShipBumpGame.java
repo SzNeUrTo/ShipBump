@@ -30,7 +30,8 @@ public class ShipBumpGame extends BasicGame {
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	private static int FPS = 60;
 	private int time;
-	private int countTime;
+	private int countTimeAddItem;
+	private ShowPickItem showPickItem;
 	
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -45,6 +46,7 @@ public class ShipBumpGame extends BasicGame {
 		renderEM(graphics);
 		renderBullet(graphics);
 		renderItem(graphics);
+		this.showPickItem.render(graphics);
 	}
 
 	private void renderItem(Graphics graphics) {
@@ -83,6 +85,7 @@ public class ShipBumpGame extends BasicGame {
 		IS_GAME_OVER = false;
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 		time = 0;
+		this.showPickItem = new ShowPickItem();
 	}
 
 	@Override
@@ -99,6 +102,7 @@ public class ShipBumpGame extends BasicGame {
 		try {
 			updateEM(container, delta);
 			updateAlien(container, delta);
+			this.showPickItem.update(container, delta);
 			updateItem(container, delta);
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
@@ -152,7 +156,36 @@ public class ShipBumpGame extends BasicGame {
 	protected void checkItemCollideShip(int i) {
 		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShape())) {
 			increaseScore(items.get(i).getPointPlus());
+			pickItem(items.get(i).getTypeItem(), i);
 			items.remove(i);
+			//pick = true
+		}
+	}
+
+	private void pickItem(String typeItem, int i) {
+		if (typeItem.equals("DY")) {
+			System.out.println("Only Add Point");
+		} 
+		else if (typeItem.equals("TimePause")) {
+			this.showPickItem.setPickTypeItem("TimePause");
+			this.showPickItem.setImagePath("/res/Item/Item_TimePause.png");
+		} 
+		else if (typeItem.equals("Baria")) {
+			this.showPickItem.setPickTypeItem("Baria");
+			this.showPickItem.setImagePath("/res/Item/Item_Baria.png");
+		} 
+		else if (typeItem.equals("Nuclear")) {
+			this.showPickItem.setPickTypeItem("Nuclear");
+			this.showPickItem.setImagePath("/res/Item/Item_Nuclear.png");
+		} 
+		else if (typeItem.equals("Random")) {
+			this.showPickItem.setPickTypeItem("Random");
+			this.showPickItem.setImagePath("/res/Item/Item_Random.png");
+		} 
+		else if (typeItem.equals("ManyTarget")) {
+			//Random n target
+			this.showPickItem.setPickTypeItem("ManyTarget");
+			this.showPickItem.setImagePath("/res/Item/Item_ManyTarget.png");
 		}
 	}
 
@@ -162,45 +195,52 @@ public class ShipBumpGame extends BasicGame {
 				&& items.size() > 0) {				
 				decreaseScore(items.get(i).getPointMinus());
 				items.remove(i);
+				// pick = false
 			}
 		}
 	}
 
 	private void addItem(GameContainer container, int delta) throws SlickException {
-		this.countTime += delta;
 		Random random = new Random();
-		if (this.countTime > 8000 && items.size() == 0) {
-			this.countTime = 0;
-			switch (random.nextInt(20)) {
-			case 1:
-				items.add(new ItemDY());
-				System.out.println("ItemDY");
-				break;
-			case 2: case 3:
-				items.add(new ItemTimePause());
-				System.out.println("ItemTimePause");
-				break;
-			case 4: case 0 :
-				items.add(new ItemNuclear());
-				System.out.println("ItemNuclear");
-				break;
-			case 5: case 15 : case 16 : case 17 : case 18 : case 19 : case 20 :
-				items.add(new ItemManyTarget());
-				System.out.println("ManyTarget");
-				break;
-			 case 6 : case 7 : case 8 : case 9 : case 10 :
-				items.add(new ItemRandom());
-				System.out.println("ItemRandom");
-				break;
-			 case 11 : case 12 : case 13 : case 14 : 
-				items.add(new ItemBaria());
-				System.out.println("ItemBaria");
-				break;
-			default:
-				System.out.println("No Item");
-				break;
+		if (items.size() == 0) {
+			this.countTimeAddItem += delta;
+			if (this.countTimeAddItem > 1000) {
+				randomAddItem(random);
 			}
-			
+		} else {
+			this.countTimeAddItem = 0;
+		}
+	}
+
+	protected void randomAddItem(Random random) throws SlickException {
+		switch (random.nextInt(20)) {
+		case 1:
+			items.add(new ItemDY());
+			System.out.println("ItemDY");
+			break;
+		case 2: case 3:
+			items.add(new ItemTimePause());
+			System.out.println("ItemTimePause");
+			break;
+		case 4: case 0 :
+			items.add(new ItemNuclear());
+			System.out.println("ItemNuclear");
+			break;
+		case 5: case 15 : case 16 : case 17 : case 18 : case 19 : case 20 :
+			items.add(new ItemManyTarget());
+			System.out.println("ManyTarget");
+			break;
+		 case 6 : case 7 : case 8 : case 9 : case 10 :
+			items.add(new ItemRandom());
+			System.out.println("ItemRandom");
+			break;
+		 case 11 : case 12 : case 13 : case 14 : 
+			items.add(new ItemBaria());
+			System.out.println("ItemBaria");
+			break;
+		default:
+			System.out.println("No Item");
+			break;
 		}
 	}
 

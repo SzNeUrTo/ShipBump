@@ -5,6 +5,8 @@ import org.newdawn.slick.SlickException;
 
 public class ItemManyTarget extends ItemDY {
 
+	private String imagePath;
+	
 	public ItemManyTarget() throws SlickException {
 		super();
 	}
@@ -13,7 +15,8 @@ public class ItemManyTarget extends ItemDY {
 	//Hard Random 
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Item/Item_ManyTarget.png");
+		this.imagePath = "res/Item/Item_ManyTarget.png";
+		this.image = new Image(this.imagePath);
 	}
 
 	@Override
@@ -24,4 +27,9 @@ public class ItemManyTarget extends ItemDY {
 		this.hp = 1;
 		this.typeItem = "ManyTarget";
 	}
+	
+//	@Override
+//	public String getTypeItem() {
+//		return "ManyTarget";
+//	}
 }
