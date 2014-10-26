@@ -537,14 +537,18 @@ public class ShipBumpGame extends BasicGame {
 			try {
 				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
 					ship.getDirX(), ship.getDirY()));
-				if (this.isManyTarget) {
-					for (int i = 1; i < this.numberTarget; i++) {
-						bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
-							(float) (ship.getDirX() + (2 * Math.PI * i / this.numberTarget)),(float) (ship.getDirY() + (2 * Math.PI * i / this.numberTarget))));
-					}
-				}
+				createManyTargetBullet();
 			} catch (Exception e) {
 				System.out.println(e);
+			}
+		}
+	}
+
+	protected void createManyTargetBullet() {
+		if (this.isManyTarget) {
+			for (int i = 1; i < this.numberTarget; i++) {
+				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
+					(float) (ship.getDirX() + (2 * Math.PI * i / this.numberTarget)),(float) (ship.getDirY() + (2 * Math.PI * i / this.numberTarget))));
 			}
 		}
 	}
