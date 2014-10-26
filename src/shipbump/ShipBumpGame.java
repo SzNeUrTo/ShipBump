@@ -67,7 +67,6 @@ public class ShipBumpGame extends BasicGame {
 			this.showPickItem.render(graphics);
 		}
 		else {
-//			System.out.println("Nuclear On");
 			renderNuclear(graphics);
 		}
 	}
@@ -77,7 +76,6 @@ public class ShipBumpGame extends BasicGame {
 		graphics.setColor(new Color(255, 255, 255, this.alphaNuclear - this.countTime_Nuclear / MAX_TIME_NUCLEAR));
 		graphics.fill(rectangle);
 		graphics.setColor(new Color(255, 255, 255));
-		
 	}
 
 	private void renderItem(Graphics graphics) {
@@ -147,7 +145,6 @@ public class ShipBumpGame extends BasicGame {
 			updateEM(container, delta);
 			updateAlien(container, delta);
 			updateItem(container, delta);
-//			timePause(container, delta);
 			this.showPickItem.update(container, delta);
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
