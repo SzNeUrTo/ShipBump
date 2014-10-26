@@ -3,10 +3,7 @@ package shipbump;
 import org.newdawn.slick.geom.Shape;
 
 public class CollisionDetector {
-	//
-	// public CollisionDetector() {
-	//
-	// }
+	
 	public static boolean isEMCollideBullet(Shape em, Shape bullet) {
 		if (em.intersects(bullet)) {
 			return true;
