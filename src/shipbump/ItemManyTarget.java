@@ -3,15 +3,17 @@ package shipbump;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class ItemBaria extends ItemDY {
+public class ItemManyTarget extends ItemDY {
 
-	public ItemBaria() throws SlickException {
+	public ItemManyTarget() throws SlickException {
 		super();
 	}
+
 	
+	//Hard Random 
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Item/Item_baria.png");
+		this.image = new Image("res/Item/Item_ManyTarget.png");
 	}
 
 	@Override
@@ -20,6 +22,6 @@ public class ItemBaria extends ItemDY {
 		this.pointMinus = 1000;
 		this.velocity = 4;
 		this.hp = 1;
-		this.typeItem = "Baria";
+		this.typeItem = "ManyTarget";
 	}
 }

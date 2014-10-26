@@ -15,8 +15,8 @@ public class ItemDY extends ExtraterrestrialMaterial {
 	
 	public ItemDY() throws SlickException {
 		super();
-		System.out.println("Create ItemDY");
 		initItemValue();
+		System.out.println("CreateItem : " + this.typeItem);
 	}
 	
 	@Override
