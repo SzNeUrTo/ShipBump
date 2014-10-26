@@ -41,6 +41,7 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected int baseValueColorRandom;
 	protected String imagePath;
 	protected String typeItem;
+	public static final int pointAfterDesktroyEM = 10;
 	
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
@@ -63,7 +64,7 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.sizeImage = 70;
 		this.shape = new Circle(this.x + getSizeImage() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.55f);
 		this.hp = 1;
-		this.pointPlus = 10;
+		this.pointPlus = pointAfterDesktroyEM;
 		this.pointMinus = 0;
 		this.velocity = 10;
 		this.alpha = 0.0f;

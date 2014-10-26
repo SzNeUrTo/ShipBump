@@ -6,13 +6,16 @@ import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Drawable;
 
 public class ShipBumpGame extends BasicGame {
 
@@ -37,7 +40,11 @@ public class ShipBumpGame extends BasicGame {
 	private boolean isNuclear;
 	private boolean isBaria;
 	private int countTime_Baria;
-	
+	private int countTime_Nuclear;
+	private int sumSizeObject;
+	private static final float MAX_TIME_NUCLEAR = 2000f;
+	private int alphaNuclear;
+	private static final float MAX_TIME_BARIA = 4000f;
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
@@ -46,12 +53,26 @@ public class ShipBumpGame extends BasicGame {
 	@Override
 	public void render(GameContainer container, Graphics graphics)
 			throws SlickException {
-		ship.render(graphics);
-		renderWordString(graphics);
-		renderEM(graphics);
-		renderBullet(graphics);
-		renderItem(graphics);
-		this.showPickItem.render(graphics);
+		if (!this.isNuclear) {
+			ship.render(graphics);
+			renderWordString(graphics);
+			renderEM(graphics);
+			renderBullet(graphics);
+			renderItem(graphics);
+			this.showPickItem.render(graphics);
+		}
+		else {
+			System.out.println("Nuclear On");
+			renderNuclear(graphics);
+		}
+	}
+
+	private void renderNuclear(Graphics graphics) {
+		Rectangle rectangle = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
+		graphics.setColor(new Color(255, 255, 255, this.alphaNuclear - this.countTime_Nuclear / MAX_TIME_NUCLEAR));
+		graphics.fill(rectangle);
+		graphics.setColor(new Color(255, 255, 255));
+		
 	}
 
 	private void renderItem(Graphics graphics) {
@@ -96,6 +117,8 @@ public class ShipBumpGame extends BasicGame {
 		this.isManyTarget = false;
 		this.isNuclear = false;
 		this.countTime_Baria = 0;
+		this.sumSizeObject = 0;
+		this.alphaNuclear = 1;
 	}
 
 	@Override
@@ -106,9 +129,11 @@ public class ShipBumpGame extends BasicGame {
 		clickMouseUseItem(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-		addExtraterrestrialMaterial();
-		addItem(container, delta);
-		addAlien(container, delta);
+		if (!this.isNuclear && !this.isTimePause) {
+			addExtraterrestrialMaterial();
+			addItem(container, delta);
+			addAlien(container, delta);
+		}
 		reStartGame(container);
 		afterEffectItem(delta);
 		try {
@@ -122,15 +147,41 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void afterEffectItem(int delta) {
-		if (isBaria) {
+		if (this.isBaria) {
 			this.countTime_Baria += delta;
 			this.ship.setBariaOn();
-			if (this.countTime_Baria > 4000) {
+			if (this.countTime_Baria > MAX_TIME_BARIA) {
 				this.isBaria = false;
 				this.ship.setBariaOff();
 				this.countTime_Baria = 0;
 			}
 		}	
+		else if (this.isNuclear) {
+			this.countTime_Nuclear += delta;
+			if (this.countTime_Nuclear > MAX_TIME_NUCLEAR) {
+				clearObjectAndSumPoint();
+				this.isNuclear = false;
+				this.countTime_Nuclear = 0;
+			}
+		}
+	}
+
+	private void clearObjectAndSumPoint() {
+		int sumPoint = 0;
+		for (int i = 0; i < extra_items.size(); i++) {
+			sumPoint += extra_items.get(i).getPointPlus();
+		}
+		
+		for (int i = 0; i < aliens.size(); i++) {
+			sumPoint += aliens.get(i).getPointPlus();
+		}
+		
+		for (int i = 0; i < items.size(); i++) {
+			sumPoint -= items.get(i).getPointMinus();
+		}
+		
+		increaseScore(sumPoint);
+		clearObject();
 	}
 
 	private void clickMouseUseItem(GameContainer container, int delta) {
@@ -212,7 +263,7 @@ public class ShipBumpGame extends BasicGame {
 		if (CollisionDetector.isEMCollideShip(aliens.get(i).getShape(),
 				ship.getShapeShip())
 				&& aliens.get(i).getAlpha() == 1) {
-			this.IS_GAME_OVER = true;
+			this.IS_GAME_OVER = true && (!this.isBaria);
 		}
 	}
 
