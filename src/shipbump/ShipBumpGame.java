@@ -106,9 +106,9 @@ public class ShipBumpGame extends BasicGame {
 		clickMouseUseItem(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
-//		addExtraterrestrialMaterial();
+		addExtraterrestrialMaterial();
 		addItem(container, delta);
-//		addAlien(container, delta);
+		addAlien(container, delta);
 		reStartGame(container);
 		afterEffectItem(delta);
 		try {
@@ -287,7 +287,6 @@ public class ShipBumpGame extends BasicGame {
 		Random random = new Random();
 		int number = random.nextInt(10) + 1;
 		this.showPickItem.setPickTypeItem("ManyTarget" + number);
-//		this.showPickItem.setPickTypeItem("ManyTarget");
 		this.showPickItem.setImagePath("/res/Item/Item_ManyTarget" + number +".png");
 	}
 
@@ -369,7 +368,7 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {
-		for (int i = 0; i < 15 - extra_items.size(); i++) {
+		for (int i = 0; i < 5 - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}
@@ -401,7 +400,14 @@ public class ShipBumpGame extends BasicGame {
 				ship.getShapeShip())
 				&& extra_items.get(i).getIsInBox()
 				&& extra_items.get(i).getAlpha() == 1) {
-			this.IS_GAME_OVER = true;
+			this.IS_GAME_OVER = true && !(this.isBaria);
+		}
+		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), 
+				ship.getShapeBaria())) {
+			if (this.isBaria) {
+				extra_items.remove(i);
+				this.IS_GAME_OVER = false;
+			}
 		}
 	}
 	

@@ -27,7 +27,7 @@ public class Ship implements Entity {
 	private Shape shape;
 	public static int SIZE_IMAGE_SHIP = 64;
 	public boolean isGameOver = false;
-	private Circle baria;
+	private Shape baria;
 	private boolean isBariaOn;
 	
 	public Ship(float x, float y) throws SlickException {
@@ -37,6 +37,7 @@ public class Ship implements Entity {
 	    this.angleRotation = 0;
 	    shape = new Circle(this.x + SIZE_IMAGE_SHIP / 2, this.y + SIZE_IMAGE_SHIP / 2, SIZE_IMAGE_SHIP / 2);
 	    this.isBariaOn = false;
+	    this.baria = new Circle(shipCenterX(), shipCenterY(), 50);
 	}
 	
 	public Ship() throws SlickException {

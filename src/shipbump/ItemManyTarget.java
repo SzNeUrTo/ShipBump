@@ -26,8 +26,4 @@ public class ItemManyTarget extends ItemDY {
 		System.out.println("GG : " + this.typeItem);
 	}
 	
-//	@Override
-//	public String getTypeItem() {
-//		return "ManyTarget";
-//	}
 }

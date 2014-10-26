@@ -278,4 +278,8 @@ public class ExtraterrestrialMaterial implements Entity {
 	public String getImagePath() {
 		return this.imagePath;
 	}
+
+	public void decreaseHPbyBaria() {
+		this.hp -= 20;	
+	}
 }
