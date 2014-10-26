@@ -155,33 +155,14 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void afterEffectItem(int delta) {
-		if (this.isBaria) {
-			this.countTime_Baria += delta;
-			this.ship.setBariaOn();
-			if (this.countTime_Baria > MAX_TIME_BARIA) {
-				this.isBaria = false;
-				this.ship.setBariaOff();
-				this.countTime_Baria = 0;
-			}
-		}	
-		else if (this.isNuclear) {
-			this.countTime_Nuclear += delta;
-			if (this.countTime_Nuclear > MAX_TIME_NUCLEAR) {
-				clearObjectAndSumPoint();
-				this.isNuclear = false;
-				IS_GAME_OVER = false;
-				this.countTime_Nuclear = 0;
-			}
-		}
-		else if (this.isManyTarget) {
-			this.countTime_ManyTarget += delta;
-			if (this.countTime_ManyTarget > MAX_TIME_MANYTARGET) {
-				this.isManyTarget = false;
-				this.countTime_ManyTarget = 0;
-				this.numberTarget = 0;
-			}
-		}
-		else if (this.isTimePause) {
+		checkBaria(delta);	
+		checkNuclear(delta);
+		checkManyTarget(delta);
+		checkTimePause(delta);
+	}
+
+	protected void checkTimePause(int delta) {
+		if (this.isTimePause) {
 			this.countTime_TimePause += delta;
 			if (this.countTime_TimePause > MAX_TIME_TIMEPAUSE || IS_GAME_OVER) {
 				this.isTimePause = false;
@@ -190,43 +171,91 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
+	protected void checkManyTarget(int delta) {
+		if (this.isManyTarget) {
+			this.countTime_ManyTarget += delta;
+			if (this.countTime_ManyTarget > MAX_TIME_MANYTARGET) {
+				this.isManyTarget = false;
+				this.countTime_ManyTarget = 0;
+				this.numberTarget = 0;
+			}
+		}
+	}
+
+	protected void checkNuclear(int delta) {
+		if (this.isNuclear) {
+			this.countTime_Nuclear += delta;
+			if (this.countTime_Nuclear > MAX_TIME_NUCLEAR) {
+				clearObjectAndSumPoint();
+				this.isNuclear = false;
+				IS_GAME_OVER = false;
+				this.countTime_Nuclear = 0;
+			}
+		}
+	}
+
+	protected void checkBaria(int delta) {
+		if (this.isBaria) {
+			this.countTime_Baria += delta;
+			this.ship.setBariaOn();
+			if (this.countTime_Baria > MAX_TIME_BARIA) {
+				this.isBaria = false;
+				this.ship.setBariaOff();
+				this.countTime_Baria = 0;
+			}
+		}
+	}
+
 	private void clearObjectAndSumPoint() {
 		int sumPoint = 0;
-		for (int i = 0; i < extra_items.size(); i++) {
-			sumPoint += extra_items.get(i).getPointPlus();
-		}
-		
-		for (int i = 0; i < aliens.size(); i++) {
-			sumPoint += aliens.get(i).getPointPlus();
-		}
-		
+		sumPoint = sumPoint_All_In_Screen(sumPoint);
+		increaseScore(sumPoint);
+		clearObject();
+	}
+
+	protected int sumPoint_All_In_Screen(int sumPoint) {
+		sumPoint = sumPoint_Nuclear_EM(sumPoint);
+		sumPoint = sumPoint_Nuclear_Alien(sumPoint);
+		sumPoint = sumPoint_Nuclear_Item(sumPoint);
+		return sumPoint;
+	}
+
+	protected int sumPoint_Nuclear_Item(int sumPoint) {
 		for (int i = 0; i < items.size(); i++) {
 			sumPoint -= items.get(i).getPointMinus();
 		}
-		
-		increaseScore(sumPoint);
-		clearObject();
+		return sumPoint;
+	}
+
+	protected int sumPoint_Nuclear_Alien(int sumPoint) {
+		for (int i = 0; i < aliens.size(); i++) {
+			sumPoint += aliens.get(i).getPointPlus();
+		}
+		return sumPoint;
+	}
+
+	protected int sumPoint_Nuclear_EM(int sumPoint) {
+		for (int i = 0; i < extra_items.size(); i++) {
+			sumPoint += extra_items.get(i).getPointPlus();
+		}
+		return sumPoint;
 	}
 
 	private void clickMouseUseItem(GameContainer container, int delta) {
 		Input input = container.getInput();
 		if (input.isMousePressed(1) && !IS_GAME_OVER) {
-			try {
-//				System.out.println("Use Item : " + this.showPickItem.getPickTypeItem());
-				
-				effectItem(this.showPickItem.getPickTypeItem());
-				
-			} catch (Exception e) {
+			try {				
+				effectItem(this.showPickItem.getPickTypeItem());			
+			} 
+			catch (Exception e) {
 				System.out.println(e);
 			}
 		}
 	}
 
 	private void effectItem(String pickTypeItem) {
-//		System.out.println("Effect by : " + pickTypeItem);
 		if (!IS_GAME_OVER) {
 			if (pickTypeItem == "DY") {
-//				System.out.println("DY Pick + 10000");
 				increaseScore(ItemDY.dyPoint);
 			} 
 			else if (pickTypeItem == "TimePause") {
@@ -240,7 +269,6 @@ public class ShipBumpGame extends BasicGame {
 			}
 			else if (pickTypeItem == "ManyTarget") {
 				this.isManyTarget = true;
-//				System.out.println("ManyTarget TRUEEEE");
 			}
 			this.showPickItem.setImagePath("NULL");
 			this.showPickItem.setPickTypeItem("NULL");
@@ -272,8 +300,7 @@ public class ShipBumpGame extends BasicGame {
 		default:
 			randomNTarget();
 			break;
-		}
-		
+		}	
 	}
 
 	private void updateAlien(GameContainer container, int delta) {
@@ -296,20 +323,26 @@ public class ShipBumpGame extends BasicGame {
 
 	private void checkAlienCollideBullet(int i) {
 		for (int j = 0; j < bullets.size(); j++) {
-			if (CollisionDetector.isEMCollideBullet(aliens.get(i).getShape(), bullets.get(j).getShape())
-				&& aliens.size() > 0) {				
-				aliens.get(i).decreaseHP(bullets.get(j).getDamage());
-				bullets.remove(j);
-			}
-			
-			if (aliens.get(i).getHP() == 0) {
-				aliens.remove(i);
-			}
+			hitAlien(i, j);
+			removeAlienHP_Zero(i);
+		}
+	}
+
+	protected void hitAlien(int i, int j) {
+		if (CollisionDetector.isEMCollideBullet(aliens.get(i).getShape(), bullets.get(j).getShape())
+			&& aliens.size() > 0) {				
+			aliens.get(i).decreaseHP(bullets.get(j).getDamage());
+			bullets.remove(j);
+		}
+	}
+
+	protected void removeAlienHP_Zero(int i) {
+		if (aliens.get(i).getHP() == 0) {
+			aliens.remove(i);
 		}
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {
-//		System.out.println("Alein.size " + aliens.size());
 		if (aliens.size() == 0) {
 			aliens.add(new Alien());	
 		}
@@ -327,10 +360,8 @@ public class ShipBumpGame extends BasicGame {
 
 	protected void checkItemCollideShip(int i) {
 		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShapeShip())) {
-//			increaseScore(items.get(i).getPointPlus());
 			pickItem(items.get(i).getTypeItem(), i);
 			items.remove(i);
-			//pick = true
 		}
 	}
 
@@ -357,9 +388,6 @@ public class ShipBumpGame extends BasicGame {
 		} 
 		else if (typeItem.equals("ManyTarget")) {			
 			randomNTarget();
-//			this.showPickItem.setPickTypeItem(items.get(i).getTypeItem());
-//			this.showPickItem.setImagePath(items.get(i).getImagePath());
-
 		}
 	}
 
@@ -396,32 +424,25 @@ public class ShipBumpGame extends BasicGame {
 
 	protected void randomAddItem(Random random) throws SlickException {
 		switch (random.nextInt(20)) {
-		case 1:
+		case 0:
 			items.add(new ItemDY());
-//			System.out.println("ItemDY");
 			break;
-		case 2: case 3:
+		case 1: case 2:
 			items.add(new ItemTimePause());
-//			System.out.println("ItemTimePause");
 			break;
-		case 4: case 0 :
+		case 3: case 4:
 			items.add(new ItemNuclear());
-//			System.out.println("ItemNuclear");
 			break;
-		case 5: case 15 : case 16 : case 17 : case 18 : case 19 : case 20 :
+		case 5: case 15: case 16: case 17: case 18: case 19: case 20:
 			items.add(new ItemManyTarget());
-//			System.out.println("ManyTarget");
 			break;
-		 case 6 : case 7 : case 8 : case 9 : case 10 :
+		 case 6: case 7: case 8: case 9: case 10:
 			items.add(new ItemRandom());
-//			System.out.println("ItemRandom");
 			break;
-		 case 11 : case 12 : case 13 : case 14 : 
+		 case 11: case 12: case 13: case 14: 
 			items.add(new ItemBaria());
-//			System.out.println("ItemBaria");
 			break;
 		default:
-//			System.out.println("No Item");
 			break;
 		}
 	}
@@ -480,12 +501,11 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void checkEMCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
-				ship.getShapeShip())
-				&& extra_items.get(i).getIsInBox()
-				&& extra_items.get(i).getAlpha() == 1) {
-			this.IS_GAME_OVER = true && !(this.isBaria);
-		}
+		checkCollideWithOutBaria(i);
+		checkCollideWithBaria(i);
+	}
+
+	protected void checkCollideWithBaria(int i) {
 		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(), 
 				ship.getShapeBaria())) {
 			if (this.isBaria) {
@@ -494,18 +514,25 @@ public class ShipBumpGame extends BasicGame {
 			}
 		}
 	}
+
+	protected void checkCollideWithOutBaria(int i) {
+		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
+				ship.getShapeShip())
+				&& extra_items.get(i).getIsInBox()
+				&& extra_items.get(i).getAlpha() == 1) {
+			this.IS_GAME_OVER = true && !(this.isBaria);
+		}
+	}
 	
 	private void updateWordString() {
 		mouse_position = "Mouse Position X : " + Mouse.getX()
-				+ "\nMouse Position Y : " + Mouse.getY();
-		
+				+ "\nMouse Position Y : " + Mouse.getY();	
 		if (IS_GAME_OVER) {
 			score_str = "Score : " + score;
 		}
 		else {
 			score_str = "Score : " + (score + time / 1000);
 		}
-		
 	}
 
 	private void updateBullet(GameContainer container, int delta) {
@@ -520,7 +547,6 @@ public class ShipBumpGame extends BasicGame {
 			System.out.println("Remove Bullet Border Na KuB");
 			bullets.remove(i);
 		}
-		
 	}
 
 	private void removeEMOutSideBox(int i) throws SlickException {
@@ -528,7 +554,6 @@ public class ShipBumpGame extends BasicGame {
 				&& extra_items.get(i).getAlpha() == 1) {
 			extra_items.remove(i);
 		}
-
 	}
 
 	private void clickMouseShooting(GameContainer container) {
