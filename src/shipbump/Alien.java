@@ -48,6 +48,7 @@ public class Alien extends ExtraterrestrialMaterial {
 	public void render(Graphics graphics) {
 		this.animationAlien.draw(this.x, this.y, new Color(255f, 255f, 255f, this.alpha));
 		drawHPGate(graphics);
+		this.animationAlien.stop();
 	}
 
 	protected void drawHPGate(Graphics graphics) {
@@ -67,5 +68,10 @@ public class Alien extends ExtraterrestrialMaterial {
 			this.hp = 0;
 			ShipBumpGame.increaseScore(getPointPlus());
 		}
+	}
+	
+	@Override
+	protected void timePauseStopMotion() {
+		this.animationAlien.start();
 	}
 }

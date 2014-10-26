@@ -137,6 +137,11 @@ public class ExtraterrestrialMaterial implements Entity {
 		updateShape();
 		gameOverStopMotion();
 		updateImageAlpha();
+		timePauseStopMotion();
+	}
+
+	protected void timePauseStopMotion() {
+		
 	}
 
 	protected void updateImageAlpha() {
