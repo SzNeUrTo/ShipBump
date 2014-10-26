@@ -511,7 +511,16 @@ public class ShipBumpGame extends BasicGame {
 	private void updateBullet(GameContainer container, int delta) {
 		for (int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).update(container, delta);
+			removeBulletOutSideBox(i);
 		}
+	}
+
+	private void removeBulletOutSideBox(int i) {
+		if (CollisionDetector.isBulletColideBorder(bullets.get(i).getShape())) {
+			System.out.println("Remove Bullet Border Na KuB");
+			bullets.remove(i);
+		}
+		
 	}
 
 	private void removeEMOutSideBox(int i) throws SlickException {
@@ -524,28 +533,19 @@ public class ShipBumpGame extends BasicGame {
 
 	private void clickMouseShooting(GameContainer container) {
 		Input input = container.getInput();
-		if (input.isMousePressed(0) && !IS_GAME_OVER) { // Game Over Not Add
-														// Bullet
+		if (input.isMousePressed(0) && !IS_GAME_OVER) { 
 			try {
-//				 for (int i = 0; i < 10; i++) { // StarBullet
-//				 bullets.add(new Bullet(ship.shipCenterX(),
-//				 ship.shipCenterY(), i * 360 / 10, i * 360 / 10));
-//				 }
-//				if (this.isManyTarget) {
-				if (true) {
-					bullets.add(new ManyTargetBullet(ship.shipCenterX(), ship.shipCenterY(),
-							ship.getDirX(), ship.getDirY(), 3));
-//					System.out.println("ManyTarget Create Bullet (in if)");
-				}
-				else {
-					bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
-							ship.getDirX(), ship.getDirY()));
-//					System.out.println("ManyTarget Create Bullet (in else)");
+				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
+					ship.getDirX(), ship.getDirY()));
+				if (this.isManyTarget) {
+					for (int i = 1; i < this.numberTarget; i++) {
+						bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
+							(float) (ship.getDirX() + (2 * Math.PI * i / this.numberTarget)),(float) (ship.getDirY() + (2 * Math.PI * i / this.numberTarget))));
+					}
 				}
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-//			System.out.println("================== TEST Mouse Click ====================");
 		}
 	}
 

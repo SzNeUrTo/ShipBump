@@ -37,7 +37,6 @@ public class Bullet implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		updatePosition();
-		checkCollisionTarget();
 		updateShape();
 	}
 	
@@ -46,11 +45,6 @@ public class Bullet implements Entity {
 		shape.setCenterY(this.y);
 	}
 
-	private void checkCollisionTarget() {
-		if (this.x < 0 || this.x > ShipBumpGame.GAME_WIDTH || this.y < 0 || this.y > ShipBumpGame.GAME_HEIGHT) {
-			isDeleteable = true;
-		}
-	}
 	private void updatePosition() {
 		this.x = (float) (this.x + velocity * Math.cos(dirX));
 		this.y = (float) (this.y + velocity * Math.sin(dirY));

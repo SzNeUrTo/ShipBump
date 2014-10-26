@@ -97,7 +97,7 @@ public class ExtraterrestrialMaterial implements Entity {
 			quadrant_2();
 		} else if (quadrant == 3) {
 			quadrant_3();
-		} else { // quadrant == 4
+		} else {
 			quadrant_4();
 		}
 	}
