@@ -4,8 +4,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class ItemBaria extends ItemDY {
-
-	private String imagePath;
 	
 	public ItemBaria() throws SlickException {
 		super();

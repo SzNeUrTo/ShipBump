@@ -11,8 +11,7 @@ public class ItemDY extends ExtraterrestrialMaterial {
 
 	private Circle boxCircle;
 	protected float sizeImage = 70;
-	private String imagePath;
-	String typeItem = "";
+	public static final int dyPoint = 10000;
 	
 	public ItemDY() throws SlickException {
 		super();
@@ -66,16 +65,5 @@ public class ItemDY extends ExtraterrestrialMaterial {
 			ShipBumpGame.increaseScore(getPointMinus());
 		}
 	}
-	
-	public String getTypeItem() {
-		return this.typeItem;
-	}
-	
-	public String getImagePath() {
-		return this.imagePath;
-	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
 }

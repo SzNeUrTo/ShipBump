@@ -28,6 +28,9 @@ public class ShowPickItem implements Entity {
 	@Override
 	public void update(GameContainer container, int delta) {
 		try {
+			if (this.imagePath == "NULL") {
+				this.imagePath = "res/Item/Null_Item.png";
+			}
 			this.image = new Image(this.imagePath);
 		}
 		catch (Exception e) {
@@ -45,5 +48,9 @@ public class ShowPickItem implements Entity {
 
 	public void setPickTypeItem(String pickTypeItem) {
 		this.pickTypeItem = pickTypeItem;
+	}
+	
+	public String getPickTypeItem() {
+		return this.pickTypeItem;
 	}
 }

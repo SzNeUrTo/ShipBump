@@ -130,7 +130,7 @@ public class Ship implements Entity {
 	}
 
 	private void bariaDraw(Graphics graphics) {
-		if (!isBariaOn) {
+		if (isBariaOn) {
 			this.baria = new Circle(shipCenterX(), shipCenterY(), 50);
 			graphics.setColor(new Color(255, 255, 255, 0.2f));
 			graphics.fill(this.baria);
@@ -154,7 +154,7 @@ public class Ship implements Entity {
 		shape.setCenterY(this.y + SIZE_IMAGE_SHIP / 2);
 	}
 
-	public Shape getShape() {
+	public Shape getShapeShip() {
 		return shape;
 	}
 
@@ -172,5 +172,9 @@ public class Ship implements Entity {
 
 	public void setBariaOff() {
 		this.isBariaOn = false;
+	}
+	
+	public Shape getShapeBaria() {
+		return this.baria;
 	}
 }

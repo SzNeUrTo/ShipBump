@@ -39,6 +39,8 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected int colorGreen;
 	protected int colorBlue;
 	protected int baseValueColorRandom;
+	protected String imagePath;
+	protected String typeItem;
 	
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
@@ -65,6 +67,8 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.pointMinus = 0;
 		this.velocity = 10;
 		this.alpha = 0.0f;
+		this.imagePath = "";
+		this.typeItem = "";
 	}
 	
 	protected void initDirXY() {
@@ -265,5 +269,13 @@ public class ExtraterrestrialMaterial implements Entity {
 	
 	public void setSizeImage(int value) {
 		this.sizeImage = value;
+	}
+	
+	public String getTypeItem() {
+		return this.typeItem;
+	}
+	
+	public String getImagePath() {
+		return this.imagePath;
 	}
 }

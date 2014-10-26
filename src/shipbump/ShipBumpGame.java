@@ -32,6 +32,11 @@ public class ShipBumpGame extends BasicGame {
 	private int time;
 	private int countTimeAddItem;
 	private ShowPickItem showPickItem;
+	private boolean isTimePause;
+	private boolean isManyTarget;
+	private boolean isNuclear;
+	private boolean isBaria;
+	private int countTime_Baria;
 	
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -86,6 +91,11 @@ public class ShipBumpGame extends BasicGame {
 		ship = new Ship(GAME_WIDTH / 2, GAME_HEIGHT / 2);
 		time = 0;
 		this.showPickItem = new ShowPickItem();
+		this.isTimePause = false;
+		this.isBaria = false;
+		this.isManyTarget = false;
+		this.isNuclear = false;
+		this.countTime_Baria = 0;
 	}
 
 	@Override
@@ -93,12 +103,14 @@ public class ShipBumpGame extends BasicGame {
 		time += delta;
 		ship.update(container, delta);
 		clickMouseShooting(container);
+		clickMouseUseItem(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
 //		addExtraterrestrialMaterial();
 		addItem(container, delta);
 //		addAlien(container, delta);
 		reStartGame(container);
+		afterEffectItem(delta);
 		try {
 			updateEM(container, delta);
 			updateAlien(container, delta);
@@ -107,6 +119,85 @@ public class ShipBumpGame extends BasicGame {
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
+	}
+
+	private void afterEffectItem(int delta) {
+		if (isBaria) {
+			this.countTime_Baria += delta;
+			this.ship.setBariaOn();
+			if (this.countTime_Baria > 4000) {
+				this.isBaria = false;
+				this.ship.setBariaOff();
+				this.countTime_Baria = 0;
+			}
+		}	
+	}
+
+	private void clickMouseUseItem(GameContainer container, int delta) {
+		Input input = container.getInput();
+		if (input.isMousePressed(1) && !IS_GAME_OVER) {
+			try {
+				System.out.println("Use Item : " + this.showPickItem.getPickTypeItem());
+				
+				effectItem(this.showPickItem.getPickTypeItem());
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}
+
+	private void effectItem(String pickTypeItem) {
+		System.out.println("Effect by : " + pickTypeItem);
+		if (!IS_GAME_OVER) {
+			if (pickTypeItem == "DY") {
+				System.out.println("DY Pick + 10000");
+				increaseScore(ItemDY.dyPoint);
+			} 
+			else if (pickTypeItem == "TimePause") {
+				isTimePause = true;
+			} 
+			else if (pickTypeItem == "Baria") {
+				isBaria = true;
+			} 
+			else if (pickTypeItem == "Nuclear") {
+				isNuclear = true;
+			}
+			else if (pickTypeItem == "ManyTarget") {
+				isManyTarget = true;
+			}
+			this.showPickItem.setImagePath("NULL");
+			this.showPickItem.setPickTypeItem("NULL");
+			if (pickTypeItem == "Random") {
+				changeItemRandomToItem();
+			}
+		}	
+	}
+
+	private void changeItemRandomToItem() {
+		Random random = new Random();
+		switch (random.nextInt(16)) {
+		case 0:
+			this.showPickItem.setImagePath("res/Item/Item_DY.png");
+			this.showPickItem.setPickTypeItem("DY");
+			break;
+		case 1: case 2:
+			this.showPickItem.setImagePath("res/Item/Item_TimePause.png");
+			this.showPickItem.setPickTypeItem("TimePause");
+			break;
+		case 3: case 4:
+			this.showPickItem.setImagePath("res/Item/Item_Nuclear.png");
+			this.showPickItem.setPickTypeItem("Nuclear");
+			break;
+		case 5: case 6: case 7: case 8:
+			this.showPickItem.setImagePath("res/Item/Item_Baria.png");
+			this.showPickItem.setPickTypeItem("Baria");
+			break;
+		default:
+			randomNTarget();
+			break;
+		}
+		
 	}
 
 	private void updateAlien(GameContainer container, int delta) {
@@ -119,7 +210,7 @@ public class ShipBumpGame extends BasicGame {
 
 	private void checkAlienCollideShip(int i) {
 		if (CollisionDetector.isEMCollideShip(aliens.get(i).getShape(),
-				ship.getShape())
+				ship.getShapeShip())
 				&& aliens.get(i).getAlpha() == 1) {
 			this.IS_GAME_OVER = true;
 		}
@@ -154,8 +245,8 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	protected void checkItemCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShape())) {
-			increaseScore(items.get(i).getPointPlus());
+		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShapeShip())) {
+//			increaseScore(items.get(i).getPointPlus());
 			pickItem(items.get(i).getTypeItem(), i);
 			items.remove(i);
 			//pick = true
@@ -164,7 +255,8 @@ public class ShipBumpGame extends BasicGame {
 
 	private void pickItem(String typeItem, int i) {
 		if (typeItem.equals("DY")) {
-			System.out.println("Only Add Point");
+			this.showPickItem.setPickTypeItem("DY");
+			this.showPickItem.setImagePath("/res/Item/Item_DY.png");
 		} 
 		else if (typeItem.equals("TimePause")) {
 			this.showPickItem.setPickTypeItem("TimePause");
@@ -183,10 +275,20 @@ public class ShipBumpGame extends BasicGame {
 			this.showPickItem.setImagePath("/res/Item/Item_Random.png");
 		} 
 		else if (typeItem.equals("ManyTarget")) {
-			//Random n target
-			this.showPickItem.setPickTypeItem("ManyTarget");
-			this.showPickItem.setImagePath("/res/Item/Item_ManyTarget.png");
+			//Random n target			
+			randomNTarget();
+//			this.showPickItem.setPickTypeItem(items.get(i).getTypeItem());
+//			this.showPickItem.setImagePath(items.get(i).getImagePath());
+
 		}
+	}
+
+	private void randomNTarget() {
+		Random random = new Random();
+		int number = random.nextInt(10) + 1;
+		this.showPickItem.setPickTypeItem("ManyTarget" + number);
+//		this.showPickItem.setPickTypeItem("ManyTarget");
+		this.showPickItem.setImagePath("/res/Item/Item_ManyTarget" + number +".png");
 	}
 
 	protected void checkItemCollideBullet(int i) {
@@ -195,7 +297,6 @@ public class ShipBumpGame extends BasicGame {
 				&& items.size() > 0) {				
 				decreaseScore(items.get(i).getPointMinus());
 				items.remove(i);
-				// pick = false
 			}
 		}
 	}
@@ -297,7 +398,7 @@ public class ShipBumpGame extends BasicGame {
 
 	private void checkEMCollideShip(int i) {
 		if (CollisionDetector.isEMCollideShip(extra_items.get(i).getShape(),
-				ship.getShape())
+				ship.getShapeShip())
 				&& extra_items.get(i).getIsInBox()
 				&& extra_items.get(i).getAlpha() == 1) {
 			this.IS_GAME_OVER = true;

@@ -4,8 +4,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class ItemRandom extends ItemDY {
-
-	private String imagePath;
 	
 	public ItemRandom() throws SlickException {
 		super();

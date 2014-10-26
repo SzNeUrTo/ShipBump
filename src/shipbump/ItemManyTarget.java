@@ -4,14 +4,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class ItemManyTarget extends ItemDY {
-
-	private String imagePath;
 	
 	public ItemManyTarget() throws SlickException {
 		super();
 	}
 
-	
 	//Hard Random 
 	@Override
 	protected void initImage() throws SlickException {
@@ -26,6 +23,7 @@ public class ItemManyTarget extends ItemDY {
 		this.velocity = 4;
 		this.hp = 1;
 		this.typeItem = "ManyTarget";
+		System.out.println("GG : " + this.typeItem);
 	}
 	
 //	@Override
