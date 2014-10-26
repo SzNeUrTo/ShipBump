@@ -20,6 +20,7 @@ public class Alien extends ExtraterrestrialMaterial {
 	protected Rectangle hpMaxGate;
 	protected float maxHP;
 	protected float valueShiftGate;
+	protected int duration;
 	
 	public Alien() throws SlickException {
 		super();
@@ -29,19 +30,21 @@ public class Alien extends ExtraterrestrialMaterial {
 	}
 	
 	protected void initAnimation() throws SlickException {
-		this.image = new Image("res/gengar_left.png");
+		this.image = new Image(this.imagePath);
 		this.spriteAlien = new SpriteSheet(this.image , 120, 120);
-		this.animationAlien = new Animation(spriteAlien, 120);
+		this.animationAlien = new Animation(this.spriteAlien, this.duration);
 	}
 	
 	protected void initAlienValue() {
+		setSizeImage(120);
 		this.pointPlus = 1500;
 		this.velocity = 5;
 		this.maxHP = 50;
 		this.hp = this.maxHP;
-		setSizeImage(120);
 		this.shape = new Circle(this.x + getSizeImage() / 2, this.y + this.image.getHeight() / 2, getSizeImage() * 0.55f);
 		this.valueShiftGate = 8;
+		this.imagePath = "res/Alien/Sprite3Eyes.png";
+		this.duration = 50;
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class Alien extends ExtraterrestrialMaterial {
 	}
 
 	protected void drawHPGate(Graphics graphics) {
-		this.hpGate = new Rectangle(this.x + 4, this.y - 15, getSizeImage() * hp / maxHP - valueShiftGate, 5);
+		this.hpGate = new Rectangle(this.x + 4, this.y - 15, (getSizeImage() - valueShiftGate) * this.hp / this.maxHP , 5);
 		this.hpMaxGate = new Rectangle(this.x + 4, this.y - 15, getSizeImage() - valueShiftGate, 5);
 		graphics.setColor(new Color(255, 255, 255));
 		graphics.fill(this.hpMaxGate);

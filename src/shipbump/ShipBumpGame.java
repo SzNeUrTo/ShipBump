@@ -47,9 +47,12 @@ public class ShipBumpGame extends BasicGame {
 	private float numberTarget;
 	private int countTime_ManyTarget;
 	private int countTime_TimePause;
+	private int countTimeAddAlien;
 	private static final float MAX_TIME_BARIA = 4000f;
 	private static final float MAX_TIME_MANYTARGET = 5500f;
 	private static final float MAX_TIME_TIMEPAUSE = 6000f;
+	private static final int MAX_COUNT_TIME_ADD_ITEM = 1000;
+	private static final int MAX_COUNT_TIME_ADD_ALIEN = 2000;
 
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
@@ -124,6 +127,7 @@ public class ShipBumpGame extends BasicGame {
 		this.alphaNuclear = 1;
 		this.isManyTarget = false;
 		this.numberTarget = 0;
+		this.countTimeAddAlien = 0;
 	}
 
 	@Override
@@ -137,7 +141,7 @@ public class ShipBumpGame extends BasicGame {
 		if (!this.isNuclear && !this.isTimePause) {
 //			addExtraterrestrialMaterial();
 			addItem(container, delta);
-//			addAlien(container, delta);
+			addAlien(container, delta);
 		}
 		reStartGame(container);
 		afterEffectItem(delta);
@@ -340,8 +344,29 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {
+		Random random = new Random();
 		if (aliens.size() == 0) {
-			aliens.add(new Alien());	
+			this.countTimeAddAlien += delta;
+			if (this.countTimeAddAlien > MAX_COUNT_TIME_ADD_ALIEN) {
+				this.countTimeAddAlien = 0;
+				
+				switch (random.nextInt(4)) {
+				case 0:
+					aliens.add(new Alien());
+					break;
+				case 1:
+					aliens.add(new AlienGengar());
+					break;
+				case 2:
+					aliens.add(new AlienKeepoloPink());
+					break;
+				case 3:
+					aliens.add(new AlienKeepoloRed());
+					break;
+				default:
+					break;
+				}	
+			}
 		}
 	}
 
@@ -411,7 +436,7 @@ public class ShipBumpGame extends BasicGame {
 		Random random = new Random();
 		if (items.size() == 0) {
 			this.countTimeAddItem += delta;
-			if (this.countTimeAddItem > 1000) {
+			if (this.countTimeAddItem > MAX_COUNT_TIME_ADD_ITEM) {
 				randomAddItem(random);
 			}
 		} else {
