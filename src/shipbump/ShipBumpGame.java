@@ -16,7 +16,7 @@ import org.lwjgl.input.Mouse;
 public class ShipBumpGame extends BasicGame {
 
 	private ArrayList<ExtraterrestrialMaterial> extra_items = new ArrayList<ExtraterrestrialMaterial>();
-	private ArrayList<ItemHeart> heart_items = new ArrayList<ItemHeart>();
+	private ArrayList<ItemDY> items = new ArrayList<ItemDY>();
 	private ArrayList<Alien> aliens = new ArrayList<Alien>();
 	private ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	private String mouse_position = "";
@@ -42,12 +42,12 @@ public class ShipBumpGame extends BasicGame {
 		renderWordString(graphics);
 		renderEM(graphics);
 		renderBullet(graphics);
-		renderHeartItem(graphics);
+		renderItem(graphics);
 	}
 
-	private void renderHeartItem(Graphics graphics) {
-		for (int i = 0; i < heart_items.size(); i++) {
-			heart_items.get(i).render(graphics);
+	private void renderItem(Graphics graphics) {
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).render(graphics);
 		}
 	}
 
@@ -61,8 +61,8 @@ public class ShipBumpGame extends BasicGame {
 		for (int i = 0; i < extra_items.size(); i++) {
 			extra_items.get(i).render(graphics);
 		}
-		for (int i = 0; i < heart_items.size(); i++) {
-			heart_items.get(i).render(graphics);
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).render(graphics);
 		}
 		for (int i = 0; i < aliens.size(); i++) {
 			aliens.get(i).render(graphics);
@@ -91,13 +91,13 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 //		addExtraterrestrialMaterial();
-//		addHeartItem(container, delta);
-		addAlien(container, delta);
+		addItem(container, delta);
+//		addAlien(container, delta);
 		reStartGame(container);
 		try {
 			updateEM(container, delta);
 			updateAlien(container, delta);
-			updateHeartItem(container, delta);
+			updateItem(container, delta);
 		} catch (Exception e) {
 			System.out.println("exception increaseScore()" + e);
 		}
@@ -139,34 +139,35 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
-	private void updateHeartItem(GameContainer container, int delta) {
-		for (int i = 0; i < heart_items.size(); i++) {
-			heart_items.get(i).update(container, delta);
+	private void updateItem(GameContainer container, int delta) {
+		for (int i = 0; i < items.size(); i++) {
+			items.get(i).update(container, delta);
 			checkItemCollideShip(i);
 			checkItemCollideBullet(i);
 		}
 	}
 
 	protected void checkItemCollideShip(int i) {
-		if (CollisionDetector.isEMCollideShip(heart_items.get(i).getShape(), ship.getShape())) {
-			increaseScore(heart_items.get(i).getPointPlus());
-			heart_items.remove(i);
+		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShape())) {
+			increaseScore(items.get(i).getPointPlus());
+			items.remove(i);
 		}
 	}
 
 	protected void checkItemCollideBullet(int i) {
 		for (int j = 0; j < bullets.size(); j++) {
-			if (CollisionDetector.isEMCollideBullet(heart_items.get(i).getShape(), bullets.get(j).getShape())
-				&& heart_items.size() > 0) {				
-				decreaseScore(heart_items.get(i).getPointMinus());
-				heart_items.remove(i);
+			if (CollisionDetector.isEMCollideBullet(items.get(i).getShape(), bullets.get(j).getShape())
+				&& items.size() > 0) {				
+				decreaseScore(items.get(i).getPointMinus());
+				items.remove(i);
 			}
 		}
 	}
 
-	private void addHeartItem(GameContainer container, int delta) throws SlickException {
-		if (heart_items.size() == 0) {
-			heart_items.add(new ItemHeart());	
+	private void addItem(GameContainer container, int delta) throws SlickException {
+		if (items.size() == 0) {
+//			items.add(new ItemDY());	
+			items.add(new ItemBaria());	
 		}
 	}
 
@@ -189,7 +190,7 @@ public class ShipBumpGame extends BasicGame {
 	private void clearObject() {
 		extra_items.clear();
 		bullets.clear();
-		heart_items.clear();
+		items.clear();
 		aliens.clear();
 	}
 

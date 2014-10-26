@@ -7,37 +7,35 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 
-public class ItemHeart extends ExtraterrestrialMaterial {
+public class ItemDY extends ExtraterrestrialMaterial {
 
 	private Circle boxCircle;
 	protected float sizeImage = 70;
+	String typeItem;
 	
-	public ItemHeart() throws SlickException {
+	public ItemDY() throws SlickException {
 		super();
-		System.out.println("Create Heart");
-		initHeartValue();
+		System.out.println("Create ItemDY");
+		initItemValue();
 	}
 	
 	@Override
 	protected void initImage() throws SlickException {
-		this.image = new Image("res/Gear.png");
+		this.image = new Image("res/Item/Item_Dy.png");
 	}
 	
-	protected void initHeartValue() {
-		this.pointPlus = 100;
+	protected void initItemValue() {
+		this.pointPlus = 10000;
 		this.pointMinus = 1000;
 		this.velocity = 4;
 		this.hp = 1;
+		this.typeItem = "DY";
 	}
 	
 	@Override
 	protected void em_setAngleRotation() {
 		this.image.setRotation(angle);
 //		angle += 10; // Rotation
-	}
-
-	public boolean IsDeleteAble() {
-		return false;
 	}
 
 	public int getPointMinus() {
@@ -47,11 +45,12 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 	@Override
 	public void render(Graphics graphics) {
 		boxCircleDraw(graphics);
-		this.image.draw(this.x, this.y, new Color(this.colorRed, this.colorGreen, this.colorBlue));	
+		this.image.draw(this.x, this.y);
+//		this.image.draw(this.x, this.y, new Color(this.colorRed, this.colorGreen, this.colorBlue));
 	}
 	
-	private void boxCircleDraw(Graphics graphics) {
-		this.boxCircle = new Circle(emCenterX(), emCenterY(), 50);
+	protected void boxCircleDraw(Graphics graphics) {
+		this.boxCircle = new Circle(emCenterX(), emCenterY(), 60);
 		graphics.setColor(new Color(255, 255, 255, 0.15f));
 		graphics.fill(this.boxCircle);
 		graphics.setColor(new Color(255, 255, 255));
@@ -64,5 +63,9 @@ public class ItemHeart extends ExtraterrestrialMaterial {
 			this.hp = 0;
 			ShipBumpGame.increaseScore(getPointMinus());
 		}
+	}
+	
+	public String getTypeItem() {
+		return this.typeItem;
 	}
 }
