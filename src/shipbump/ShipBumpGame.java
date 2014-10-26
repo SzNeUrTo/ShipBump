@@ -53,7 +53,8 @@ public class ShipBumpGame extends BasicGame {
 	private static final float MAX_TIME_TIMEPAUSE = 6000f;
 	private static final int MAX_COUNT_TIME_ADD_ITEM = 1000;
 	private static final int MAX_COUNT_TIME_ADD_ALIEN = 2000;
-
+	private PlaySound audioRun = new PlaySound();
+	
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
 	}
@@ -128,6 +129,7 @@ public class ShipBumpGame extends BasicGame {
 		this.isManyTarget = false;
 		this.numberTarget = 0;
 		this.countTimeAddAlien = 0;
+		audioRun.playSound_Death_KeepoloRed(); // TEST Sound
 	}
 
 	@Override
