@@ -2,6 +2,7 @@ package shipbump;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -29,6 +30,7 @@ public class ShipBumpGame extends BasicGame {
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
 	private static int FPS = 60;
 	private int time;
+	private int countTime;
 	
 
 	public ShipBumpGame(String title) throws SlickException {
@@ -165,9 +167,40 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addItem(GameContainer container, int delta) throws SlickException {
-		if (items.size() == 0) {
-//			items.add(new ItemDY());	
-			items.add(new ItemBaria());	
+		this.countTime += delta;
+		Random random = new Random();
+		if (this.countTime > 8000 && items.size() == 0) {
+			this.countTime = 0;
+			switch (random.nextInt(20)) {
+			case 1:
+				items.add(new ItemDY());
+				System.out.println("ItemDY");
+				break;
+			case 2: case 3:
+				items.add(new ItemTimePause());
+				System.out.println("ItemTimePause");
+				break;
+			case 4: case 0 :
+				items.add(new ItemNuclear());
+				System.out.println("ItemNuclear");
+				break;
+			case 5: case 15 : case 16 : case 17 : case 18 : case 19 : case 20 :
+				items.add(new ItemManyTarget());
+				System.out.println("ManyTarget");
+				break;
+			 case 6 : case 7 : case 8 : case 9 : case 10 :
+				items.add(new ItemRandom());
+				System.out.println("ItemRandom");
+				break;
+			 case 11 : case 12 : case 13 : case 14 : 
+				items.add(new ItemBaria());
+				System.out.println("ItemBaria");
+				break;
+			default:
+				System.out.println("No Item");
+				break;
+			}
+			
 		}
 	}
 
