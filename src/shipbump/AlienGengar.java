@@ -19,5 +19,6 @@ public class AlienGengar extends Alien {
 		this.valueShiftGate = 8;
 		this.imagePath = "res/Alien/SpriteGengar_Left.png";
 		this.duration = 120;
+		this.typeAlien = "Gengar";
 	}
 }

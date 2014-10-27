@@ -21,12 +21,15 @@ public class Alien extends ExtraterrestrialMaterial {
 	protected float maxHP;
 	protected float valueShiftGate;
 	protected int duration;
-	
+	protected String typeAlien;
+	protected PlaySound audioDie;
 	public Alien() throws SlickException {
 		super();
 		System.out.println("Create Alien");
 		initAlienValue();
 		initAnimation();
+		this.typeObject = "Alien";
+		
 	}
 	
 	protected void initAnimation() throws SlickException {
@@ -45,6 +48,7 @@ public class Alien extends ExtraterrestrialMaterial {
 		this.valueShiftGate = 8;
 		this.imagePath = "res/Alien/Sprite3Eyes.png";
 		this.duration = 50;
+		this.typeAlien = "Alien";
 	}
 
 	@Override
@@ -76,5 +80,9 @@ public class Alien extends ExtraterrestrialMaterial {
 	@Override
 	protected void timePauseStopMotion() {
 		this.animationAlien.start();
+	}
+	
+	public String getTypeAlien() {
+		return this.typeAlien;
 	}
 }

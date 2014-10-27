@@ -54,6 +54,7 @@ public class ShipBumpGame extends BasicGame {
 	private static final int MAX_COUNT_TIME_ADD_ITEM = 1000;
 	private static final int MAX_COUNT_TIME_ADD_ALIEN = 2000;
 	private PlaySound audioRun = new PlaySound();
+	private boolean neverPlaySoundGameOver;
 	
 	public ShipBumpGame(String title) throws SlickException {
 		super(title);
@@ -129,19 +130,22 @@ public class ShipBumpGame extends BasicGame {
 		this.isManyTarget = false;
 		this.numberTarget = 0;
 		this.countTimeAddAlien = 0;
-		audioRun.playSound_Death_KeepoloRed(); // TEST Sound
+		this.audioRun.stopEverthing();
+		this.audioRun.playSound_Musics(); // TEST Sound
+		this.neverPlaySoundGameOver = true;
 	}
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-		time += delta;
+		this.time += delta;
+		playSoundGameOver();
 		ship.update(container, delta);
 		clickMouseShooting(container);
 		clickMouseUseItem(container, delta);
 		updateBullet(container, delta);
 		updateWordString();
 		if (!this.isNuclear && !this.isTimePause) {
-//			addExtraterrestrialMaterial();
+			addExtraterrestrialMaterial();
 			addItem(container, delta);
 			addAlien(container, delta);
 		}
@@ -157,6 +161,16 @@ public class ShipBumpGame extends BasicGame {
 		}
 	}
 
+	private void playSoundGameOver() {
+		if (IS_GAME_OVER && !this.isNuclear) {
+			this.audioRun.stopEverthing();
+			if (this.neverPlaySoundGameOver) {
+				this.audioRun.playSound_GameOver();
+			}
+			this.neverPlaySoundGameOver = false;
+		}
+	}
+
 	private void afterEffectItem(int delta) {
 		checkBaria(delta);	
 		checkNuclear(delta);
@@ -168,6 +182,7 @@ public class ShipBumpGame extends BasicGame {
 		if (this.isTimePause) {
 			this.countTime_TimePause += delta;
 			if (this.countTime_TimePause > MAX_TIME_TIMEPAUSE || IS_GAME_OVER) {
+				this.audioRun.stopTimePause();
 				this.isTimePause = false;
 				this.countTime_TimePause = 0;
 			}
@@ -248,7 +263,7 @@ public class ShipBumpGame extends BasicGame {
 		Input input = container.getInput();
 		if (input.isMousePressed(1) && !IS_GAME_OVER) {
 			try {				
-				effectItem(this.showPickItem.getPickTypeItem());			
+				effectItem(this.showPickItem.getPickTypeItem());
 			} 
 			catch (Exception e) {
 				System.out.println(e);
@@ -260,23 +275,33 @@ public class ShipBumpGame extends BasicGame {
 		if (!IS_GAME_OVER) {
 			if (pickTypeItem == "DY") {
 				increaseScore(ItemDY.dyPoint);
+				this.audioRun.playSound_UseItemDY();
 			} 
 			else if (pickTypeItem == "TimePause") {
 				this.isTimePause = true;
+				this.countTime_TimePause = 0;
+				this.audioRun.playSound_UseItemTimePause();
 			} 
 			else if (pickTypeItem == "Baria") {
+				this.countTime_Baria = 0;
 				this.isBaria = true;
+				this.audioRun.playSound_UseItemBaria();
 			} 
 			else if (pickTypeItem == "Nuclear") {
+				this.countTime_Nuclear = 0;
 				this.isNuclear = true;
+				this.audioRun.playSound_UseItemNuclear();
 			}
 			else if (pickTypeItem == "ManyTarget") {
+				this.countTime_ManyTarget = 0;
 				this.isManyTarget = true;
+				this.audioRun.playSound_UseItemManyTarget();
 			}
 			this.showPickItem.setImagePath("NULL");
 			this.showPickItem.setPickTypeItem("NULL");
 			if (pickTypeItem == "Random") {
 				changeItemRandomToItem();
+				this.audioRun.playSound_UseRandomItem();
 			}
 		}	
 	}
@@ -335,14 +360,31 @@ public class ShipBumpGame extends BasicGame {
 		if (CollisionDetector.isEMCollideBullet(aliens.get(i).getShape(), bullets.get(j).getShape())
 			&& aliens.size() > 0) {				
 			aliens.get(i).decreaseHP(bullets.get(j).getDamage());
+			this.audioRun.playSound_CollideBullet();
 			bullets.remove(j);
 		}
 	}
 
 	protected void removeAlienHP_Zero(int i) {
 		if (aliens.get(i).getHP() == 0) {
+			playSoundDie(aliens.get(i).getTypeAlien());
 			aliens.remove(i);
 		}
+	}
+
+	private void playSoundDie(String typeAlien) {
+		if (typeAlien == "Alien") {
+			this.audioRun.playSound_Death_Alien();
+		} else if (typeAlien == "Gengar") {
+			this.audioRun.playSound_Death_Gengar();
+		} else if (typeAlien == "KeepoPink") {
+			this.audioRun.playSound_Death_KeepoloPink();
+		} else if (typeAlien == "KeepoRed") {
+			this.audioRun.playSound_Death_KeepoloRed();
+		} else {
+			System.out.println("NO TYPE");
+		}
+		System.out.println("PlaySound Die : Type = " + typeAlien);
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {
@@ -385,6 +427,7 @@ public class ShipBumpGame extends BasicGame {
 	protected void checkItemCollideShip(int i) {
 		if (CollisionDetector.isEMCollideShip(items.get(i).getShape(), ship.getShapeShip())) {
 			pickItem(items.get(i).getTypeItem(), i);
+			this.audioRun.playSound_PickItem();
 			items.remove(i);
 		}
 	}
@@ -417,7 +460,7 @@ public class ShipBumpGame extends BasicGame {
 
 	private void randomNTarget() {
 		Random random = new Random();
-		int numberTarget = random.nextInt(10) + 1;
+		int numberTarget = random.nextInt(9) + 2;
 		this.showPickItem.setPickTypeItem("ManyTarget");
 		this.showPickItem.setImagePath("/res/Item/Item_ManyTarget" + numberTarget +".png");
 		this.numberTarget = numberTarget;
@@ -568,7 +611,6 @@ public class ShipBumpGame extends BasicGame {
 
 	private void removeBulletOutSideBox(int i) {
 		if (CollisionDetector.isBulletColideBorder(bullets.get(i).getShape())) {
-			System.out.println("Remove Bullet Border Na KuB");
 			bullets.remove(i);
 		}
 	}
@@ -584,6 +626,7 @@ public class ShipBumpGame extends BasicGame {
 		Input input = container.getInput();
 		if (input.isMousePressed(0) && !IS_GAME_OVER) { 
 			try {
+				audioRun.playSound_GunShot();
 				bullets.add(new Bullet(ship.shipCenterX(), ship.shipCenterY(),
 					ship.getDirX(), ship.getDirY()));
 				createManyTargetBullet();

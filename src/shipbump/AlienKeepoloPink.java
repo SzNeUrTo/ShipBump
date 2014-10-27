@@ -20,5 +20,6 @@ public class AlienKeepoloPink extends Alien {
 		this.valueShiftGate = 33;
 		this.imagePath = "res/Alien/SpriteKeepoloPink.png";
 		this.duration = 120;
+		this.typeAlien = "KeepoPink";
 	}
 }

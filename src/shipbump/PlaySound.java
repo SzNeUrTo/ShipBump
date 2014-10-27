@@ -1,6 +1,8 @@
 package shipbump;
 
 import java.util.ArrayList;
+import java.util.Random;
+
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -26,6 +28,8 @@ public class PlaySound {
 	
 	private Sound gameOver;
 	private Sound gunShot;
+	
+	private Music music;
 	
 	public PlaySound() throws SlickException {
 		
@@ -55,10 +59,20 @@ public class PlaySound {
 		this.death_Gengar = new Sound("res/Sound/Death_Gengar.wav");
 		this.death_KeepoloPink = new Sound("res/Sound/Death_KeepoloPink.wav");
 		this.death_KeepoloRed = new Sound("res/Sound/Death_KeepoloRed.wav");
+		
+		randomMusicFile();
+	}
+
+	private void randomMusicFile() {
+		Random random = new Random();
+		this.music = this.musics.get(random.nextInt(this.musics.size()));
 	}
 
 	public void playSound_Musics() {
-//		this.musics.play();
+		if (!this.music.playing()) {
+			randomMusicFile();
+		}
+		this.music.loop();
 	}
 
 	public void playSound_UseItemBaria() {
@@ -78,7 +92,7 @@ public class PlaySound {
 	}
 
 	public void playSound_UseItemTimePause() {
-		this.useItemTimePause.play();
+		this.useItemTimePause.loop();
 	}
 
 	public void playSound_UseRandomItem() {
@@ -119,5 +133,30 @@ public class PlaySound {
 
 	public void playSound_GunShot() {
 		this.gunShot.play();
+	}
+
+	public void stopEverthing() {
+		this.music.stop();
+		this.useItemBaria.stop();
+		this.useItemDY.stop();
+		this.useItemManyTarget.stop();
+		this.useItemNuclear.stop();
+		this.useItemTimePause.stop();
+		this.useRandomItem.stop();
+		
+		this.collideBorder.stop();
+		this.collideBullet.stop();
+		this.pickItem.stop();
+		
+		this.death_Alien.stop();
+		this.death_Gengar.stop();
+		this.death_KeepoloPink.stop();
+		this.death_KeepoloRed.stop();
+		this.gunShot.stop();
+		
+	}
+
+	public void stopTimePause() {
+		this.useItemTimePause.stop();
 	}
 }

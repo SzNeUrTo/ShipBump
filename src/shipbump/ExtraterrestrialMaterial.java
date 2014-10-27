@@ -42,6 +42,8 @@ public class ExtraterrestrialMaterial implements Entity {
 	protected String imagePath;
 	protected String typeItem;
 	public static final int pointAfterDesktroyEM = 10;
+	protected PlaySound audioCollideBorder;
+	protected String typeObject;
 	
 	
 	public ExtraterrestrialMaterial() throws SlickException {		
@@ -54,6 +56,8 @@ public class ExtraterrestrialMaterial implements Entity {
 		this.colorRed = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
 		this.colorGreen = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
 		this.colorBlue = random.nextInt(255 - this.baseValueColorRandom) + this.baseValueColorRandom;
+		this.audioCollideBorder = new PlaySound();
+		this.typeObject = "EM";
 	}
 
 	protected void initImage() throws SlickException {
@@ -131,17 +135,13 @@ public class ExtraterrestrialMaterial implements Entity {
 	public void update(GameContainer container, int delta) {
 		em_setAngleRotation();	
 		isInBoxGame();
-		checkCollisionBorder();
+		checkCollisionBorder(delta);
 		updateDirectionVelocity();
 		updatePosition();	
 		updateShape();
 		gameOverStopMotion();
 		updateImageAlpha();
 		timePauseStopMotion();
-	}
-
-	protected void timePauseStopMotion() {
-		
 	}
 
 	protected void updateImageAlpha() {
@@ -187,10 +187,13 @@ public class ExtraterrestrialMaterial implements Entity {
 		}
 	}
 
-	protected void checkCollisionBorder() {
+	protected void checkCollisionBorder(int delta) {
 		if(isCollisionTargetDummyXY) {	
 			isCollisionBorderX = CollisionDetector.isEMCollideBorderX(this.x, getSizeImage());
 			isCollisionBorderY = CollisionDetector.isEMCollideBorderY(this.y, this.image.getHeight());
+			if ((isCollisionBorderX || isCollisionBorderY) && this.typeObject == "Alien") {
+				this.audioCollideBorder.playSound_CollideBorder();
+			}
 		}
 	}
 
@@ -287,5 +290,9 @@ public class ExtraterrestrialMaterial implements Entity {
 
 	public void decreaseHPbyBaria() {
 		this.hp -= 20;	
+	}
+	
+	protected void timePauseStopMotion() {
+
 	}
 }
