@@ -26,8 +26,8 @@ public class ShipBumpGame extends BasicGame {
 	private String mouse_position = "";
 	private String score_str;
 	private static int score;
-	public static final int GAME_WIDTH = 1000;//1440;
-	public static final int GAME_HEIGHT = 800;//900;
+	public static final int GAME_WIDTH = 1440;
+	public static final int GAME_HEIGHT = 900;
 	private Ship ship;
 	public static boolean IS_GAME_OVER;
 	public static final Shape BOX_GAME = new Rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT);
@@ -51,8 +51,8 @@ public class ShipBumpGame extends BasicGame {
 	private static final float MAX_TIME_BARIA = 4000f;
 	private static final float MAX_TIME_MANYTARGET = 5500f;
 	private static final float MAX_TIME_TIMEPAUSE = 6000f;
-	private static final int MAX_COUNT_TIME_ADD_ITEM = 1000;
-	private static final int MAX_COUNT_TIME_ADD_ALIEN = 2000;
+	private static final int MAX_COUNT_TIME_ADD_ITEM = 10000;
+	private static final int MAX_COUNT_TIME_ADD_ALIEN = 4000;
 	private PlaySound audioRun = new PlaySound();
 	private boolean neverPlaySoundGameOver;
 	
@@ -108,8 +108,8 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void renderWordString(Graphics graphics) {
-		graphics.drawString(mouse_position, GAME_WIDTH * 3 / 5, 10);
-		graphics.drawString(score_str, GAME_WIDTH * 4 / 5, GAME_HEIGHT - 30);
+		graphics.drawString(mouse_position, GAME_WIDTH * 8 / 10 - 5, 10);
+		graphics.drawString(score_str, GAME_WIDTH * 9 / 10, GAME_HEIGHT - 30);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 		if (!this.isNuclear && !this.isTimePause) {
-//			addExtraterrestrialMaterial();
+			addExtraterrestrialMaterial();
 			addItem(container, delta);
 			addAlien(container, delta);
 		}
@@ -563,7 +563,7 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {
-		for (int i = 0; i < 5 - extra_items.size(); i++) {
+		for (int i = 0; i < 25 - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}
@@ -674,7 +674,7 @@ public class ShipBumpGame extends BasicGame {
 		try {
 			ShipBumpGame game = new ShipBumpGame("Ship Bump Game");
 			AppGameContainer container = new AppGameContainer(game);
-			container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, false);
+			container.setDisplayMode(GAME_WIDTH, GAME_HEIGHT, true);
 			container.setMinimumLogicUpdateInterval(1600 / 60);
 			container.setTargetFrameRate(FPS);
 			container.start();
