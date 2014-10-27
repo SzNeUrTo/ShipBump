@@ -145,7 +145,7 @@ public class ShipBumpGame extends BasicGame {
 		updateBullet(container, delta);
 		updateWordString();
 		if (!this.isNuclear && !this.isTimePause) {
-			addExtraterrestrialMaterial();
+//			addExtraterrestrialMaterial();
 			addItem(container, delta);
 			addAlien(container, delta);
 		}
@@ -377,6 +377,7 @@ public class ShipBumpGame extends BasicGame {
 			this.audioRun.playSound_Death_Alien();
 		} else if (typeAlien == "Gengar") {
 			this.audioRun.playSound_Death_Gengar();
+			System.out.println("Gengar Die");
 		} else if (typeAlien == "KeepoPink") {
 			this.audioRun.playSound_Death_KeepoloPink();
 		} else if (typeAlien == "KeepoRed") {
@@ -384,7 +385,31 @@ public class ShipBumpGame extends BasicGame {
 		} else {
 			System.out.println("NO TYPE");
 		}
-		System.out.println("PlaySound Die : Type = " + typeAlien);
+		createManyAlienAfterDie(typeAlien);
+		System.out.println("_____PlaySound Die : Type = " + typeAlien);
+	}
+
+	protected void createManyAlienAfterDie(String typeAlien) {
+		try {
+			if (typeAlien == "KeepoRed") {
+				aliens.add(new AlienKeepoloPink());
+				aliens.add(new AlienKeepoloPink());
+				aliens.add(new AlienKeepoloPink());
+				aliens.add(new AlienKeepoloPink());
+			}
+			else if (typeAlien == "KeepoPink") {
+				aliens.add(new AlienGengar());
+				aliens.add(new AlienGengar());
+				aliens.add(new AlienGengar());
+			}
+			else if (typeAlien == "Gengar") {
+				aliens.add(new Alien());
+				aliens.add(new Alien());
+			}
+
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void addAlien(GameContainer container, int delta) throws SlickException {

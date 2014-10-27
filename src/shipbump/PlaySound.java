@@ -153,7 +153,6 @@ public class PlaySound {
 		this.death_KeepoloPink.stop();
 		this.death_KeepoloRed.stop();
 		this.gunShot.stop();
-		
 	}
 
 	public void stopTimePause() {
