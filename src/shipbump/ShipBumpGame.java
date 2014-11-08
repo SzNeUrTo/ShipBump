@@ -108,8 +108,8 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void renderWordString(Graphics graphics) {
-		graphics.drawString(mouse_position, GAME_WIDTH * 8 / 10 - 5, 10);
-		graphics.drawString(score_str, GAME_WIDTH * 9 / 10, GAME_HEIGHT - 30);
+		graphics.drawString(mouse_position, GAME_WIDTH - 100 - 70 - 100 - 20, 10);
+		graphics.drawString(score_str, GAME_WIDTH  -100 - (score + "").length() * 7, GAME_HEIGHT - 30);
 	}
 
 	@Override
@@ -519,13 +519,13 @@ public class ShipBumpGame extends BasicGame {
 		case 0:
 			items.add(new ItemDY());
 			break;
-		case 1: case 2:
+		case 1: case 2: case 18:
 			items.add(new ItemTimePause());
 			break;
-		case 3: case 4:
+		case 3: case 4: case 19: case 20:
 			items.add(new ItemNuclear());
 			break;
-		case 5: case 15: case 16: case 17: case 18: case 19: case 20:
+		case 5: case 15: case 16: case 17:  
 			items.add(new ItemManyTarget());
 			break;
 		 case 6: case 7: case 8: case 9: case 10:
@@ -563,7 +563,8 @@ public class ShipBumpGame extends BasicGame {
 	}
 
 	private void addExtraterrestrialMaterial() throws SlickException {
-		for (int i = 0; i < 25 - extra_items.size(); i++) {
+		int n = this.time / 4000;
+		for (int i = 0; i < n - extra_items.size(); i++) {
 			extra_items.add(new ExtraterrestrialMaterial());
 		}
 	}

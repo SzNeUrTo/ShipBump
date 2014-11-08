@@ -9,7 +9,6 @@ public class ItemManyTarget extends ItemDY {
 		super();
 	}
 
-	//Hard Random 
 	@Override
 	protected void initImage() throws SlickException {
 		this.imagePath = "res/Item/Item_ManyTarget.png";
@@ -19,7 +18,7 @@ public class ItemManyTarget extends ItemDY {
 	@Override
 	protected void initItemValue() {
 		this.pointPlus = 0;
-		this.pointMinus = 1000;
+		this.pointMinus = 2000;
 		this.velocity = 4;
 		this.hp = 1;
 		this.typeItem = "ManyTarget";

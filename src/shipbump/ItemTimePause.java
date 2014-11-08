@@ -20,7 +20,7 @@ public class ItemTimePause extends ItemDY {
 	@Override
 	protected void initItemValue() {
 		this.pointPlus = 0;
-		this.pointMinus = 1000;
+		this.pointMinus = 2000;
 		this.velocity = 4;
 		this.hp = 1;
 		this.typeItem = "TimePause";

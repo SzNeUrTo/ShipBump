@@ -9,6 +9,7 @@ import org.newdawn.slick.Sound;
 
 public class PlaySound {
 	
+//	private ArrayList<Sound> musics = new ArrayList<Sound>();
 	private ArrayList<Music> musics = new ArrayList<Music>();
 	private Sound useItemBaria;
 	private Sound useItemDY;
@@ -29,6 +30,7 @@ public class PlaySound {
 	private Sound gameOver;
 	private Sound gunShot;
 	
+//	private Sound music;
 	private Music music;
 	
 	public PlaySound() throws SlickException {
